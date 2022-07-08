@@ -41,9 +41,7 @@ void set_sign(s21_decimal *value, bool negative) {
 int32_t base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t carrial = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t) value1.bits_u32_t[i] +
-                     (uint64_t) value2.bits_u32_t[i] +
-                     carrial;
+        uint64_t r = (uint64_t) value1.bits_u32_t[i] + (uint64_t) value2.bits_u32_t[i] + carrial;
         carrial = r >> 32;
         result->bits_u32_t[i] = r & MASK_32;
     }
@@ -58,9 +56,7 @@ int32_t base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *resul
 void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t borrow = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t) value1.bits_u32_t[i] -
-                     (uint64_t) value2.bits_u32_t[i] -
-                     borrow;
+        uint64_t r = (uint64_t) value1.bits_u32_t[i] - (uint64_t) value2.bits_u32_t[i] - borrow;
         borrow = value1.bits_u32_t[i] < value2.bits_u32_t[i];
         result->bits_u32_t[i] = r & MASK_32;
     }
@@ -78,10 +74,7 @@ int32_t base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *resul
         uint32_t m_carrial = 0;
         uint32_t a_carrial = 0;
         for (size_t j = 0; j + i < 3; j++) {
-            uint64_t r = (uint64_t) value1.bits_u32_t[i] *
-                         (uint64_t) value2.bits_u32_t[j] +
-                                               m_carrial +
-                                               a_carrial;
+            uint64_t r = (uint64_t) value1.bits_u32_t[i] * (uint64_t) value2.bits_u32_t[j] + m_carrial + a_carrial;
             m_carrial = r >> 32;
             r = (r & MASK_32) + result->bits_u32_t[j + i];
             a_carrial = r >> 32;
@@ -106,8 +99,7 @@ bool is_one(s21_decimal value) {
  * Writes result of division in *result
  * Writes remainder of division in *remainder
 **/
-int32_t base_divide(s21_decimal value1, s21_decimal value2,
-                    s21_decimal *result, s21_decimal *remainder) {
+int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder) {
     // int32_t status = DEC_OC;
     if (is_zero(value2)) return DEC_DIV_BY_ZERO;
     copy_full(result, &d_zero);
@@ -129,4 +121,6 @@ int32_t base_divide(s21_decimal value1, s21_decimal value2,
 
     return DEC_OK;
 }
+
+// сделать функцию проверки 
 
