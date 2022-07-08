@@ -1,0 +1,174 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "bit_operations.h"
+
+/**
+ * Gets nth bit
+ * Works correctly with 0 > n <= 96
+**/
+int get_bit(s21_decimal value, int n) {
+    n--;
+    int index = n / 32;
+    int shift = n % 32;
+    return (value.bits_u32_t[index] >> shift) & 1U;
+}
+
+/**
+ * Sets bit to n position
+ * Works correctly with 0 > n <= 96
+**/
+void set_bit(s21_decimal *value, int n, int bit) {
+    n--;
+    int index = n / 32;
+    int shift = n % 32;
+    value->bits_u32_t[index] = (value->bits_u32_t[index] & ~(1U << shift)) | (bit << shift);
+}
+
+void copy_bits(s21_decimal *dest, const s21_decimal *src) {
+    memcpy(dest, src, sizeof(s21_decimal));
+}
+
+void copy_mantiss(s21_decimal *dest, const s21_decimal *src) {
+    memcpy(dest->bits, src->bits, sizeof(unsigned) * 3);
+}
+
+/**
+ * Shifts all bits to left by given value
+ * Returns 1 if overflow occurs
+**/
+int left_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
+    int overflow = 0;
+    copy_bits(result, value);
+    for (size_t i = 0; i < shift; i++) {
+        int bit1 = get_bit(*result, 32);
+        int bit2 = get_bit(*result, 64);
+        overflow = get_bit(*result, 96);
+        result->bits[0] <<= 1;
+        result->bits[1] <<= 1;
+        result->bits[2] <<= 1;
+        set_bit(result, 33, bit1);
+        set_bit(result, 65, bit2);
+    }
+    return overflow ? DEC_HUGE : DEC_OK;
+}
+
+/**
+ * Shifts all bits to right by given value
+**/
+void right_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
+    copy_bits(result, value);
+    for (size_t i = 0; i < shift; i++) {
+        int bit1 = get_bit(*result, 65);
+        int bit2 = get_bit(*result, 33);
+        result->bits_u32_t[0] >>= 1;
+        result->bits_u32_t[1] >>= 1;
+        result->bits_u32_t[2] >>= 1;
+        set_bit(result, 64, bit1);
+        set_bit(result, 32, bit2);
+    }
+}
+
+/**
+ * Bit addition, ignores scale and sign
+ * Returns 1 if overflow occurs else 0
+**/
+int bit_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
+    int carrial = 0;
+    for (size_t i = 0; i < 3; i++) {
+        for (size_t j = 1; j <= 32; j++) {
+            int bit1 = get_bit(value1, 32 * i + j);
+            int bit2 = get_bit(value2, 32 * i + j);
+            set_bit(result, 32 *i + j, bit1 ^ bit2 ^ carrial);
+            carrial = (bit1 && bit2) || ((bit1 || bit2) && carrial);
+        }
+    }
+    return carrial ? DEC_HUGE : DEC_OK;
+}
+
+/**
+ * Bit subtraction, ignores scale and sign
+**/
+void bit_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
+    unsigned borrow = 0;
+    for (size_t i = 0; i < 3; i++) {
+        for (size_t j = 1; j <= 32; j++) {
+            int bit1 = get_bit(value1, 32 * i + j);
+            int bit2 = get_bit(value2, 32 * i + j);
+            set_bit(result, 32 * i + j, bit1 ^ bit2 ^ borrow);
+            if (borrow && bit1) borrow = !(bit1 ^ borrow) && bit2;
+            else if (borrow && !bit1) borrow = 1;
+            else borrow = !bit1 && bit2;
+        }
+    }
+}
+
+/**
+ * Gets last significant bit of value
+**/
+uint32_t last_bit(s21_decimal value) {
+    uint32_t bit = 0;
+    int32_t i = 96;
+    while (!bit && i) {
+        bit = get_bit(value, i);
+        if (!bit) i--;
+    }
+    return i;
+}
+
+/**
+ * Checks if bits in first 3 chunks are equal
+ * Does not care about scale and sign
+**/
+int bits_eq(s21_decimal value1, s21_decimal value2) {
+    return value1.bits_u32_t[0] == value2.bits_u32_t[0] &&
+           value1.bits_u32_t[1] == value2.bits_u32_t[1] &&
+           value1.bits_u32_t[2] == value2.bits_u32_t[2];
+}
+
+/**
+ * Checks if value1 less than value2
+ * Does not care about scale and sign
+**/
+int bits_lt(s21_decimal value1, s21_decimal value2) {
+    return value1.bits_u32_t[2] < value2.bits_u32_t[2] ||
+           (value1.bits_u32_t[2] == value2.bits_u32_t[2] && value1.bits_u32_t[1] < value2.bits_u32_t[1]) ||
+           (value1.bits_u32_t[2] == value2.bits_u32_t[2] && value1.bits_u32_t[1] == value2.bits_u32_t[1] &&
+            value1.bits_u32_t[0] < value2.bits_u32_t[0]);
+}
+
+/**
+ * Checks if value1 greater than value2
+ * Does not care about scale and sign
+**/
+int bits_gt(s21_decimal value1, s21_decimal value2) {
+    return value1.bits_u32_t[2] > value2.bits_u32_t[2] ||
+           (value1.bits_u32_t[2] == value2.bits_u32_t[2] && value1.bits_u32_t[1] > value2.bits_u32_t[1]) ||
+           (value1.bits_u32_t[2] == value2.bits_u32_t[2] && value1.bits_u32_t[1] == value2.bits_u32_t[1] &&
+            value1.bits_u32_t[0] > value2.bits_u32_t[0]);
+}
+
+/**
+ * Outputs decimal in binary format
+**/
+void print_bin(s21_decimal value) {
+    char bin[97];
+    for (size_t i = 0; i < 96 ; i++) {
+        bin[i] = get_bit(value, 96 - i) + '0';
+    }
+    bin[96] = '\0';
+    printf("%s\n", bin);
+}
+
+/**
+ * Outputs decimal in hex format
+**/
+void print_hex(s21_decimal value) {
+    if (value.bits[2]) printf("%#x", value.bits[2]);
+    if (!value.bits[2] && value.bits[1]) printf("%#x", value.bits[1]);
+    else if (value.bits[1]) printf("%08x", value.bits[1]);
+    if (!value.bits[2] && !value.bits[1] && value.bits[0]) printf("%#x", value.bits[0]);
+    else if (value.bits[0]) printf("%08x", value.bits[0]);
+    else putchar('0');
+    putchar('\n');
+}
