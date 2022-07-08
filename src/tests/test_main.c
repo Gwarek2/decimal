@@ -1,12 +1,9 @@
 #include "test_main.h"
 
 int main(void) {
-    Suite *test_suites[] = { bit_addition_suite(), bit_subtraction_suite(),
-                             bits_eq_suite(), bits_lt_suite(),
-                             divide_by_ten_suite(), multiply_by_ten_suite(),
+    Suite *test_suites[] = { bits_eq_suite(), bits_lt_suite(),
                              base_addition_suite(), base_subtraction_suite(),
-                             base_multiply_suite(), base_divide_suite(),
-                             base_fmod_suite(), };
+                             base_multiply_suite(), base_divide_suite() };
 
     SRunner *sr = srunner_create(test_suites[0]);
     srunner_set_fork_status(sr, CK_NOFORK);

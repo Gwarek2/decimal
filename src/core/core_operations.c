@@ -34,31 +34,6 @@ void set_sign(s21_decimal *value, bool negative) {
 }
 
 /**
- * Incremants value by one
- * Ignores sign and scale
-**/
-int32_t increment(s21_decimal *value) {
-    s21_decimal one;
-    init_value(&one, b_one, 0, 0);
-    return base_addition(*value, one, value);
-}
-
-/** 
- * Multiply by ten
- * Ignores sign and scale
-**/
-int multiply_by_ten(s21_decimal value, s21_decimal *result) {
-    int overflow = 0;
-    s21_decimal part1, part2;
-    overflow |= left_shift(&value, &part1, 1) ||
-                left_shift(&value, &part2, 3);
-    if (!overflow) {
-        overflow |= bit_addition(part1, part2, result);
-    }
-    return overflow ? DEC_HUGE : DEC_OK;
-}
-
-/**
  * Addition of two decimals
  * Ignores scale and sign
  * Returns nonzero value if overflow occurs
@@ -125,11 +100,6 @@ bool is_one(s21_decimal value) {
     return bits_eq(value, d_one);
 }
 
-void base_div10(s21_decimal value, s21_decimal *result) {
-    s21_decimal remainder;
-    base_divide(value, d_ten, result, &remainder);
-}
-
 /**
  * Divides value1 by value2
  * Ignores sign and scale
@@ -140,10 +110,10 @@ int32_t base_divide(s21_decimal value1, s21_decimal value2,
                     s21_decimal *result, s21_decimal *remainder) {
     // int32_t status = DEC_OC;
     if (is_zero(value2)) return DEC_DIV_BY_ZERO;
-    copy_bits(result, &d_zero);
+    copy_full(result, &d_zero);
     if (is_zero(value1)) return DEC_OK;
     if (is_one(value2)) {
-        copy_bits(result, &value1);
+        copy_full(result, &value1);
         return DEC_OK;
     }
     copy_mantiss(remainder, &value1);
@@ -160,21 +130,3 @@ int32_t base_divide(s21_decimal value1, s21_decimal value2,
     return DEC_OK;
 }
 
-/**
- * Finds remainder of division value1 bu value2
- * Does not care about sign and scale
-**/
-void base_fmod(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
-    copy_mantiss(result, &value1);
-    for (int32_t i = last_bit(value1); i >= 0; i--) {
-        s21_decimal tmp1;
-        left_shift(&value2, &tmp1, i);
-        if ((bits_lt(tmp1, *result) || bits_eq(tmp1, *result)) && !is_zero(tmp1)) {
-            base_subtraction(*result, tmp1, result);
-        }
-    }
-}
-
-// int inverse(s21_decimal value, s21_decimal *result) {
-//     
-// }

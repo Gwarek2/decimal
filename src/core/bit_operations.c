@@ -5,7 +5,7 @@
 
 /**
  * Gets nth bit
- * Works correctly with 0 > n <= 96
+ * Works correctly with 0 > n <= 128
 **/
 int get_bit(s21_decimal value, int n) {
     n--;
@@ -16,7 +16,7 @@ int get_bit(s21_decimal value, int n) {
 
 /**
  * Sets bit to n position
- * Works correctly with 0 > n <= 96
+ * Works correctly with 0 > n <= 128
 **/
 void set_bit(s21_decimal *value, int n, int bit) {
     n--;
@@ -25,10 +25,16 @@ void set_bit(s21_decimal *value, int n, int bit) {
     value->bits_u32_t[index] = (value->bits_u32_t[index] & ~(1U << shift)) | (bit << shift);
 }
 
-void copy_bits(s21_decimal *dest, const s21_decimal *src) {
+/**
+ * Copies all 128 bits from src to dest
+**/
+void copy_full(s21_decimal *dest, const s21_decimal *src) {
     memcpy(dest, src, sizeof(s21_decimal));
 }
 
+/**
+ * Copies first 96 bits (represent mantiss) from src to dest
+**/
 void copy_mantiss(s21_decimal *dest, const s21_decimal *src) {
     memcpy(dest->bits, src->bits, sizeof(unsigned) * 3);
 }
@@ -39,7 +45,7 @@ void copy_mantiss(s21_decimal *dest, const s21_decimal *src) {
 **/
 int left_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
     int overflow = 0;
-    copy_bits(result, value);
+    copy_full(result, value);
     for (size_t i = 0; i < shift; i++) {
         int bit1 = get_bit(*result, 32);
         int bit2 = get_bit(*result, 64);
@@ -57,7 +63,7 @@ int left_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
  * Shifts all bits to right by given value
 **/
 void right_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
-    copy_bits(result, value);
+    copy_full(result, value);
     for (size_t i = 0; i < shift; i++) {
         int bit1 = get_bit(*result, 65);
         int bit2 = get_bit(*result, 33);
@@ -70,41 +76,8 @@ void right_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
 }
 
 /**
- * Bit addition, ignores scale and sign
- * Returns 1 if overflow occurs else 0
-**/
-int bit_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
-    int carrial = 0;
-    for (size_t i = 0; i < 3; i++) {
-        for (size_t j = 1; j <= 32; j++) {
-            int bit1 = get_bit(value1, 32 * i + j);
-            int bit2 = get_bit(value2, 32 * i + j);
-            set_bit(result, 32 *i + j, bit1 ^ bit2 ^ carrial);
-            carrial = (bit1 && bit2) || ((bit1 || bit2) && carrial);
-        }
-    }
-    return carrial ? DEC_HUGE : DEC_OK;
-}
-
-/**
- * Bit subtraction, ignores scale and sign
-**/
-void bit_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
-    unsigned borrow = 0;
-    for (size_t i = 0; i < 3; i++) {
-        for (size_t j = 1; j <= 32; j++) {
-            int bit1 = get_bit(value1, 32 * i + j);
-            int bit2 = get_bit(value2, 32 * i + j);
-            set_bit(result, 32 * i + j, bit1 ^ bit2 ^ borrow);
-            if (borrow && bit1) borrow = !(bit1 ^ borrow) && bit2;
-            else if (borrow && !bit1) borrow = 1;
-            else borrow = !bit1 && bit2;
-        }
-    }
-}
-
-/**
- * Gets last significant bit of value
+ * Gets position of first bit from the end equal to 1
+ * If value iz 
 **/
 uint32_t last_bit(s21_decimal value) {
     uint32_t bit = 0;
@@ -150,6 +123,7 @@ int bits_gt(s21_decimal value1, s21_decimal value2) {
 
 /**
  * Outputs decimal in binary format
+ * !!Add output of scale and sign bit field
 **/
 void print_bin(s21_decimal value) {
     char bin[97];
@@ -162,6 +136,7 @@ void print_bin(s21_decimal value) {
 
 /**
  * Outputs decimal in hex format
+ * !!Add output of scale and sign hex field
 **/
 void print_hex(s21_decimal value) {
     if (value.bits[2]) printf("%#x", value.bits[2]);
