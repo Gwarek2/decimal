@@ -3,7 +3,8 @@
 int main(void) {
     Suite *test_suites[] = { bits_eq_suite(), bits_lt_suite(),
                              base_addition_suite(), base_subtraction_suite(),
-                             base_multiply_suite(), base_divide_suite() };
+                             base_multiply_suite(), base_divide_suite(),
+                             remove_trailing_zeros_suite()};
 
     SRunner *sr = srunner_create(test_suites[0]);
     srunner_set_fork_status(sr, CK_NOFORK);

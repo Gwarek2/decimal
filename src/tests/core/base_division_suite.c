@@ -53,7 +53,7 @@ START_TEST(test_32_bits_2) {
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
 } END_TEST
- 
+
 START_TEST(test_32_bits_3) {
     s21_decimal n1, n2, result, expected, remainder;
     unsigned v1[3] = {556890, 0, 0};
@@ -71,7 +71,7 @@ START_TEST(test_32_bits_3) {
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
 } END_TEST
- 
+
 START_TEST(test_64_bits_1) {
     s21_decimal n1, n2, result, expected, remainder;
     unsigned v1[3] = {0xffffffff, 0xffffffff, 0};
@@ -89,7 +89,7 @@ START_TEST(test_64_bits_1) {
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
 } END_TEST
- 
+
 START_TEST(test_64_bits_2) {
     s21_decimal n1, n2, result, expected, remainder;
     unsigned v1[3] = {0x1, 0xfffffffe, 0};
@@ -125,7 +125,7 @@ START_TEST(test_64_bits_3) {
     ck_assert_uint_eq(expected.bits[3], result.bits_u32_t[3]);
     ck_assert_uint_eq(status, 0);
 } END_TEST
- 
+
 START_TEST(test_96_bits_1) {
     s21_decimal n1, n2, result, expected, remainder;
     unsigned v1[3] = {0xfffffff0, 0xffffffff, 0xffffffff};

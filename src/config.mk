@@ -10,7 +10,7 @@ TEST_FLAGS := -lcheck -lm -lpthread
 ifeq ($(KERN),Linux)
 	TEST_FLAGS += -lrt -lsubunit
 endif
-#TEST_FLAGS := $(shell pkg-config --libs check)
+TEST_FLAGS := $(shell pkg-config --libs check)
 COV_FLAGS  := --coverage
 
 INC_DIRS       := ./ core/
@@ -42,13 +42,13 @@ endif
 SRCS_H     := decimal_type.h \
               s21_decimal.h \
               core/bit_operations.h \
-			  core/core_operations.h
+              core/core_operations.h
 TESTS_H    := tests/test_main.h
 
 
 SRCS_DIRS     := core/ \
                  arithmetic/ \
-		         comparison/ \
+                 comparison/ \
                  conversion/
 TESTS_DIR     := tests/
 COV_DIR       := coverage_info/
@@ -60,10 +60,11 @@ SRCS       := $(addprefix core/,bit_operations.c \
                                 core_operations.c) 
 CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             bits_lt_suite.c \
-											base_addition_suite.c \
-											base_subtraction_suite.c \
+                                            base_addition_suite.c \
+                                            base_subtraction_suite.c \
                                             base_multiply_suite.c \
-                                            base_division_suite.c)
+                                            base_division_suite.c \
+                                            remove_trailing_zeros_suite.c)
 TESTS      := $(TESTS_DIR)test_main.c \
               $(CORE_TESTS)
 
@@ -80,5 +81,3 @@ COV_INFO   := $(COV_DIR)s21_decimal.info
 COV_REPORT := $(COV_DIR)index.html
 
 vpath %.c $(SRC_DIRS)
-
-.PHONY: all clean test gcov_report static_analysis

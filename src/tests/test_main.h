@@ -17,5 +17,6 @@ Suite *base_addition_suite();
 Suite *base_subtraction_suite();
 Suite *base_multiply_suite();
 Suite *base_divide_suite();
+Suite *remove_trailing_zeros_suite();
 
 #endif  // _TEST_MAIN_H

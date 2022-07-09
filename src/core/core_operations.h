@@ -54,20 +54,22 @@ static const s21_decimal ten_power[29] = {
     {{ 0x10000000, 0x3e250261, 0x204fce5e}},
 };
 
-int init_value(s21_decimal *value, const unsigned bits[3], bool negative, int scale);
-int get_scale(s21_decimal value);
+int init_value(s21_decimal *value, const unsigned bits[3], bool negative, unsigned scale);
+void init_default(s21_decimal *value);
+unsigned get_scale(s21_decimal value);
 int set_scale(s21_decimal *value, int scale);
 bool get_sign(s21_decimal value);
 void set_sign(s21_decimal *value, bool negative);
-int32_t increment(s21_decimal *value);
-int multiply_by_ten(s21_decimal value, s21_decimal *result);
-int32_t base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result);
+int increment(s21_decimal *value);
+int multiply_by_ten(s21_decimal value, s21_decimal *result, s21_decimal *overflow);
+int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result);
-int32_t base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result);
+int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *overflow);
 void base_div10(s21_decimal value, s21_decimal *result);
-int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder);
+int base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder);
 void base_fmod(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
+void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
 
 #endif  // _CORE_OPERATIONS_H
