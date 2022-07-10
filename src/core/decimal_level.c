@@ -1,22 +1,8 @@
 #include <string.h>
 
-#include "bit_operations.h"
-#include "core_operations.h"
-
-int init_value(s21_decimal *value, const unsigned bits[3], bool negative, unsigned scale) {
-    int error = scale > 28;
-    if (!error) {
-        memcpy(value->bits, bits, 3 * sizeof(unsigned));
-        unsigned last_chunk = (negative << SIGN_SHIFT) | (scale << SCALE_SHIFT);
-        value->bits_u32_t[3] = last_chunk;
-    }
-    return error;
-}
-
-void init_default(s21_decimal *value) {
-    unsigned zero[3] = {0, 0, 0};
-    init_value(value, zero, 0, 0);
-}
+#include "common.h"
+#include "binary_level.h"
+#include "decimal_level.h"
 
 unsigned get_scale(s21_decimal value) {
     unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xffU;

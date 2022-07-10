@@ -34,15 +34,16 @@ else
                          -q
 endif
 
-# Dynamic memory check tool
 ifdef LEAKS
 	MEM_CHECK := $(MEM_TOOL)
 endif
 
 SRCS_H     := decimal_type.h \
               s21_decimal.h \
-              core/bit_operations.h \
-              core/core_operations.h
+              core/common.h \
+              core/output.h \
+              core/binary_level.h \
+              core/decimal_level.h
 TESTS_H    := tests/test_main.h
 
 
@@ -56,8 +57,10 @@ OBJ_DIRS      := $(addprefix obj/,$(SRCS_DIRS))
 COV_OBJ_DIRS  := $(addprefix $(COV_DIR),$(OBJ_DIRS))
 
 
-SRCS       := $(addprefix core/,bit_operations.c \
-                                core_operations.c) 
+SRCS       := $(addprefix core/,common.c \
+                                output.c \
+                                binary_level.c \
+                                decimal_level.c) 
 CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             bits_lt_suite.c \
                                             base_addition_suite.c \

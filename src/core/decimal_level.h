@@ -1,13 +1,9 @@
-#ifndef _CORE_OPERATIONS_H
-#define _CORE_OPERATIONS_H
+#ifndef _DECIMAL_LEVEL_H
+#define _DECIMAL_LEVEL_H
 
 #include <stdbool.h>
-#include <stdint.h>
 
 #include "decimal_type.h"
-
-#define SCALE_SHIFT 16
-#define SIGN_SHIFT 31
 
 #define MASK_32 0xFFFFFFFFl
 
@@ -54,8 +50,6 @@ static const s21_decimal ten_power[29] = {
     {{ 0x10000000, 0x3e250261, 0x204fce5e}},
 };
 
-int init_value(s21_decimal *value, const unsigned bits[3], bool negative, unsigned scale);
-void init_default(s21_decimal *value);
 unsigned get_scale(s21_decimal value);
 int set_scale(s21_decimal *value, int scale);
 bool get_sign(s21_decimal value);
@@ -72,4 +66,4 @@ bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
 
-#endif  // _CORE_OPERATIONS_H
+#endif  // _DECIMAL_LEVEL_H

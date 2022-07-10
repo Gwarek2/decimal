@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-
-#include "bit_operations.h"
+#include "common.h"
+#include "binary_level.h"
 
 /**
  * Gets nth bit
@@ -21,20 +19,6 @@ void set_bit(s21_decimal *value, int n, int bit) {
     int index = n / 32;
     int shift = n % 32;
     value->bits_u32_t[index] = (value->bits_u32_t[index] & ~(1U << shift)) | (bit << shift);
-}
-
-/**
- * Copies all 128 bits from src to dest
-**/
-void copy_full(s21_decimal *dest, const s21_decimal *src) {
-    memcpy(dest, src, sizeof(s21_decimal));
-}
-
-/**
- * Copies first 96 bits (represent mantiss) from src to dest
-**/
-void copy_mantiss(s21_decimal *dest, const s21_decimal *src) {
-    memcpy(dest->bits, src->bits, sizeof(unsigned) * 3);
 }
 
 /**
@@ -119,41 +103,3 @@ int bits_gt(s21_decimal value1, s21_decimal value2) {
             value1.bits_u32_t[0] > value2.bits_u32_t[0]);
 }
 
-/**
- * Outputs decimal in binary format
- * !!Add output of scale and sign bit field
-**/
-void print_bin(s21_decimal value) {
-    char bin[129];
-    for (size_t i = 0; i < 127; i++) {
-        bin[i] = get_bit(value, 127 - i) + '0';
-    }
-    bin[128] = '\0';
-    printf("%s\n", bin);
-}
-
-/**
- * Outputs decimal in hex format
- * !!Add output of scale and sign hex field
-**/
-void print_hex(s21_decimal value) {
-    if (value.bits[2]) {
-        printf("%#x", value.bits[2]);
-    }
-
-    if (!value.bits[2] && value.bits[1]) {
-        printf("%#x", value.bits[1]);
-    } else if (value.bits[1]) {
-        printf("%08x", value.bits[1]);
-    }
-
-    if (!value.bits[2] && !value.bits[1] && value.bits[0]) {
-        printf("%#x", value.bits[0]);
-    } else if (value.bits[0]) {
-        printf("%08x", value.bits[0]);
-    } else {
-        printf("0x0");
-    }
-
-    printf(" %#x\n", value.bits[3]);
-}

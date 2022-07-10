@@ -1,6 +1,7 @@
 #ifndef _DECIMAL_TYPE_H
 #define _DECIMAL_TYPE_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 enum op_status {

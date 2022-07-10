@@ -6,8 +6,10 @@
 #include <limits.h>
 
 #include "s21_decimal.h"
-#include "bit_operations.h"
-#include "core_operations.h"
+#include "common.h"
+#include "output.h"
+#include "binary_level.h"
+#include "decimal_level.h"
 
 #define ARRAY_SIZE(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
