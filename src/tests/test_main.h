@@ -25,6 +25,9 @@ Suite *base_multiply_suite();
 Suite *base_divide_suite();
 Suite *remove_trailing_zeros_suite();
 
+// Arithmetics
+Suite *s21_negate_suite();
+
 // Conversion
 Suite *s21_from_int_to_decimal_suite();
 Suite *s21_from_decimal_to_int_suite();
