@@ -67,41 +67,33 @@ int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result,
                   s21_decimal *overflow) {
     int is_overflow = 0;
     init_default(overflow);
+    init_default(result);
     for (size_t i = 0; i < 3; i++) {
         uint32_t m_carrial = 0;
         uint32_t a_carrial = 0;
-
-        for (size_t j = 0; j < 3; j++) {
-            uint64_t r = (uint64_t)value1.bits[i] * (uint64_t)value2.bits[j] +
-                         m_carrial + a_carrial;
+        for (size_t j = 0; j + i < 3; j++) {
+            uint64_t r = (uint64_t) value1.bits[i] *
+                         (uint64_t) value2.bits[j] +
+                                         m_carrial +
+                                         a_carrial;
 
             m_carrial = r >> 32;
-            if (j + i < 3) {
-                r = (r & MASK_32) + result->bits[j + i];
-                a_carrial = r >> 32;
-                result->bits_u32_t[i + j] = r & MASK_32;
-            } else {
-                r = (r & MASK_32) + overflow->bits[j];
-                a_carrial = r >> 32;
-                overflow->bits_u32_t[j] = r & MASK_32;
-            }
+            r = (r & MASK_32) + result->bits[j + i];
+            a_carrial = r >> 32;
+            result->bits_u32_t[i + j] = r & MASK_32;
         }
         is_overflow |= m_carrial || a_carrial;
-
-        s21_decimal a_value, m_value;
-        unsigned a_buff[3] = {a_carrial, 0, 0};
-        unsigned m_buff[3] = {m_carrial, 0, 0};
-        init_value(&a_value, a_buff, 0, 0);
-        init_value(&m_value, m_buff, 0, 0);
-        base_addition(a_value, *overflow, overflow);
-        base_addition(m_value, *overflow, overflow);
     }
     return is_overflow;
 }
 
-bool is_zero(s21_decimal value) { return bits_eq(value, d_zero); }
+bool is_zero(s21_decimal value) {
+    return bits_eq(value, DEC_ZERO);
+}
 
-bool is_one(s21_decimal value) { return bits_eq(value, d_one); }
+bool is_one(s21_decimal value) {
+    return bits_eq(value, DEC_ONE);
+}
 
 /**
  * Divides value1 by value2
@@ -129,7 +121,7 @@ int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result,
         if ((bits_lt(tmp1, *remainder) || bits_eq(tmp1, *remainder)) &&
             !is_zero(tmp1)) {
             base_subtraction(*remainder, tmp1, remainder);
-            left_shift(&d_one, &tmp2, i);
+            left_shift(&DEC_ONE, &tmp2, i);
             base_addition(*result, tmp2, result);
         }
     }
@@ -144,7 +136,7 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     unsigned scale = get_scale(value);
     while (true) {
         s21_decimal res_tmp, rem_tmp;
-        base_divide(value, d_ten, &res_tmp, &rem_tmp);
+        base_divide(value, DEC_TEN, &res_tmp, &rem_tmp);
         if (!is_zero(rem_tmp) || !scale) break;
         copy_mantiss(&value, &res_tmp);
         set_scale(&value, --scale);
@@ -161,7 +153,7 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2) {
         for (int i = 0; i < difference; i++) {
             s21_decimal overflow = {0};
             s21_decimal result = {0};
-            base_multiply(*value_2, d_ten, value_2, &overflow);
+            base_multiply(*value_2, DEC_TEN, value_2, &overflow);
             *value_1 = result;
             base_addition(overflow_sum, overflow, &overflow_sum);
         }
@@ -172,7 +164,7 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2) {
         for (int i = 0; i < difference; i++) {
             s21_decimal overflow = {0};
             s21_decimal result = {0};
-            base_multiply(*value_1, d_ten, &result, &overflow);
+            base_multiply(*value_1, DEC_TEN, &result, &overflow);
             *value_1 = result;
             base_addition(overflow_sum, overflow, &overflow_sum);
         }

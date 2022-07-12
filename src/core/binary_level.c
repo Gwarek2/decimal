@@ -8,7 +8,7 @@
 int get_bit(s21_decimal value, int n) {
     int index = n / 32;
     int shift = n % 32;
-    return (value.bits_u32_t[index] >> shift) & 1U;
+    return (value.bits[index] >> shift) & 1;
 }
 
 /**

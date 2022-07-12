@@ -10,7 +10,7 @@ TEST_FLAGS := -lcheck -lm -lpthread
 ifeq ($(KERN),Linux)
 	TEST_FLAGS += -lrt -lsubunit
 endif
-TEST_FLAGS := $(shell pkg-config --libs check)
+#TEST_FLAGS := $(shell pkg-config --libs check)
 COV_FLAGS  := --coverage
 
 INC_DIRS       := ./ core/
@@ -60,7 +60,9 @@ COV_OBJ_DIRS  := $(addprefix $(COV_DIR),$(OBJ_DIRS))
 SRCS       := $(addprefix core/,common.c \
                                 output.c \
                                 binary_level.c \
-                                decimal_level.c) 
+                                decimal_level.c) \
+              $(addprefix conversion/,s21_from_int_to_decimal.c \
+                                      s21_from_decimal_to_int.c)
 CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             bits_lt_suite.c \
                                             base_addition_suite.c \
@@ -68,12 +70,19 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             base_multiply_suite.c \
                                             base_division_suite.c \
                                             remove_trailing_zeros_suite.c)
+CONVERSION_TESTS := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
+                                                        s21_from_decimal_to_int_suite.c)
 TESTS      := $(TESTS_DIR)test_main.c \
-              $(CORE_TESTS)
-
+              $(CORE_TESTS) \
+              $(CONVERSION_TESTS)
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
+ifdef TEST_CORE
+	TEST_MODULE := TEST_CORE
+else
+	TEST_MODULE := TEST_ALL
+endif
 
 LIB_STATIC := s21_decimal.a
 TEST_EXEC  := test_main
