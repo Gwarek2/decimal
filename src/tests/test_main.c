@@ -12,6 +12,9 @@ int main(void) {
         base_divide_suite(),
         remove_trailing_zeros_suite(),
         #endif
+        #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
+        s21_negate_suite(),
+        #endif
         #if defined(TEST_CONVERSION) || defined(TEST_ALL)
         s21_from_decimal_to_int_suite(),
         s21_from_int_to_decimal_suite(),
