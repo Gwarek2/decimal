@@ -10,7 +10,7 @@ TEST_FLAGS := -lcheck -lm -lpthread
 ifeq ($(KERN),Linux)
 	TEST_FLAGS += -lrt -lsubunit
 endif
-TEST_FLAGS := $(shell pkg-config --libs check)
+#TEST_FLAGS := $(shell pkg-config --libs check)
 COV_FLAGS  := --coverage
 
 INC_DIRS       := ./ core/
@@ -74,6 +74,11 @@ TESTS      := $(TESTS_DIR)test_main.c \
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
+ifdef TEST_CORE
+	TEST_MODULE := TEST_CORE
+else
+	TEST_MODULE := TEST_ALL
+endif
 
 LIB_STATIC := s21_decimal.a
 TEST_EXEC  := test_main
