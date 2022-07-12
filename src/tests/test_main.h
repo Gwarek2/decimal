@@ -6,8 +6,10 @@
 #include <limits.h>
 
 #include "s21_decimal.h"
-#include "bit_operations.h"
-#include "core_operations.h"
+#include "common.h"
+#include "output.h"
+#include "binary_level.h"
+#include "decimal_level.h"
 
 #define ARRAY_SIZE(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
@@ -17,5 +19,6 @@ Suite *base_addition_suite();
 Suite *base_subtraction_suite();
 Suite *base_multiply_suite();
 Suite *base_divide_suite();
+Suite *remove_trailing_zeros_suite();
 
 #endif  // _TEST_MAIN_H

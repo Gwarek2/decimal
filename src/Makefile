@@ -1,5 +1,7 @@
 include config.mk
 
+.PHONY: all clean test gcov_report static_analysis
+
 all: test gcov_report
 
 test: $(LIB_STATIC)  $(TESTS_H)
