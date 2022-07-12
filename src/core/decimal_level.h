@@ -1,22 +1,21 @@
 #ifndef _DECIMAL_LEVEL_H
 #define _DECIMAL_LEVEL_H
 
+#include <limits.h>
 #include <stdbool.h>
 
 #include "decimal_type.h"
 
 #define MASK_32 0xFFFFFFFFl
 
-static const s21_decimal d_zero = {{0, 0, 0, 0}};
-static const s21_decimal d_one = {{1, 0, 0, 0}};
-static const s21_decimal d_ten = {{10, 0, 0, 0}};
-static const s21_decimal d_max = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0}};
+static const s21_decimal DEC_ZERO = {{0, 0, 0, 0}};
+static const s21_decimal DEC_ONE = {{1, 0, 0, 0}};
+static const s21_decimal DEC_TEN = {{10, 0, 0, 0}};
+static const s21_decimal DEC_MAX = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0}};
+static const s21_decimal DEC_INT_MAX = {{INT_MAX, 0, 0, 0}};
+static const s21_decimal DEC_INT_MIN = {{INT_MIN, 0, 0, 1}};
 
 static const unsigned b_zero[3] = {0};
-static const unsigned b_one[3] = {1, 0, 0};
-static const unsigned b_nine[3] = {9, 0, 0};
-static const unsigned b_ten[3] = {10, 0, 0};
-static const unsigned b_64max[3] = {0xFFFFFFFF, 0xFFFFFFFF, 0};
 
 static const s21_decimal ten_power[29] = {
     {{ 0x1, 0, 0}},

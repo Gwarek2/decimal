@@ -1,15 +1,13 @@
 #include "test_main.h"
 
 START_TEST(test_32_bits_1) {
-    s21_decimal n1, n2, result, expected, overflow;
-    unsigned v1[3] = {2, 0, 0};
-    unsigned v2[3] = {2, 0, 0};
-    unsigned v3[3] = {4, 0, 0};
+    s21_decimal n1, result, expected, overflow;
+    unsigned v1[3] = {INT_MAX, 0, 0};
+    unsigned v2[3] = {INT_MAX, 0, 0};
     init_value(&n1, v1, 1, 23);
-    init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
-    init_value(&expected, v3, 0, 0);
-    int status = base_multiply(n1, n2, &result, &overflow);
+    init_value(&expected, v2, 0, 0);
+    int status = base_multiply(n1, ten_power[0], &result, &overflow);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
@@ -108,10 +106,10 @@ START_TEST(test_64_bits_3) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
 
-    // ck_assert_uint_eq(expected_overflow.bits[0], overflow.bits[0]);
-    // ck_assert_uint_eq(expected_overflow.bits[1], overflow.bits[1]);
-    // ck_assert_uint_eq(expected_overflow.bits[2], overflow.bits[2]);
-    // ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
+    ck_assert_uint_eq(expected_overflow.bits[0], overflow.bits[0]);
+    ck_assert_uint_eq(expected_overflow.bits[1], overflow.bits[1]);
+    ck_assert_uint_eq(expected_overflow.bits[2], overflow.bits[2]);
+    ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
     ck_assert_uint_eq(status, 1);
 } END_TEST
 
@@ -135,8 +133,8 @@ START_TEST(test_96_bits_1) {
 
 START_TEST(test_96_bits_2) {
     s21_decimal n1, n2, result, expected, overflow, expected_overflow;
-    unsigned v1[3] = {0xffffffff, 0xffffffff, 0xffffffff};
-    unsigned v2[3] = {0xffffffff, 0xffffffff, 0xffffffff};
+    unsigned v1[3] = {0xffffffff, 0xffffffff, 0xffffffff};  // 79228162514264337593543950335
+    unsigned v2[3] = {0xffffffff, 0xffffffff, 0xffffffff};  // 79228162514264337593543950335
     unsigned v3[3] = {0x1, 0, 0};
     unsigned v4[3] = {0xfffffffe, 0xffffffff, 0xffffffff};
     init_value(&n1, v1, 1, 23);
