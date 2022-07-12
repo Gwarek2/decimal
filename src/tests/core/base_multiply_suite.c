@@ -96,7 +96,7 @@ START_TEST(test_64_bits_3) {
     unsigned v4[3] = {0xf, 0, 0};
     init_value(&n1, v1, 1, 23);
     init_value(&n2, v2, 1, 23);
-    init_value(&result, b_zero, 0, 0);
+    init_default(&result);
     init_value(&expected, v3, 0, 0);
     init_value(&expected_overflow, v4, 0, 0);
     int status = base_multiply(n1, n2, &result, &overflow);
@@ -152,10 +152,10 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
 
-    // ck_assert_uint_eq(expected_overflow.bits[0], overflow.bits[0]);
-    // ck_assert_uint_eq(expected_overflow.bits[1], overflow.bits[1]);
-    // ck_assert_uint_eq(expected_overflow.bits[2], overflow.bits[2]);
-    // ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
+    ck_assert_uint_eq(expected_overflow.bits[0], overflow.bits[0]);
+    ck_assert_uint_eq(expected_overflow.bits[1], overflow.bits[1]);
+    ck_assert_uint_eq(expected_overflow.bits[2], overflow.bits[2]);
+    ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
 
     ck_assert_uint_eq(status, 1);
 } END_TEST

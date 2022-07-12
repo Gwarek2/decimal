@@ -63,7 +63,7 @@ void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *resul
  * Returns nonzero value if overflow occurs
 **/
 int base_multiply(s21_decimal value1, s21_decimal value2,
-                      s21_decimal *result, s21_decimal *overflow) {
+                  s21_decimal *result, s21_decimal *overflow) {
     int is_overflow = 0;
     init_default(overflow);
     init_default(result);
@@ -76,10 +76,27 @@ int base_multiply(s21_decimal value1, s21_decimal value2,
                                          m_carrial +
                                          a_carrial;
             m_carrial = r >> 32;
-            r = (r & MASK_32) + result->bits[j + i];
-            a_carrial = r >> 32;
-            result->bits_u32_t[i + j] = r & MASK_32;
+            if (j + i < 3) {
+                r = (r & MASK_32) + result->bits[j + i];
+                a_carrial = r >> 32;
+                result->bits_u32_t[i + j] = r & MASK_32;
+            } else {
+                r = (r & MASK_32) + overflow->bits[j];
+                a_carrial = r << 32;
+                overflow->bits[j] += r & MASK_32;
+            }
         }
+
+        s21_decimal m_car, a_car;
+        uint32_t b_m_carrial[3] = {0};
+        uint32_t b_a_carrial[3] = {0};
+        b_m_carrial[i] = m_carrial;
+        b_a_carrial[i] = a_carrial;
+        init_value(&m_car, b_m_carrial, 0, 0);
+        init_value(&a_car, b_a_carrial, 0, 0);
+        base_addition(*overflow, m_car, overflow);
+        base_addition(*overflow, a_car, overflow);
+
         is_overflow |= m_carrial || a_carrial;
     }
     return is_overflow;
