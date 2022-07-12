@@ -5,6 +5,7 @@
 #include <check.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "binary_level.h"
 #include "common.h"

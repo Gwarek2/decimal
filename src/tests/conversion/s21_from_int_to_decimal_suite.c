@@ -46,7 +46,6 @@ START_TEST(test_int_zero) {
 } END_TEST
 
 START_TEST(test_int_random) {
-    srand(time(NULL));
     s21_decimal result, expected;
     int src = rand() % INT_MAX;
     int sign = rand() % 2;

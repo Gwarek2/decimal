@@ -8,11 +8,11 @@
  * Outputs decimal in binary format
 **/
 void print_bin(s21_decimal value) {
-    char bin[129];
-    for (size_t i = 0; i < 127; i++) {
+    char bin[130];
+    for (size_t i = 0; i < 128; i++) {
         bin[i] = get_bit(value, 127 - i) + '0';
     }
-    bin[128] = '\0';
+    bin[129] = '\0';
     printf("%s\n", bin);
 }
 

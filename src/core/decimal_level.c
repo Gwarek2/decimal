@@ -86,11 +86,11 @@ int base_multiply(s21_decimal value1, s21_decimal value2,
 }
 
 bool is_zero(s21_decimal value) {
-    return bits_eq(value, d_zero);
+    return bits_eq(value, DEC_ZERO);
 }
 
 bool is_one(s21_decimal value) {
-    return bits_eq(value, d_one);
+    return bits_eq(value, DEC_ONE);
 }
 
 /**
@@ -115,7 +115,7 @@ int base_divide(s21_decimal value1, s21_decimal value2,
         left_shift(&value2, &tmp1, i);
         if ((bits_lt(tmp1, *remainder) || bits_eq(tmp1, *remainder)) && !is_zero(tmp1)) {
             base_subtraction(*remainder, tmp1, remainder);
-            left_shift(&d_one, &tmp2, i);
+            left_shift(&DEC_ONE, &tmp2, i);
             base_addition(*result, tmp2, result);
         }
     }
@@ -130,7 +130,7 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     unsigned scale = get_scale(value);
     while (true) {
         s21_decimal res_tmp, rem_tmp;
-        base_divide(value, d_ten, &res_tmp, &rem_tmp);
+        base_divide(value, DEC_TEN, &res_tmp, &rem_tmp);
         if (!is_zero(rem_tmp) || !scale) break;
         copy_mantiss(&value, &res_tmp);
         set_scale(&value, --scale);

@@ -18,4 +18,4 @@ typedef union {
 } s21_decimal;
 
 
-#endif
+#endif  // _DECIMAL_TYPE_H
