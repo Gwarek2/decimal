@@ -25,6 +25,14 @@ void init_default(s21_decimal *value) {
 }
 
 /**
+ * Converts sign and scale to uint field
+ * Returns converted field
+**/
+unsigned init_sign_and_scale(int sign, int scale) {
+    return (sign << SIGN_SHIFT) | (scale << SCALE_SHIFT);
+}
+
+/**
  * Copies all 128 bits from src to dest
 **/
 void copy_full(s21_decimal *dest, const s21_decimal *src) {

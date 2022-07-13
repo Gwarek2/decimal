@@ -48,7 +48,7 @@ TESTS_H    := tests/test_main.h
 
 
 SRCS_DIRS     := core/ \
-                 arithmetic/ \
+                 arithmetics/ \
                  comparison/ \
                  conversion/
 TESTS_DIR     := tests/
@@ -61,6 +61,7 @@ SRCS       := $(addprefix core/,common.c \
                                 output.c \
                                 binary_level.c \
                                 decimal_level.c) \
+              $(addprefix arithmetics/,s21_negate.c) \
               $(addprefix conversion/,s21_from_int_to_decimal.c \
                                       s21_from_decimal_to_int.c)
 CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
@@ -69,19 +70,28 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             base_subtraction_suite.c \
                                             base_multiply_suite.c \
                                             base_division_suite.c \
-                                            remove_trailing_zeros_suite.c \
+                                            remove_trailing_zeros_suite.c\
                                             alignment_scale_suite.c)
-CONVERSION_TESTS := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
-                                                        s21_from_decimal_to_int_suite.c)
+ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c)
+CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
+                                                         s21_from_decimal_to_int_suite.c)
 TESTS      := $(TESTS_DIR)test_main.c \
               $(CORE_TESTS) \
+              $(ARITHMETICS_TESTS) \
               $(CONVERSION_TESTS)
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
 ifdef TEST_CORE
-	TEST_MODULE := TEST_CORE
-else
+	TEST_MODULE += TEST_CORE
+endif
+ifdef TEST_CONVERSION
+	TEST_MODULE += TEST_CONVERSION
+endif
+ifdef TEST_ARITHMETICS
+	TEST_MODULE += TEST_ARITHMETICS
+endif
+ifndef $(TEST_MODULE)
 	TEST_MODULE := TEST_ALL
 endif
 
@@ -93,4 +103,4 @@ COV_EXEC   := $(COV_DIR)gcov_exec
 COV_INFO   := $(COV_DIR)s21_decimal.info
 COV_REPORT := $(COV_DIR)index.html
 
-vpath %.c $(SRC_DIRS)
+vpath %.c $(SRCS_DIRS)

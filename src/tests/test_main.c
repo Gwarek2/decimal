@@ -13,6 +13,9 @@ int main(void) {
         remove_trailing_zeros_suite(),
         alignment_scale_suite(),
         #endif
+        #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
+        s21_negate_suite(),
+        #endif
         #if defined(TEST_CONVERSION) || defined(TEST_ALL)
         s21_from_decimal_to_int_suite(),
         s21_from_int_to_decimal_suite(),
