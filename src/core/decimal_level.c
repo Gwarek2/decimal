@@ -56,6 +56,22 @@ void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *resul
     }
 }
 
+/*********************************
+ * Helper for base_multiplication
+ * Adds carrials to overflow value
+**********************************/
+void add_carrials(s21_decimal *overflow, uint32_t mul_carrial, uint32_t add_carrial, int index) {
+    s21_decimal dec_mul_carrial, dec_add_carrial;
+    uint32_t mantiss_mul_carrial[3] = {0};
+    uint32_t mantiss_add_carrial[3] = {0};
+    mantiss_mul_carrial[index] = mul_carrial;
+    mantiss_add_carrial[index] = add_carrial;
+    init_value(&dec_mul_carrial, mantiss_mul_carrial, 0, 0);
+    init_value(&dec_add_carrial, mantiss_add_carrial, 0, 0);
+    base_addition(*overflow, dec_mul_carrial, overflow);
+    base_addition(*overflow, dec_add_carrial, overflow);
+}
+
 /**********************************************************************************
  * Multiplication of two decimals.
  * Uses simple column multiplication algorithm.
@@ -66,8 +82,8 @@ void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *resul
  *     result of multiplication
  * s21_decimal *overflow:
  *     overflow of *result;
- *     *result and *overflow mantisses could be imagined as single 192-bit integer,
- *     where *overflow bits contain higher bit fields and *result - lower
+ *     *result and *overflow mantisses could be imagined as a single 192-bit integer,
+ *     where *overflow contains higher bit fields and *result - lower bit fields
 **********************************************************************************/
 int base_multiply(s21_decimal value1, s21_decimal value2,
                   s21_decimal *result, s21_decimal *overflow) {
@@ -96,17 +112,7 @@ int base_multiply(s21_decimal value1, s21_decimal value2,
                 overflow_index++;
             }
         }
-
-        // Adding addition and multiplication carrials to overflow value
-        s21_decimal dec_mul_carrial, dec_add_carrial;
-        uint32_t mantiss_mul_carrial[3] = {0};
-        uint32_t mantiss_add_carrial[3] = {0};
-        mantiss_mul_carrial[i] = mul_carrial;
-        mantiss_add_carrial[i] = add_carrial;
-        init_value(&dec_mul_carrial, mantiss_mul_carrial, 0, 0);
-        init_value(&dec_add_carrial, mantiss_add_carrial, 0, 0);
-        base_addition(*overflow, dec_mul_carrial, overflow);
-        base_addition(*overflow, dec_add_carrial, overflow);
+        add_carrials(overflow, mul_carrial, add_carrial, i);
     }
     return is_overflow;
 }
