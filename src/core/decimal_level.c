@@ -5,7 +5,7 @@
 #include "decimal_level.h"
 
 unsigned get_scale(s21_decimal value) {
-    unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xffU;
+    unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xff;
     return scale;
 }
 
@@ -56,31 +56,63 @@ void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *resul
     }
 }
 
-/**
- * Multiplication of two decimals
- * Uses simple column multiplication algorithm
- * Ignores scale and sign
- * Returns nonzero value if overflow occurs
-**/
+/*********************************
+ * Helper for base_multiplication
+ * Adds carrials to overflow value
+**********************************/
+void add_carrials(s21_decimal *overflow, uint32_t mul_carrial, uint32_t add_carrial, int index) {
+    s21_decimal dec_mul_carrial, dec_add_carrial;
+    uint32_t mantiss_mul_carrial[3] = {0};
+    uint32_t mantiss_add_carrial[3] = {0};
+    mantiss_mul_carrial[index] = mul_carrial;
+    mantiss_add_carrial[index] = add_carrial;
+    init_value(&dec_mul_carrial, mantiss_mul_carrial, 0, 0);
+    init_value(&dec_add_carrial, mantiss_add_carrial, 0, 0);
+    base_addition(*overflow, dec_mul_carrial, overflow);
+    base_addition(*overflow, dec_add_carrial, overflow);
+}
+
+/**********************************************************************************
+ * Multiplication of two decimals.
+ * Uses simple column multiplication algorithm.
+ * Ignores scale and sign.
+ * Returns nonzero value if overflow occurs.
+ **********************************************************************************
+ * s21_decimal *result:
+ *     result of multiplication
+ * s21_decimal *overflow:
+ *     overflow of *result;
+ *     *result and *overflow mantisses could be imagined as a single 192-bit integer,
+ *     where *overflow contains higher bit fields and *result - lower bit fields
+**********************************************************************************/
 int base_multiply(s21_decimal value1, s21_decimal value2,
-                      s21_decimal *result, s21_decimal *overflow) {
+                  s21_decimal *result, s21_decimal *overflow) {
     int is_overflow = 0;
     init_default(overflow);
     init_default(result);
     for (size_t i = 0; i < 3; i++) {
-        uint32_t m_carrial = 0;
-        uint32_t a_carrial = 0;
-        for (size_t j = 0; j + i < 3; j++) {
+        uint32_t mul_carrial = 0;
+        uint32_t add_carrial = 0;
+        size_t overflow_index = 0;
+        for (size_t j = 0; j < 3; j++) {
             uint64_t r = (uint64_t) value1.bits[i] *
                          (uint64_t) value2.bits[j] +
-                                         m_carrial +
-                                         a_carrial;
-            m_carrial = r >> 32;
-            r = (r & MASK_32) + result->bits[j + i];
-            a_carrial = r >> 32;
-            result->bits_u32_t[i + j] = r & MASK_32;
+                                         mul_carrial +
+                                         add_carrial;
+            mul_carrial = r >> 32;
+            if (j + i < 3) {
+                r = (r & MASK_32) + result->bits[j + i];
+                add_carrial = r >> 32;
+                result->bits_u32_t[i + j] = r & MASK_32;
+            } else {
+                r = (r & MASK_32) + overflow->bits[overflow_index];
+                is_overflow |= r != 0;
+                add_carrial = r >> 32;
+                overflow->bits[overflow_index] = r & MASK_32;
+                overflow_index++;
+            }
         }
-        is_overflow |= m_carrial || a_carrial;
+        add_carrials(overflow, mul_carrial, add_carrial, i);
     }
     return is_overflow;
 }

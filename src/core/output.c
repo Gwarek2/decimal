@@ -20,23 +20,5 @@ void print_bin(s21_decimal value) {
  * Outputs decimal in hex format
 **/
 void print_hex(s21_decimal value) {
-    if (value.bits[2]) {
-        printf("%#x", value.bits[2]);
-    }
-
-    if (!value.bits[2] && value.bits[1]) {
-        printf("%#x", value.bits[1]);
-    } else if (value.bits[1]) {
-        printf("%08x", value.bits[1]);
-    }
-
-    if (!value.bits[2] && !value.bits[1] && value.bits[0]) {
-        printf("%#x", value.bits[0]);
-    } else if (value.bits[0]) {
-        printf("%08x", value.bits[0]);
-    } else {
-        printf("0x0");
-    }
-
-    printf(" %#x\n", value.bits[3]);
+    printf("%#10X %#10X %#10X    %#10X\n", value.bits[2], value.bits[1], value.bits[0], value.bits[3]);
 }
