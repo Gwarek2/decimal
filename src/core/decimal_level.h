@@ -64,6 +64,6 @@ void base_fmod(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
-int alignment_scale(s21_decimal *value_1, s21_decimal *value_2);
+int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow);
 
 #endif  // _DECIMAL_LEVEL_H

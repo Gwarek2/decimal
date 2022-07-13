@@ -6,7 +6,7 @@
 #include "common.h"
 #include <string.h>
 
-unsigned int maxInt = 4294967295;
+unsigned int max32bit = 4294967295;
 unsigned int maxScale = 1835008;
 
 unsigned isSetBit(int number, int index) {
@@ -207,9 +207,9 @@ int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result, s
     return is_overflow;
 }
 
-bool is_zero(s21_decimal value) { return bits_eq(value, d_zero); }
+bool is_zero(s21_decimal value) { return bits_eq(value, DEC_ZERO); }
 
-bool is_one(s21_decimal value) { return bits_eq(value, d_one); }
+bool is_one(s21_decimal value) { return bits_eq(value, DEC_ONE); }
 
 /**
  * Divides value1 by value2
@@ -237,7 +237,7 @@ int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result,
         if ((bits_lt(tmp1, *remainder) || bits_eq(tmp1, *remainder)) &&
             !is_zero(tmp1)) {
             base_subtraction(*remainder, tmp1, remainder);
-            left_shift(&d_one, &tmp2, i);
+            left_shift(&DEC_ONE, &tmp2, i);
             base_addition(*result, tmp2, result);
         }
     }
@@ -252,7 +252,7 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     unsigned scale = get_scale(value);
     while (true) {
         s21_decimal res_tmp, rem_tmp;
-        base_divide(value, d_ten, &res_tmp, &rem_tmp);
+        base_divide(value, DEC_TEN, &res_tmp, &rem_tmp);
         if (!is_zero(rem_tmp) || !scale) break;
         copy_mantiss(&value, &res_tmp);
         set_scale(&value, --scale);
@@ -333,34 +333,30 @@ void print_hex(s21_decimal value) {
 }
 
 
-int alignment_scale(s21_decimal *value_1, s21_decimal *value_2) {
+int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow) {
+    int output = DEC_OK;
     int scale_value_1 = get_scale(*value_1);
     int scale_value_2 = get_scale(*value_2);
     int difference = scale_value_1 - scale_value_2;
+    s21_decimal overflow_in_function = {0};
+    s21_decimal result = {0};
     if (difference > 0) {
-        s21_decimal overflow_sum = {0};
-        for (int i = 0; i < difference; i++) {
-            s21_decimal overflow = {0};
-            s21_decimal result = {0};
-            base_multiply(*value_2, d_ten, value_2, &overflow);
-            *value_1 = result;
-            base_addition(overflow_sum, overflow, &overflow_sum);
-        }
+        base_multiply(*value_2, ten_power[difference], &result, &overflow_in_function);
+        *value_2 = result;
         value_2->bits[3] = value_1->bits[3];
     } else if (difference < 0) {
         difference = -difference;
-        s21_decimal overflow_sum = {0};
-        for (int i = 0; i < difference; i++) {
-            s21_decimal overflow = {0};
-            s21_decimal result = {0};
-            base_multiply(*value_1, d_ten, &result, &overflow);
-            *value_1 = result;
-            base_addition(overflow_sum, overflow, &overflow_sum);
-        }
+        base_multiply(*value_1, ten_power[difference], &result, &overflow_in_function);
+        *value_1 = result;
         value_1->bits[3] = value_2->bits[3];
     }
 
-    return DEC_OK;
+    if (!is_zero(overflow_in_function)) {
+        *overflow = overflow_in_function;
+        output = DEC_HUGE;
+    }
+
+    return output;
 }
 
 void my_print(s21_decimal num) {
@@ -377,16 +373,30 @@ void my_print(s21_decimal num) {
 
 
 int main(void) {
-    s21_decimal num_1 = {4294967294, 0, 0, 0};
-    s21_decimal num_2 = {4294967295, 0, 0, maxScale};
+    // s21_decimal num_1 = {0, 0, 0, 983040};
+    // s21_decimal num_2 = {maxInt, 0, 0, 196608};
+    s21_decimal result = {{3053453312, 871104183, 369867699, maxScale}};
+    s21_decimal expected = {{max32bit, 0, 0, 196608}};
+    s21_decimal scale = {{0, 0, 0, maxScale}};
+    s21_decimal owerflow = {0};
+    s21_decimal result_overflow = {{542101, 0, 0, 0}};
     // my_print(num_1);
+    my_print(scale);
+    my_print(expected);
+    my_print(result);
     
     // s21_decimal num_2 = {maxInt, 0, 0, maxScale};
     // print_hex(num_2);
     // print_bin(num_2);
-    // alignment_scale(&num_1, &num_2);
-    // print_bin(num_1);
-    // print_bin(num_2);
+    printf("%d\n", alignment_scale(&expected, &scale, &owerflow));
+    // my_print(owerflow);
+    // my_print(scale);
+    my_print(expected);
+    // my_print(result);
+    my_print(owerflow);
+    my_print(result_overflow);
+    printf("%u\n", owerflow.bits[0]);
+    printf("%u\n", result_overflow.bits[0]);
     // s21_decimal result = {0};
     // s21_decimal overflow = {0};
     // // s21_decimal num_1 = {4294967294, 0, 0, 0};

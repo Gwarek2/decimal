@@ -144,22 +144,35 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     copy_full(result, &value);
 }
 
-int alignment_scale(s21_decimal *value_1, s21_decimal *value_2) {
+/**
+ * the function equalizes the exponent before multiplication, addition, and division. Monitor overflow.
+ * 
+ **/
+
+int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow) {
+    int output = DEC_OK;
     int scale_value_1 = get_scale(*value_1);
     int scale_value_2 = get_scale(*value_2);
     int difference = scale_value_1 - scale_value_2;
-    s21_decimal overflow = {0};
+    s21_decimal overflow_in_function = {0};
     s21_decimal result = {0};
     if (difference > 0) {
-        base_multiply(*value_2, ten_power[difference], &result, &overflow);
+        base_multiply(*value_2, ten_power[difference], &result, &overflow_in_function);
         *value_2 = result;
         value_2->bits[3] = value_1->bits[3];
     } else if (difference < 0) {
         difference = -difference;
-        base_multiply(*value_1, ten_power[difference], &result, &overflow);
+        base_multiply(*value_1, ten_power[difference], &result, &overflow_in_function);
         *value_1 = result;
         value_1->bits[3] = value_2->bits[3];
     }
+    *overflow = overflow_in_function;
 
-    return DEC_OK;
+    if (!is_zero(overflow_in_function)) {
+        *overflow = overflow_in_function;
+        output = DEC_HUGE;
+    }
+
+    return output;
 }
+
