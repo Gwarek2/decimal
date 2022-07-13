@@ -11,6 +11,7 @@ int main(void) {
         base_multiply_suite(),
         base_divide_suite(),
         remove_trailing_zeros_suite(),
+        alignment_scale_suite(),
         #endif
         #if defined(TEST_CONVERSION) || defined(TEST_ALL)
         s21_from_decimal_to_int_suite(),

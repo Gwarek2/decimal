@@ -148,26 +148,16 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2) {
     int scale_value_1 = get_scale(*value_1);
     int scale_value_2 = get_scale(*value_2);
     int difference = scale_value_1 - scale_value_2;
+    s21_decimal overflow = {0};
+    s21_decimal result = {0};
     if (difference > 0) {
-        s21_decimal overflow_sum = {0};
-        for (int i = 0; i < difference; i++) {
-            s21_decimal overflow = {0};
-            s21_decimal result = {0};
-            base_multiply(*value_2, DEC_TEN, value_2, &overflow);
-            *value_1 = result;
-            base_addition(overflow_sum, overflow, &overflow_sum);
-        }
+        base_multiply(*value_2, ten_power[difference], &result, &overflow);
+        *value_2 = result;
         value_2->bits[3] = value_1->bits[3];
     } else if (difference < 0) {
         difference = -difference;
-        s21_decimal overflow_sum = {0};
-        for (int i = 0; i < difference; i++) {
-            s21_decimal overflow = {0};
-            s21_decimal result = {0};
-            base_multiply(*value_1, DEC_TEN, &result, &overflow);
-            *value_1 = result;
-            base_addition(overflow_sum, overflow, &overflow_sum);
-        }
+        base_multiply(*value_1, ten_power[difference], &result, &overflow);
+        *value_1 = result;
         value_1->bits[3] = value_2->bits[3];
     }
 
