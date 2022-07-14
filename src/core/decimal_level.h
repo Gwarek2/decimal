@@ -10,6 +10,7 @@
 
 static const s21_decimal DEC_ZERO = {{0, 0, 0, 0}};
 static const s21_decimal DEC_ONE = {{1, 0, 0, 0}};
+static const s21_decimal DEC_FIVE = {{5, 0, 0, 0}};
 static const s21_decimal DEC_TEN = {{10, 0, 0, 0}};
 static const s21_decimal DEC_MAX = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0}};
 static const s21_decimal DEC_INT_MAX = {{INT_MAX, 0, 0, 0}};
@@ -64,5 +65,6 @@ void base_fmod(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
+void base_bank_rounding(s21_decimal value, s21_decimal *result);
 
 #endif  // _DECIMAL_LEVEL_H
