@@ -16,6 +16,8 @@
 
 #define ARRAY_SIZE(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
+void assert_decimal_eq(s21_decimal result, s21_decimal expected);
+
 // Core
 Suite *bits_eq_suite();
 Suite *bits_lt_suite();
@@ -24,6 +26,7 @@ Suite *base_subtraction_suite();
 Suite *base_multiply_suite();
 Suite *base_divide_suite();
 Suite *remove_trailing_zeros_suite();
+Suite *base_bank_rounding_suite();
 
 // Arithmetics
 Suite *s21_negate_suite();
