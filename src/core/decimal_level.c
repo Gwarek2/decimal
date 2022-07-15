@@ -36,7 +36,7 @@ int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
         uint64_t r = (uint64_t)value1.bits_u32_t[i] +
                      (uint64_t)value2.bits_u32_t[i] + carrial;
         carrial = r >> 32;
-        result->bits_u32_t[i] = r & MASK_32;
+        result->bits_u32_t[i] = r;
     }
     return carrial;
 }
@@ -175,6 +175,7 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     copy_full(result, &value);
 }
 
+
 /**
  * the function equalizes the exponent before multiplication, addition, and division. Monitor overflow.
  * 
@@ -205,5 +206,24 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *ove
     }
 
     return output;
+}
+/*****************************************************************************
+ * Removes one digit from beginning and implements bank rounding
+ * Scale and sign remain unchanged
+ * if removed digit < 5 - result remains unchanged
+ * if removed digit > 5 - result increments by one
+ * if removed digit == 5 and rightmost digit is odd
+ *     result increments by one
+ * if removed digit == 5 and rightmost digit is even (including zero)
+ *     result remains unchanged
+ * About bank rounding - https://rounding.to/understanding-the-bankers-rounding
+******************************************************************************/
+void base_bank_rounding(s21_decimal value, s21_decimal *result) {
+    s21_decimal last_digit;
+    base_divide(value, DEC_TEN, result, &last_digit);
+    if (bits_gt(last_digit, DEC_FIVE) || (bits_eq(last_digit, DEC_FIVE) && get_bit(*result, 0) != 0)) {
+        base_addition(*result, DEC_ONE, result);
+    }
+
 }
 

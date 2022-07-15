@@ -1,5 +1,13 @@
 #include "test_main.h"
 
+void assert_decimal_eq(s21_decimal result, s21_decimal expected) {
+    ck_assert_msg(result.bits[0] == expected.bits[0], "[0] %#x != %#x", result.bits[0], expected.bits[0]);
+    ck_assert_msg(result.bits[1] == expected.bits[1], "[1] %#x != %#x", result.bits[1], expected.bits[1]);
+    ck_assert_msg(result.bits[2] == expected.bits[2], "[2] %#x != %#x", result.bits[2], expected.bits[2]);
+    ck_assert_msg(result.bits[3] == expected.bits[3], "[3] %#x != %#x", result.bits[3], expected.bits[3]);
+}
+
+
 int main(void) {
     srand(time(NULL));
     Suite *test_suites[] = {
@@ -12,6 +20,7 @@ int main(void) {
         base_divide_suite(),
         remove_trailing_zeros_suite(),
         alignment_scale_suite(),
+        base_bank_rounding_suite(),
         #endif
         #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
         s21_negate_suite(),
