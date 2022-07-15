@@ -48,11 +48,8 @@ int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
 void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t borrow = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t) value1.bits_u32_t[i] -
-                     (uint64_t) value2.bits_u32_t[i] -
-                     borrow;
-        borrow = value1.bits_u32_t[i] < value2.bits_u32_t[i];
-        result->bits_u32_t[i] = r & MASK_32;
+        result->bits[i] = value1.bits[i] - value2.bits[i] - borrow;
+        borrow = (uint64_t) value1.bits[i] < (uint64_t) value2.bits[i] + borrow;
     }
 }
 
