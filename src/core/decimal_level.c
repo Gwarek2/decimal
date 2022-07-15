@@ -134,8 +134,7 @@ bool is_one(s21_decimal value) {
  * Writes remainder of division in *remainder
  **/
 
-int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result,
-                    s21_decimal *remainder) {
+int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder) {
     // int32_t status = DEC_OC;
 
     if (is_zero(value2)) return DEC_DIV_BY_ZERO;
