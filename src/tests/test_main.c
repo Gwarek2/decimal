@@ -19,6 +19,7 @@ int main(void) {
         base_multiply_suite(),
         base_divide_suite(),
         remove_trailing_zeros_suite(),
+        alignment_scale_suite(),
         base_bank_rounding_suite(),
         #endif
         #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)

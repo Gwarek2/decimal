@@ -26,6 +26,7 @@ Suite *base_subtraction_suite();
 Suite *base_multiply_suite();
 Suite *base_divide_suite();
 Suite *remove_trailing_zeros_suite();
+Suite *alignment_scale_suite();
 Suite *base_bank_rounding_suite();
 
 // Arithmetics
