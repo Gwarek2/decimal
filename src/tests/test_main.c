@@ -20,6 +20,7 @@ int main(void) {
         base_divide_suite(),
         remove_trailing_zeros_suite(),
         base_bank_rounding_suite(),
+        /** round_overflowed_decimal_suite(),**/
         #endif
         #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
         s21_negate_suite(),
