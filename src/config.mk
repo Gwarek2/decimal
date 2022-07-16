@@ -60,6 +60,7 @@ COV_OBJ_DIRS  := $(addprefix $(COV_DIR),$(OBJ_DIRS))
 SRCS       := $(addprefix core/,common.c \
                                 output.c \
                                 binary_level.c \
+                                uint192.c \
                                 decimal_level.c) \
               $(addprefix arithmetics/,s21_negate.c \
                                        s21_mul.c) \
@@ -72,9 +73,12 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             base_multiply_suite.c \
                                             base_division_suite.c \
                                             remove_trailing_zeros_suite.c \
-                                            round_overflowed_decimal_suite.c \
+                                            uint192_division_suite.c \
+                                            uint192_add_suite.c \
+                                            uint192_bank_rounding_suite.c \
                                             base_bank_rounding_suite.c)
-ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c)
+ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
+                                                          s21_mul_suite.c)
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
                                                          s21_from_decimal_to_int_suite.c)
 TESTS      := $(TESTS_DIR)test_main.c \

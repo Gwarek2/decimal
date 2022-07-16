@@ -7,6 +7,12 @@ void assert_decimal_eq(s21_decimal result, s21_decimal expected) {
     ck_assert_msg(result.bits[3] == expected.bits[3], "[3] %#x != %#x", result.bits[3], expected.bits[3]);
 }
 
+void assert_uint192_eq(uint192 result, uint192 expected) {
+    for (size_t i = 0; i < 6; i++) {
+        ck_assert_msg(result.bits[i] == expected.bits[i],
+                      "[%zu] %#x != %#x", i, result.bits[i], expected.bits[i]);
+    }
+}
 
 int main(void) {
     srand(time(NULL));
@@ -20,9 +26,11 @@ int main(void) {
         base_divide_suite(),
         remove_trailing_zeros_suite(),
         base_bank_rounding_suite(),
-        /** round_overflowed_decimal_suite(),**/
+        uint192_add_suite(),
+        uint192_division_suite(),
         #endif
         #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
+        s21_mul_suite(),
         s21_negate_suite(),
         #endif
         #if defined(TEST_CONVERSION) || defined(TEST_ALL)

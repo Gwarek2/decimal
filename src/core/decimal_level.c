@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "common.h"
 #include "binary_level.h"
 #include "decimal_level.h"
@@ -58,13 +56,10 @@ void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *resul
  * Adds carrials to overflow value
 **********************************/
 void add_carrials(s21_decimal *overflow, uint32_t mul_carrial, uint32_t add_carrial, int index) {
-    s21_decimal dec_mul_carrial, dec_add_carrial;
-    uint32_t mantiss_mul_carrial[3] = {0};
-    uint32_t mantiss_add_carrial[3] = {0};
-    mantiss_mul_carrial[index] = mul_carrial;
-    mantiss_add_carrial[index] = add_carrial;
-    init_value(&dec_mul_carrial, mantiss_mul_carrial, 0, 0);
-    init_value(&dec_add_carrial, mantiss_add_carrial, 0, 0);
+    s21_decimal dec_mul_carrial = {{0}};
+    s21_decimal dec_add_carrial = {{0}};
+    dec_mul_carrial.bits[index] = mul_carrial;
+    dec_add_carrial.bits[index] = add_carrial;
     base_addition(*overflow, dec_mul_carrial, overflow);
     base_addition(*overflow, dec_add_carrial, overflow);
 }
@@ -181,7 +176,7 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
 void base_bank_rounding(s21_decimal value, s21_decimal *result) {
     s21_decimal last_digit;
     base_divide(value, DEC_TEN, result, &last_digit);
-    if (bits_gt(last_digit, DEC_FIVE) || (bits_eq(last_digit, DEC_FIVE) && get_bit(*result, 0) != 0)) {
+    if (bits_gt(last_digit, DEC_FIVE) || (bits_eq(last_digit, DEC_FIVE) && get_bit(*result, 0))) {
         base_addition(*result, DEC_ONE, result);
     }
 }
