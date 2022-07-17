@@ -17,7 +17,7 @@ typedef struct {
 
 static const uint192 UINT192_ZERO = {{0}};
 static const uint192 UINT192_ONE = {{1}};
-static const uint192 UINT192_FIVE = {{1}};
+static const uint192 UINT192_FIVE = {{5}};
 static const uint192 UINT192_TEN = {{10}};
 static const uint192 UINT192_DEC_MAX = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF}};
 

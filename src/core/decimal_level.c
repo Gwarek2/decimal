@@ -29,11 +29,11 @@ void set_sign(s21_decimal *value, bool negative) {
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t carrial = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t) value1.bits_u32_t[i] +
-                     (uint64_t) value2.bits_u32_t[i] +
+        uint64_t r = (uint64_t) value1.bits[i] +
+                     (uint64_t) value2.bits[i] +
                      carrial;
         carrial = r >> 32;
-        result->bits_u32_t[i] = r;
+        result->bits[i] = r;
     }
     return carrial;
 }
@@ -174,9 +174,9 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
  * About bank rounding - https://rounding.to/understanding-the-bankers-rounding
 ******************************************************************************/
 void base_bank_rounding(s21_decimal value, s21_decimal *result) {
-    s21_decimal last_digit;
-    base_divide(value, DEC_TEN, result, &last_digit);
-    if (bits_gt(last_digit, DEC_FIVE) || (bits_eq(last_digit, DEC_FIVE) && get_bit(*result, 0))) {
+    s21_decimal first_digit;
+    base_divide(value, DEC_TEN, result, &first_digit);
+    if (bits_gt(first_digit, DEC_FIVE) || (bits_eq(first_digit, DEC_FIVE) && get_bit(*result, 0))) {
         base_addition(*result, DEC_ONE, result);
     }
 }

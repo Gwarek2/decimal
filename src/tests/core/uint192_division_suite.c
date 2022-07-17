@@ -35,6 +35,17 @@ START_TEST(test_192bit_3) {
     assert_uint192_eq(res_rem, expected_rem);
 } END_TEST
 
+START_TEST(test_192bit_4) {
+    uint192 input1 = {{0x3efab304, 0x9d2}};
+    uint192 res = {{0}};
+    uint192 res_rem = {{0}};
+    uint192 expected_res = {{0x6cb2ab80, 0xfb}};
+    uint192 expected_rem = {{0x4}};
+    divide_uint192(input1, UINT192_TEN, &res, &res_rem); 
+    assert_uint192_eq(res, expected_res);
+    assert_uint192_eq(res_rem, expected_rem);
+} END_TEST
+
 Suite *uint192_division_suite() {
     Suite *s = suite_create("suite_uint192_division");
     TCase *tc = tcase_create("core");
@@ -42,6 +53,7 @@ Suite *uint192_division_suite() {
     tcase_add_test(tc, test_192bit_1);
     tcase_add_test(tc, test_192bit_2);
     tcase_add_test(tc, test_192bit_3);
+    tcase_add_test(tc, test_192bit_4);
     suite_add_tcase(s, tc);
     return s;
 }

@@ -31,6 +31,7 @@ Suite *remove_trailing_zeros_suite();
 Suite *base_bank_rounding_suite();
 Suite *uint192_add_suite();
 Suite *uint192_division_suite();
+Suite *bank_rounding_uint192_suite();
 
 // Arithmetics
 Suite *s21_mul_suite();
