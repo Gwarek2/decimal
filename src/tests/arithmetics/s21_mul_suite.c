@@ -50,6 +50,16 @@ START_TEST(test_64_bit_1) {
     ck_assert_int_eq(status, DEC_OK);
 }
 
+START_TEST(test_96_bit_1) {
+    s21_decimal input1 = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, init_sign_and_scale(1, 28)}};  // 644388461.24564323
+    s21_decimal input2 = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, init_sign_and_scale(0, 28)}};  // 100
+    s21_decimal expected = {{0x96EE456, 0x359A3B3E, 0xCAD2F7F5, init_sign_and_scale(1, 27)}};  // 64438846124.56432300
+    s21_decimal result = {{0}};
+    int status = s21_mul(input1, input2, &result);
+    assert_decimal_eq(result, expected);
+    ck_assert_int_eq(status, DEC_OK);
+}
+
 Suite *s21_mul_suite() {
     Suite *s  = suite_create("suite_s21_mul");
     TCase *tc = tcase_create("core");
@@ -59,6 +69,7 @@ Suite *s21_mul_suite() {
     tcase_add_test(tc, test_zero);
     tcase_add_test(tc, test_one);
     tcase_add_test(tc, test_64_bit_1);
+    tcase_add_test(tc, test_96_bit_1);
 
     suite_add_tcase(s, tc);
 

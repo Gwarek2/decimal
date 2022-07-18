@@ -25,6 +25,11 @@ int convert_to_decimal(uint192 value, s21_decimal *buffer) {
     return 0;
 }
 
+void init_default_uint192(uint192 *buffer) {
+    unsigned value[6] = {0};
+    memcpy(buffer->bits, value, sizeof(unsigned) * 6);
+}
+
 void copy_uint192(uint192 *buffer, const uint192 value) {
     memcpy(buffer, &value, sizeof(uint192));
 }
@@ -180,6 +185,7 @@ void print_hex_uint192(uint192 value) {
  * Removes first digit nad applies bank rounding
 ************************************************/
 void bank_rounding_uint192(uint192 value, uint192 *result) {
+    init_default_uint192(result);
     uint192 first_digit = {{0}};
     divide_uint192(value, UINT192_TEN, result, &first_digit);
     if (gt_uint192(first_digit, UINT192_FIVE) ||

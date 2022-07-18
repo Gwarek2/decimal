@@ -27,13 +27,12 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int round_result(s21_decimal *result, s21_decimal *overflow, int *scale) {
-    uint192 value;
+    uint192 value = {{0}};
     convert_to_uint192(*overflow, *result, &value);
-    while (true) {
+    while (*scale && gt_uint192(value, UINT192_DEC_MAX)) {
         bank_rounding_uint192(value, &value);
-        if (--*scale || lt_uint192(value, UINT192_DEC_MAX)
-                   || eq_uint192(value, UINT192_DEC_MAX)) break;
+        *scale -= 1;
     }
-    int no_overflow = convert_to_decimal(value, result);
-    return no_overflow;
+    int is_overflow = convert_to_decimal(value, result);
+    return is_overflow;
 }
