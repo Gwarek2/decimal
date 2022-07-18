@@ -6,7 +6,7 @@ START_TEST(test_gt_five) {
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
     assert_decimal_eq(result, expected);
-}
+} END_TEST
 
 START_TEST(test_lt_five) {
     s21_decimal input = {{0x3efab304, 0x9d2, 0, 0}};
@@ -14,7 +14,7 @@ START_TEST(test_lt_five) {
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
     assert_decimal_eq(result, expected);
-}
+} END_TEST
 
 START_TEST(test_eq_five_even_end) {
     s21_decimal input = {{0x139fc305, 0xabb, 0, 0}};
@@ -22,7 +22,7 @@ START_TEST(test_eq_five_even_end) {
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
     assert_decimal_eq(result, expected);
-}
+} END_TEST
 
 START_TEST(test_eq_five_odd_end) {
     s21_decimal input = {{0xb51a512c, 0x112, 0, 0}};
@@ -30,7 +30,7 @@ START_TEST(test_eq_five_odd_end) {
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
     assert_decimal_eq(result, expected);
-}
+} END_TEST
 
 Suite *base_bank_rounding_suite() {
     Suite *s = suite_create("suite_bank_rounding");

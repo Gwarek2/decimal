@@ -1,9 +1,7 @@
-#include "decimal_level.h"
-
 #include <string.h>
-
 #include "binary_level.h"
 #include "common.h"
+#include "decimal_level.h"
 
 unsigned get_scale(s21_decimal value) {
     unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xff;
@@ -36,7 +34,7 @@ int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
         uint64_t r = (uint64_t)value1.bits_u32_t[i] +
                      (uint64_t)value2.bits_u32_t[i] + carrial;
         carrial = r >> 32;
-        result->bits_u32_t[i] = r;
+        result->bits[i] = r;
     }
     return carrial;
 }
@@ -50,10 +48,8 @@ void base_subtraction(s21_decimal value1, s21_decimal value2,
                       s21_decimal *result) {
     uint32_t borrow = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t)value1.bits_u32_t[i] -
-                     (uint64_t)value2.bits_u32_t[i] - borrow;
-        borrow = value1.bits_u32_t[i] < value2.bits_u32_t[i];
-        result->bits_u32_t[i] = r & MASK_32;
+        result->bits[i] = value1.bits[i] - value2.bits[i] - borrow;
+        borrow = (uint64_t) value1.bits[i] < (uint64_t) value2.bits[i] + borrow;
     }
 }
 
@@ -63,13 +59,10 @@ void base_subtraction(s21_decimal value1, s21_decimal value2,
  * Adds carrials to overflow value
 **********************************/
 void add_carrials(s21_decimal *overflow, uint32_t mul_carrial, uint32_t add_carrial, int index) {
-    s21_decimal dec_mul_carrial, dec_add_carrial;
-    uint32_t mantiss_mul_carrial[3] = {0};
-    uint32_t mantiss_add_carrial[3] = {0};
-    mantiss_mul_carrial[index] = mul_carrial;
-    mantiss_add_carrial[index] = add_carrial;
-    init_value(&dec_mul_carrial, mantiss_mul_carrial, 0, 0);
-    init_value(&dec_add_carrial, mantiss_add_carrial, 0, 0);
+    s21_decimal dec_mul_carrial = {{0}};
+    s21_decimal dec_add_carrial = {{0}};
+    dec_mul_carrial.bits[index] = mul_carrial;
+    dec_add_carrial.bits[index] = add_carrial;
     base_addition(*overflow, dec_mul_carrial, overflow);
     base_addition(*overflow, dec_add_carrial, overflow);
 }
@@ -219,9 +212,9 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *ove
  * About bank rounding - https://rounding.to/understanding-the-bankers-rounding
 ******************************************************************************/
 void base_bank_rounding(s21_decimal value, s21_decimal *result) {
-    s21_decimal last_digit;
-    base_divide(value, DEC_TEN, result, &last_digit);
-    if (bits_gt(last_digit, DEC_FIVE) || (bits_eq(last_digit, DEC_FIVE) && get_bit(*result, 0) != 0)) {
+    s21_decimal first_digit;
+    base_divide(value, DEC_TEN, result, &first_digit);
+    if (bits_gt(first_digit, DEC_FIVE) || (bits_eq(first_digit, DEC_FIVE) && get_bit(*result, 0))) {
         base_addition(*result, DEC_ONE, result);
     }
 

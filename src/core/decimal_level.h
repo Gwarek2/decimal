@@ -67,5 +67,6 @@ bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
 int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow);
 void base_bank_rounding(s21_decimal value, s21_decimal *result);
+void round_overflowed_decimal(s21_decimal value, s21_decimal overflow, s21_decimal *result, int scale);
 
 #endif  // _DECIMAL_LEVEL_H
