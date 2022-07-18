@@ -25,6 +25,7 @@ int main(void) {
         base_multiply_suite(),
         base_divide_suite(),
         remove_trailing_zeros_suite(),
+        alignment_scale_suite(),
         base_bank_rounding_suite(),
         uint192_add_suite(),
         uint192_division_suite(),

@@ -73,6 +73,7 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             base_multiply_suite.c \
                                             base_division_suite.c \
                                             remove_trailing_zeros_suite.c \
+                                            alignment_scale_suite.c\
                                             uint192_division_suite.c \
                                             uint192_add_suite.c \
                                             uint192_bank_rounding_suite.c \
