@@ -42,4 +42,7 @@ Suite *s21_negate_suite();
 Suite *s21_from_int_to_decimal_suite();
 Suite *s21_from_decimal_to_int_suite();
 
+// Rounding
+Suite *s21_truncate_suite();
+
 #endif  // _TEST_MAIN_H
