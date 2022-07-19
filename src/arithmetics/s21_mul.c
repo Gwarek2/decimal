@@ -23,14 +23,3 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     return DEC_OK;
 }
-
-int round_result(s21_decimal *result, s21_decimal *overflow, int *scale) {
-    uint192 value = {{0}};
-    convert_to_uint192(*overflow, *result, &value);
-    while (*scale && gt_uint192(value, UINT192_DEC_MAX)) {
-        bank_rounding_uint192(value, &value);
-        *scale -= 1;
-    }
-    int is_overflow = convert_to_decimal(value, result);
-    return is_overflow;
-}
