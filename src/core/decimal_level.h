@@ -4,7 +4,7 @@
 #include <limits.h>
 #include <stdbool.h>
 
-#include "decimal_type.h"
+#include "../decimal_type.h"
 
 #define MASK_32 0xFFFFFFFFl
 

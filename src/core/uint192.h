@@ -8,7 +8,7 @@
 
 #include <stdbool.h>
 
-#include "decimal_type.h"
+#include "../decimal_type.h"
 
 
 typedef struct {

@@ -110,8 +110,7 @@ void sub_uint192(uint192 value1, uint192 value2, uint192 *result) {
 int add_uint192(uint192 value1, uint192 value2, uint192 *result) {
     int carrial = 0;
     for (size_t i = 0; i < 6; i++) {
-        uint64_t r = (uint64_t) value1.bits[i] +
-                     (uint64_t) value2.bits[i] + carrial;
+        uint64_t r = (uint64_t) value1.bits[i] + (uint64_t) value2.bits[i] + carrial;
         carrial = r >> 32;
         result->bits[i] = r;
     }

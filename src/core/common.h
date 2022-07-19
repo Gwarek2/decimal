@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "decimal_type.h"
+#include "../decimal_type.h"
 
 #define SCALE_SHIFT 16
 #define SIGN_SHIFT 31
