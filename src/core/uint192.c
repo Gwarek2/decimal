@@ -192,3 +192,19 @@ void bank_rounding_uint192(uint192 value, uint192 *result) {
         add_uint192(*result, UINT192_ONE, result);
     }
 }
+
+/**********************************************
+ * Removes overflow from value
+ * Returns 1 if overflow remains after rounding
+ * Returns 0 if rounded suscesfully
+**********************************************/
+int round_result(s21_decimal *result, s21_decimal *overflow, int *scale) {
+    uint192 value = {{0}};
+    convert_to_uint192(*overflow, *result, &value);
+    while (*scale && gt_uint192(value, UINT192_DEC_MAX)) {
+        bank_rounding_uint192(value, &value);
+        *scale -= 1;
+    }
+    int is_overflow = convert_to_decimal(value, result);
+    return is_overflow;
+}

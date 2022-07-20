@@ -32,5 +32,6 @@ bool lt_uint192(uint192 value1, uint192 value2);
 bool gt_uint192(uint192 value1, uint192 value2);
 void print_hex_uint192(uint192 value);
 void bank_rounding_uint192(uint192 value, uint192 *result);
+int round_result(s21_decimal *result, s21_decimal *overflow, int *scale);
 
 #endif  // _INT192_H
