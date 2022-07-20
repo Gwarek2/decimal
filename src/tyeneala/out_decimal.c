@@ -1,18 +1,16 @@
-#include <stdio.h>
-#include <string.h>
 #include "dev_decimal.h"
 
 // Функция выводит значение типа decimal
 void out_decimal(s21_decimal dst) {
     char res[30];
     ini_arr(res);
-    
+
     int d = 0;
     for (int i = 0; i < 3; i ++) {
         d = 32 * i;
-        int num = dst.bits[i];
-        if (num < 0)
-            num = -num;
+        unsigned int num = dst.bits[i];
+//        if (num < 0)
+//            num = -num;
         while (num > 0) {
             if ((num & 1) == 1)
                 add_degree(res, d);
@@ -20,27 +18,30 @@ void out_decimal(s21_decimal dst) {
             d++;
         }
     }
-    
+
     int num = dst.bits[3];
-    if (num < 0) {
+    if ((num >> 31) & 1) {
         printf("-");
         num -= SIGN_MASK;
     }
     num >>= 16;
-    
-//    printf("exp = %d\n", num);
+
+//    printf("num = %d\n", num);
     // печать точки или степени 10 (-n)
 //    printf("zero_shift(res) = %d\n", zero_shift(res));
-    int zes = zero_shift(res);
-    if (zes == 29)
-        zes = 28;
+    int zes = 0;
+    if (num == 0)
+        zes = zero_shift(res);
+
+    if ((num == 29) || (zes == 29))
+        printf("0");
+
     for (int i = zes; i < 29; i ++) {
         if (i == (29 - num))
             printf(".");
         printf("%c", res[i]);
     }
     printf("\n");
-
 }
 
 // Функция инициализирует цифрой 0 массив str
@@ -163,7 +164,7 @@ int add_degree(char *str, int d) {
     char tmp[30];
     ini_arr(tmp);
     int shift = 0, i = 28;
-    for (; i > 0; i--) {
+    for (; i >= 0; i--) {
         int val = str[i] + degree[d][i] + shift - 96, ost = 0;
         if (val >= 10) {
             val -= 10;
@@ -172,9 +173,8 @@ int add_degree(char *str, int d) {
         tmp[i] = val + 48;
         shift = ost;
     }
+//    printf("shift = %d\n", shift);
     if (shift != 1)
         strcpy(str, tmp);
     return shift;
 }
-
-
