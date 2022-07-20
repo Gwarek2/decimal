@@ -20,7 +20,7 @@ unsigned int setBit(int number, int index) {
     return number | (1 << index);
 }
 
-int my_print(s21_decimal value) {
+void my_print(s21_decimal value) {
     for (int i = 3; i > -1; i--) {
             for (int n = 31; n > -1; n--) {
             printf("%d", isSetBit(value.bits[i], n));
@@ -30,7 +30,7 @@ int my_print(s21_decimal value) {
     printf("\n");
 }
 
-int my_print_192(uint192 value) {
+void my_print_192(uint192 value) {
     for (int i = 5; i > -1; i--) {
             for (int n = 31; n > -1; n--) {
             printf("%d", isSetBit(value.bits[i], n));
@@ -639,47 +639,61 @@ int round_result_192(uint192 *value, s21_decimal *result, int *scale) {
 
 
 
+// int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+//     int other_scale = get_scale(value_1) - get_scale(value_2);
+//     if (other_scale != 0) {
+//         printf("ok\n");
+//         s21_decimal overflow = {0};
+//         alignment_scale(&value_1, &value_2, &overflow); // переполнение при выравнивании
+//         if (!is_zero(overflow)) {
+//             uint192 with_overflow = {0};
+//             s21_decimal not_owerflov = other_scale > 0 ? value_1 : value_2;
+//             convert_to_uint192(overflow, not_owerflov, &with_overflow);
+//             uint192 without_overflow = {0};
+//             convert_to_uint192(DEC_ZERO, not_owerflov, &without_overflow);
+//             uint192 result_add_192 = {0};
+//             add_uint192(with_overflow, without_overflow, &result_add_192);
+//             convert_to_decimal(result_add_192, result);
+//         }  else {
+//             printf("Ok");
+//             base_addition(value_1, value_2, result);
+//         }
+//     } else {
+//         base_addition(value_1, value_2, result);
+//     }
+
+//     return 0;
+// }
+
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    int other_scale = get_scale(value_1) - get_scale(value_2);
-    if (other_scale != 0) {
-        printf("ok\n");
-        s21_decimal overflow = {0};
-        alignment_scale(&value_1, &value_2, &overflow);
-        if (!is_zero(overflow)) {
-            uint192 with_overflow = {0};
-            s21_decimal not_owerflov = other_scale > 0 ? value_1 : value_2;
-            convert_to_uint192(overflow, not_owerflov, &with_overflow);
-            uint192 without_overflow = {0};
-            convert_to_uint192(DEC_ZERO, not_owerflov, &without_overflow);
-            uint192 result_add_192 = {0};
-            add_uint192(with_overflow, without_overflow, &result_add_192);
-            convert_to_decimal(result_add_192, result);
-        }  else {
-            printf("Ok");
-            base_addition(value_1, value_2, result);
-        }
-    } 
+    int other_scale = get_scale(value_1) - get_scale(value_2); // разница степеней
+    s21_decimal overflow = {0};
+    uint192 with_overflow = {0};
+    uint192 without_overflow = {0};
+    uint192 result_add_192 = {0};
+    int result_function = DEC_HUGE;
 
-
-
-    return 0;
+    alignment_scale(&value_1, &value_2, &overflow); // вырвнивание степеней и запись переполнения
+    convert_to_uint192(overflow, other_scale >= 0 ? value_2 : value_1, &with_overflow); // конвертация числа с переполнением в 192бит
+    convert_to_uint192(DEC_ZERO, other_scale < 0 ? value_1 : value_2, &without_overflow); // конвертация числа без переполнения в 192 бит    
+    
+    if (add_uint192(with_overflow, without_overflow, &result_add_192) == 0) { // сложение в 192 бит
+        int scale = get_scale(value_1);
+        result_function = round_result_192(&result_add_192, result, &scale); // удаление переполнениия из значения
+        set_scale(result, scale);
+    }
+    return result_function;
 }
 
 
 
 int main() {
     unsigned int maxInt = 4294967295;
-    s21_decimal a = {maxInt, maxInt, maxInt, 0};
-    s21_decimal b = {maxInt, maxInt, 0, 0};
-    s21_decimal result = {0};
-    uint192 bit_192 = {maxInt,maxInt, 0, 0, 0, 0};
-    int scale = 28;
+    s21_decimal a = {{maxInt, maxInt, maxInt, 0}};
+    s21_decimal b = {{maxInt, maxInt, 0, 0}};
+    set_scale(&a, 10);
+    s21_decimal result = {{0}};
     s21_add(a, b, &result);
-    // printf("%d\n", scale);
-    // my_print_192(bit_192);
-    // round_result_192(&bit_192, &result, &scale);
-    // my_print_192(bit_192);
-    // printf("%d\n", scale);
     my_print(result);
 
 
