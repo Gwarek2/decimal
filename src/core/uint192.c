@@ -71,25 +71,9 @@ void left_shift_uint192(uint192 value, size_t n, uint192 *result) {
     *result = value;
     for (size_t i = 0; i < n; i++) {
         unsigned bits[5] = {0};
-        for (size_t j = 31; j < 192; j += 32) bits[j / 32] = get_bit_uint192(*result, j);
+        for (size_t j = 31; j < 191; j += 32) bits[j / 32] = get_bit_uint192(*result, j);
         for (size_t j = 0; j < 6; j++) result->bits[j] <<= 1;
         for (size_t j = 32; j < 192; j += 32) set_bit_uint192(result, bits[j / 32 - 1], j);
-        // int bit1 = get_bit_uint192(*result, 31);
-        // int bit2 = get_bit_uint192(*result, 63);
-        // int bit3 = get_bit_uint192(*result, 95);
-        // int bit4 = get_bit_uint192(*result, 127);
-        // int bit5 = get_bit_uint192(*result, 159);
-        // result->bits[0] <<= 1;
-        // result->bits[1] <<= 1;
-        // result->bits[2] <<= 1;
-        // result->bits[3] <<= 1;
-        // result->bits[4] <<= 1;
-        // result->bits[5] <<= 1;
-        // set_bit_uint192(result, 32, bit1);
-        // set_bit_uint192(result, 64, bit2);
-        // set_bit_uint192(result, 96, bit3);
-        // set_bit_uint192(result, 128, bit4);
-        // set_bit_uint192(result, 160, bit5);
     }
 }
 
