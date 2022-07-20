@@ -63,7 +63,9 @@ SRCS       := $(addprefix core/,common.c \
                                 decimal_level.c) \
               $(addprefix arithmetics/,s21_negate.c) \
               $(addprefix conversion/,s21_from_int_to_decimal.c \
-                                      s21_from_decimal_to_int.c)
+                                      s21_from_decimal_to_int.c \
+                                      s21_from_decimal_to_float.c \
+                                      s21_from_float_to_decimal.c)
 CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             bits_lt_suite.c \
                                             base_addition_suite.c \
@@ -73,7 +75,8 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             remove_trailing_zeros_suite.c)
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c)
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
-                                                         s21_from_decimal_to_int_suite.c)
+                                                         s21_from_decimal_to_int_suite.c \
+                                                         s21_float_decimal_float_suite.c)
 TESTS      := $(TESTS_DIR)test_main.c \
               $(CORE_TESTS) \
               $(ARITHMETICS_TESTS) \

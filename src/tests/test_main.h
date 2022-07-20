@@ -31,5 +31,6 @@ Suite *s21_negate_suite();
 // Conversion
 Suite *s21_from_int_to_decimal_suite();
 Suite *s21_from_decimal_to_int_suite();
+Suite *s21_float_decimal_float_suite();
 
 #endif  // _TEST_MAIN_H
