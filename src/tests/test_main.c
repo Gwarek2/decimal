@@ -39,6 +39,11 @@ int main(void) {
         s21_from_decimal_to_int_suite(),
         s21_from_int_to_decimal_suite(),
         #endif
+        #if defined(TEST_ROUNDING) || defined(TEST_ALL)
+        s21_floor_suite(),
+        s21_round_suite(),
+        s21_truncate_suite(),
+        #endif
     };
 
     SRunner *sr = srunner_create(test_suites[0]);
