@@ -102,6 +102,26 @@ int add_uint192(uint192 value1, uint192 value2, uint192 *result) {
     return carrial;
 }
 
+/*******************************
+ * Multiplies two uint192 values
+*******************************/
+void mul_uint192(uint192 value1, uint192 value2, uint192 *result) {
+    for (size_t i = 0; i < 6; i++) {
+        uint32_t mul_carrial = 0;
+        uint32_t add_carrial = 0;
+        for (size_t j = 0; j + i < 6; j++) {
+            uint64_t r = (uint64_t) value1.bits[i] *
+                         (uint64_t) value2.bits[j] +
+                                       mul_carrial +
+                                       add_carrial;
+            mul_carrial = r >> 32;
+            r = (r & 0xFFFFFFFF) + result->bits[j + i];
+            add_carrial = r >> 32;
+            result->bits[i + j] = r;
+        }
+    }
+}
+
 /*********************************************************************
  * Divides value1 by value2 and writes result and remainder to buffers
 *********************************************************************/

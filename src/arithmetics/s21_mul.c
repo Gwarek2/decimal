@@ -1,8 +1,6 @@
 #include "decimal_level.h"
 #include "uint192.h"
 
-int round_result(s21_decimal *result, s21_decimal *overflow, int *scale);
-
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int res_sign = get_sign(value_1) ^ get_sign(value_2);
     int res_scale = get_scale(value_1) + get_scale(value_2);

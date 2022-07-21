@@ -29,6 +29,7 @@ int main(void) {
         base_bank_rounding_suite(),
         uint192_add_suite(),
         uint192_division_suite(),
+        uint192_mul_suite(),
         bank_rounding_uint192_suite(),
         #endif
         #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
