@@ -64,7 +64,9 @@ SRCS       := $(addprefix core/,common.c \
                                 uint192.c \
                                 decimal_level.c) \
               $(addprefix arithmetics/,s21_negate.c \
-                                       s21_mul.c) \
+                                       s21_mul.c \
+                                       s21_add.c \
+                                       s21_sub.c) \
               $(addprefix conversion/,s21_from_int_to_decimal.c \
                                       s21_from_decimal_to_int.c) \
               $(addprefix rounding/,s21_floor.c \
@@ -81,11 +83,11 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             uint192_division_suite.c \
                                             uint192_add_suite.c \
                                             uint192_bank_rounding_suite.c \
-                                            base_bank_rounding_suite.c \
-                                            s21_add_suite.c \
-                                            s21_sub_suite.c)
+                                            base_bank_rounding_suite.c )
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
-                                                          s21_mul_suite.c)
+                                                           s21_mul_suite.c \
+                                                           s21_add_suite.c \
+                                                           s21_sub_suite.c)
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
                                                          s21_from_decimal_to_int_suite.c)
 ROUNDING_TESTS    := $(addprefix $(TESTS_DIR)rounding/,s21_floor_suite.c \
