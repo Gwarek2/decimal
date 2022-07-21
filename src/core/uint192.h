@@ -8,7 +8,7 @@
 
 #include <stdbool.h>
 
-#include "../decimal_type.h"
+#include "decimal_type.h"
 
 
 typedef struct {
@@ -33,5 +33,6 @@ bool gt_uint192(uint192 value1, uint192 value2);
 void print_hex_uint192(uint192 value);
 void bank_rounding_uint192(uint192 value, uint192 *result);
 int round_result(s21_decimal *result, s21_decimal *overflow, int *scale);
+int round_result_192(uint192 *value, s21_decimal *result, int *scale);
 
 #endif  // _INT192_H

@@ -1,7 +1,7 @@
 #include "test_main.h"
 
-const unsigned max32bit = 4294967295;
-const unsigned maxScale = 1835008;
+// const unsigned max32bit = 4294967295;
+// const unsigned maxScale = 1835008;
 
 START_TEST(test_32_bits_1) {
     s21_decimal result = {{555000, 0, 0, maxScale}};

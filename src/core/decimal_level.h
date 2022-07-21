@@ -4,7 +4,7 @@
 #include <limits.h>
 #include <stdbool.h>
 
-#include "../decimal_type.h"
+#include "decimal_type.h"
 
 #define MASK_32 0xFFFFFFFFl
 
@@ -15,6 +15,8 @@ static const s21_decimal DEC_TEN = {{10, 0, 0, 0}};
 static const s21_decimal DEC_MAX = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0}};
 static const s21_decimal DEC_INT_MAX = {{INT_MAX, 0, 0, 0}};
 static const s21_decimal DEC_INT_MIN = {{INT_MIN, 0, 0, 1}};
+static const unsigned int max32bit = 4294967295;
+static const unsigned int maxScale = 1835008;
 
 static const unsigned b_zero[3] = {0};
 
@@ -68,5 +70,6 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
 int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow);
 void base_bank_rounding(s21_decimal value, s21_decimal *result);
 void round_overflowed_decimal(s21_decimal value, s21_decimal overflow, s21_decimal *result, int scale);
+int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 #endif  // _DECIMAL_LEVEL_H

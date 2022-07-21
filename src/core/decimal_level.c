@@ -2,6 +2,7 @@
 #include "binary_level.h"
 #include "common.h"
 #include "decimal_level.h"
+#include "uint192.h"
 
 unsigned get_scale(s21_decimal value) {
     unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xff;
@@ -230,7 +231,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     uint192 result_192 = {0};
     int sign_value_1 = get_sign(value_1);
     int sign_value_2 = get_sign(value_2);
-    int result_function = DEC_HUGE;
     uint192 value_1_192 = {0};
     uint192 value_2_192 = {0};
 
@@ -249,7 +249,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
            sub_uint192(value_2_192, value_1_192, &result_192);
         }
     } else if(!sign_value_1 && sign_value_2) {
-        if (gt_uint192(value_1_192, value_2_192)) {
+        if (gt_uint192(value_1_192, value_2_192) || eq_uint192(value_1_192, value_2_192)) {
         sub_uint192(value_1_192, value_2_192, &result_192);
         } else {
             sub_uint192(value_2_192, value_1_192, &result_192);
@@ -260,7 +260,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
 
     int scale = get_scale(value_1);
-    result_function = round_result_192(&result_192, result, &scale); // удаление переполнениия из значения
+    int result_function = round_result_192(&result_192, result, &scale); // удаление переполнениия из значения
     set_scale(result, scale);
     return result_function;
 }

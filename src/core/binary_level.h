@@ -1,7 +1,7 @@
 #ifndef _BINARY_LEVEL_H
 #define _BINARY_LEVEL_H
 
-#include "../decimal_type.h"
+#include "decimal_type.h"
 
 int get_bit(s21_decimal value, int n);
 void set_bit(s21_decimal *value, int n, int bit);
