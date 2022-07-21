@@ -68,7 +68,7 @@ int last_bit_uint192(uint192 value) {
  * Shifts value to left n times
 ******************************/
 void left_shift_uint192(uint192 value, size_t n, uint192 *result) {
-    *result = value;
+    init_default_uint192(result);
     for (size_t i = 0; i < n; i++) {
         unsigned bits[5] = {0};
         for (size_t j = 31; j < 191; j += 32) bits[j / 32] = get_bit_uint192(*result, j);
@@ -105,7 +105,9 @@ int add_uint192(uint192 value1, uint192 value2, uint192 *result) {
 /*******************************
  * Multiplies two uint192 values
 *******************************/
-void mul_uint192(uint192 value1, uint192 value2, uint192 *result) {
+bool mul_uint192(uint192 value1, uint192 value2, uint192 *result) {
+    bool overflow = 0;
+    *result = {{0}};
     for (size_t i = 0; i < 6; i++) {
         uint32_t mul_carrial = 0;
         uint32_t add_carrial = 0;
@@ -119,7 +121,9 @@ void mul_uint192(uint192 value1, uint192 value2, uint192 *result) {
             add_carrial = r >> 32;
             result->bits[i + j] = r;
         }
+        overflow = mul_carrial || add_carrial;
     }
+    return overflow;
 }
 
 /*********************************************************************
