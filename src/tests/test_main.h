@@ -34,6 +34,7 @@ Suite *uint192_add_suite();
 Suite *uint192_division_suite();
 Suite *bank_rounding_uint192_suite();
 Suite *s21_add_suite();
+Suite *s21_sub_suite();
 
 // Arithmetics
 Suite *s21_mul_suite();

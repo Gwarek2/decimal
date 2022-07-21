@@ -71,5 +71,6 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *ove
 void base_bank_rounding(s21_decimal value, s21_decimal *result);
 void round_overflowed_decimal(s21_decimal value, s21_decimal overflow, s21_decimal *result, int scale);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 #endif  // _DECIMAL_LEVEL_H
