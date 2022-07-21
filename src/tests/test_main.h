@@ -47,6 +47,7 @@ Suite *uint192_mul_suite();
 
 // Arithmetics
 Suite *s21_mul_suite();
+Suite *s21_div_suite();
 Suite *s21_negate_suite();
 
 // Conversion

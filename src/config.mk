@@ -85,7 +85,8 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             uint192_mul_suite.c \
                                             base_bank_rounding_suite.c)
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
-                                                          s21_mul_suite.c)
+                                                          s21_mul_suite.c \
+                                                          s21_div_suite.c)
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
                                                          s21_from_decimal_to_int_suite.c)
 ROUNDING_TESTS    := $(addprefix $(TESTS_DIR)rounding/,s21_floor_suite.c \
@@ -99,6 +100,7 @@ TESTS      := $(TESTS_DIR)test_main.c \
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
+# Directives define which module or modules to test
 ifdef TEST_CORE
 	TEST_MODULE += TEST_CORE
 endif

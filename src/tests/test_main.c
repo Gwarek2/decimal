@@ -34,6 +34,7 @@ int main(void) {
         #endif
         #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
         s21_mul_suite(),
+        s21_div_suite(),
         s21_negate_suite(),
         #endif
         #if defined(TEST_CONVERSION) || defined(TEST_ALL)
