@@ -64,7 +64,8 @@ SRCS       := $(addprefix core/,common.c \
                                 uint192.c \
                                 decimal_level.c) \
               $(addprefix arithmetics/,s21_negate.c \
-                                       s21_mul.c) \
+                                       s21_mul.c \
+                                       s21_div.c) \
               $(addprefix conversion/,s21_from_int_to_decimal.c \
                                       s21_from_decimal_to_int.c) \
               $(addprefix rounding/,s21_floor.c \
