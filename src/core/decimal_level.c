@@ -217,6 +217,5 @@ void base_bank_rounding(s21_decimal value, s21_decimal *result) {
     if (bits_gt(first_digit, DEC_FIVE) || (bits_eq(first_digit, DEC_FIVE) && get_bit(*result, 0))) {
         base_addition(*result, DEC_ONE, result);
     }
-
 }
 
