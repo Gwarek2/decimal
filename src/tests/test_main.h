@@ -22,12 +22,12 @@ void assert_uint192_eq(uint192 result, uint192 expected);
 
 #define ASSERT_DECIMAL_EQ for (size_t i = 0; i < 4; i++) { \
                               ck_assert_msg(result.bits[i] == expected.bits[i], \
-                                            "[%zu] %#x != %x", i, result.bits[i], expected.bits[i]); \
+                                            "[%zu] %#x != %#x", i, result.bits[i], expected.bits[i]); \
                           }
 
 #define ASSERT_UINT192_EQ for (size_t i = 0; i < 6; i++) { \
                               ck_assert_msg(result.bits[i] == expected.bits[i], \
-                                            "[%zu] %#x != %x", i, result.bits[i], expected.bits[i]); \
+                                            "[%zu] %#x != %#x", i, result.bits[i], expected.bits[i]); \
                           }
 
 // Core

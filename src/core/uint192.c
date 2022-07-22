@@ -209,7 +209,7 @@ void bank_rounding_uint192(uint192 value, uint192 *result) {
  * Returns 0 if rounded suscesfully
 **********************************************/
 int round_result(uint192 value, s21_decimal *result, int *scale) {
-    while ((*scale  && gt_uint192(value, UINT192_DEC_MAX)) || *scale > 28) {
+    while (*scale  && (gt_uint192(value, UINT192_DEC_MAX) || *scale > 28)) {
         bank_rounding_uint192(value, &value);
         *scale -= 1;
     }
