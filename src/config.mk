@@ -27,9 +27,9 @@ ALL_C      := $(shell find . -name "*.c")
 
 # Dynamic memory check tool
 ifeq ($(KERN),Darwin)
-	MEM_TOOL := leaks -atExit --
+	MEM_TOOL := NO_FORK=1 leaks -atExit --
 else
-	MEM_TOOL := valgrind --leak-check=full \
+	MEM_TOOL := NO_FORK=1 valgrind --leak-check=full \
                          --show-leak-kinds=all \
                          -q
 endif
@@ -51,7 +51,7 @@ SRCS_DIRS     := core/ \
                  arithmetics/ \
                  comparison/ \
                  conversion/ \
-				 rounding/
+                 rounding/
 TESTS_DIR     := tests/
 COV_DIR       := coverage_info/
 OBJ_DIRS      := $(addprefix obj/,$(SRCS_DIRS))
@@ -66,7 +66,8 @@ SRCS       := $(addprefix core/,common.c \
               $(addprefix arithmetics/,s21_negate.c \
                                        s21_mul.c \
                                        s21_add.c \
-                                       s21_sub.c) \
+                                       s21_sub.c \
+                                       s21_div.c) \
               $(addprefix conversion/,s21_from_int_to_decimal.c \
                                       s21_from_decimal_to_int.c) \
               $(addprefix rounding/,s21_floor.c \
@@ -83,11 +84,13 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             uint192_division_suite.c \
                                             uint192_add_suite.c \
                                             uint192_bank_rounding_suite.c \
-                                            base_bank_rounding_suite.c )
+                                            uint192_mul_suite.c \
+                                            base_bank_rounding_suite.c)
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
-                                                           s21_mul_suite.c \
-                                                           s21_add_suite.c \
-                                                           s21_sub_suite.c)
+                                                          s21_mul_suite.c \
+                                                          s21_div_suite.c \
+                                                          s21_add_suite.c \
+                                                          s21_sub_suite.c)
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
                                                          s21_from_decimal_to_int_suite.c)
 ROUNDING_TESTS    := $(addprefix $(TESTS_DIR)rounding/,s21_floor_suite.c \
@@ -101,6 +104,7 @@ TESTS      := $(TESTS_DIR)test_main.c \
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
+# Directives define which module or modules to test
 ifdef TEST_CORE
 	TEST_MODULE += TEST_CORE
 endif

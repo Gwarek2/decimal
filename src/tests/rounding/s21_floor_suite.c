@@ -5,7 +5,7 @@ START_TEST(test_zero) {
     s21_decimal expected = {{0, 0, 0, init_sign_and_scale(0, 0)}};
     s21_decimal result = {{0}};
     s21_floor(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 
@@ -22,7 +22,7 @@ START_TEST(test_32_bit_2) {
     s21_decimal expected = {{57296, 0, 0, init_sign_and_scale(0, 0)}};
     s21_decimal result = {{0}};
     s21_floor(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 /*********************
@@ -34,7 +34,7 @@ START_TEST(test_64_bit_1) {
     s21_decimal expected = {{0x1a268849, 0, 0, init_sign_and_scale(1, 0)}};
     s21_decimal result = {{0}};
     s21_floor(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 
@@ -47,7 +47,7 @@ START_TEST(test_64_bit_2) {
     s21_decimal expected = {{0x5A9F2BA, 0x2, 0, init_sign_and_scale(0, 0)}};
     s21_decimal result = {{0}};
     s21_floor(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 /********************************
@@ -59,7 +59,7 @@ START_TEST(test_96_bits_1) {
     s21_decimal expected = {{8, 0, 0, init_sign_and_scale(1, 0)}};
     s21_decimal result = {{0}};
     s21_floor(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 Suite *s21_floor_suite() {

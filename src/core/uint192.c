@@ -68,7 +68,7 @@ int last_bit_uint192(uint192 value) {
  * Shifts value to left n times
 ******************************/
 void left_shift_uint192(uint192 value, size_t n, uint192 *result) {
-    *result = value;
+    copy_uint192(result, value);
     for (size_t i = 0; i < n; i++) {
         unsigned bits[5] = {0};
         for (size_t j = 31; j < 191; j += 32) bits[j / 32] = get_bit_uint192(*result, j);
@@ -101,11 +101,36 @@ int add_uint192(uint192 value1, uint192 value2, uint192 *result) {
     return carrial;
 }
 
+/*******************************
+ * Multiplies two uint192 values
+*******************************/
+bool mul_uint192(uint192 value1, uint192 value2, uint192 *result) {
+    bool overflow = 0;
+    init_default_uint192(result);
+    for (size_t i = 0; i < 6; i++) {
+        uint32_t mul_carrial = 0;
+        uint32_t add_carrial = 0;
+        for (size_t j = 0; j + i < 6; j++) {
+            uint64_t r = (uint64_t) value1.bits[i] *
+                         (uint64_t) value2.bits[j] +
+                                       mul_carrial +
+                                       add_carrial;
+            mul_carrial = r >> 32;
+            r = (r & 0xFFFFFFFF) + result->bits[j + i];
+            add_carrial = r >> 32;
+            result->bits[i + j] = r;
+        }
+        overflow = mul_carrial || add_carrial;
+    }
+    return overflow;
+}
+
 /*********************************************************************
  * Divides value1 by value2 and writes result and remainder to buffers
 *********************************************************************/
 void divide_uint192(uint192 value1, uint192 value2, uint192 *result, uint192 *remainder) {
     *remainder = value1;
+    init_default_uint192(result);
     for (int i = last_bit_uint192(value1) - last_bit_uint192(value2); i >= 0; i--) {
         uint192 tmp1, tmp2;
         left_shift_uint192(value2, i, &tmp1);
@@ -182,10 +207,8 @@ void bank_rounding_uint192(uint192 value, uint192 *result) {
  * Returns 1 if overflow remains after rounding
  * Returns 0 if rounded suscesfully
 **********************************************/
-int round_result(s21_decimal *result, s21_decimal *overflow, int *scale) {
-    uint192 value = {{0}};
-    convert_to_uint192(*overflow, *result, &value);
-    while (*scale && gt_uint192(value, UINT192_DEC_MAX)) {
+int round_result(uint192 value, s21_decimal *result, int *scale) {
+    while (*scale  && (gt_uint192(value, UINT192_DEC_MAX) || *scale > 28)) {
         bank_rounding_uint192(value, &value);
         *scale -= 1;
     }

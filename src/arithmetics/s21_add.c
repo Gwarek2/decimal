@@ -20,26 +20,28 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (sign_value_1 && sign_value_2) { // в случае отрицательных значений
         add_uint192(value_1_192, value_2_192, &result_192);
         set_sign(result, 1);
-    } else if (sign_value_1 && !sign_value_2) { // первое число отрицательное
-        if (gt_uint192(value_1_192, value_2_192)) { // если value_1 > value_2
+    } else if (sign_value_1 && !sign_value_2) {
+        if (gt_uint192(value_1_192, value_2_192)) {
             sub_uint192(value_1_192, value_2_192, &result_192);
             set_sign(result, 1);
         } else {
            sub_uint192(value_2_192, value_1_192, &result_192);
         }
-    } else if (!sign_value_1 && sign_value_2) { // второе число отрицательное
-        if (gt_uint192(value_2_192, value_1_192)) { // если value_2 > value_1
-        sub_uint192(value_2_192, value_1_192, &result_192);
-        set_sign(result, 1);
+    } else if(!sign_value_1 && sign_value_2) {
+        if (gt_uint192(value_1_192, value_2_192) || eq_uint192(value_1_192, value_2_192)) {
+        sub_uint192(value_1_192, value_2_192, &result_192);
         } else {
-            sub_uint192(value_1_192, value_2_192, &result_192);
+            sub_uint192(value_2_192, value_1_192, &result_192);
+            set_sign(result, 1);
         }
     } else if (!sign_value_1 && !sign_value_2) { //  в случае положительных
         add_uint192(value_1_192, value_2_192, &result_192);
     }
 
     int scale = get_scale(value_1);
-    int result_function = round_result_192(&result_192, result, &scale); // удаление переполнениия из значения
+    int result_function = round_result(result_192, result, &scale); // удаление переполнениия из значения
     set_scale(result, scale);
-    return result_function;
+    int op_status = result_function && get_sign(*result) ? DEC_SMALL : result_function;
+    if (op_status) set_sign(result, 0);
+    return op_status;
 }

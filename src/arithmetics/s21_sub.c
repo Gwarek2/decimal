@@ -31,7 +31,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             set_sign(result, 1);
     } else if (!sign_value_1 && sign_value_2) { // второе число отрицательное
         add_uint192(value_1_192, value_2_192, &result_192);
-    }else if (!sign_value_1 && !sign_value_2) { // оба числа положительные
+    } else if (!sign_value_1 && !sign_value_2) { // оба числа положительные
         if (gt_uint192(value_2_192, value_1_192)) { // если value_2 > value_1
         sub_uint192(value_2_192, value_1_192, &result_192);
         set_sign(result, 1);
@@ -41,7 +41,9 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
 
     int scale = get_scale(value_1);
-    int result_function = round_result_192(&result_192, result, &scale); // удаление переполнениия из значения
+    int result_function = round_result(result_192, result, &scale); // удаление переполнениия из значения
     set_scale(result, scale);
-    return result_function;
+    int op_status = result_function && get_sign(*result) ? DEC_SMALL : result_function;
+    if (op_status) set_sign(result, 0);
+    return op_status;
 }
