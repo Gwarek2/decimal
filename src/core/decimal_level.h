@@ -1,5 +1,5 @@
-#ifndef _DECIMAL_LEVEL_H
-#define _DECIMAL_LEVEL_H
+#ifndef _CORE_DECIMAL_LEVEL_H
+#define _CORE_DECIMAL_LEVEL_H
 
 #include <limits.h>
 #include <stdbool.h>
@@ -17,8 +17,6 @@ static const s21_decimal DEC_INT_MAX = {{INT_MAX, 0, 0, 0}};
 static const s21_decimal DEC_INT_MIN = {{INT_MIN, 0, 0, 1}};
 static const unsigned int max32bit = 4294967295;
 static const unsigned int maxScale = 1835008;
-
-static const unsigned b_zero[3] = {0};
 
 static const s21_decimal ten_power[29] = {
     {{ 0x1, 0, 0}},
@@ -56,14 +54,10 @@ unsigned get_scale(s21_decimal value);
 int set_scale(s21_decimal *value, int scale);
 bool get_sign(s21_decimal value);
 void set_sign(s21_decimal *value, bool negative);
-int increment(s21_decimal *value);
-int multiply_by_ten(s21_decimal value, s21_decimal *result, s21_decimal *overflow);
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *overflow);
-void base_div10(s21_decimal value, s21_decimal *result);
 int base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder);
-void base_fmod(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
@@ -73,4 +67,4 @@ void round_overflowed_decimal(s21_decimal value, s21_decimal overflow, s21_decim
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
-#endif  // _DECIMAL_LEVEL_H
+#endif  // _CORE_DECIMAL_LEVEL_H

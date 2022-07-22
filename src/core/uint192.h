@@ -3,8 +3,8 @@
  * in arithmetic operations with s21_decimal type
 *****************************************************/
 
-#ifndef _UINT192_H
-#define _UINT192_H
+#ifndef _CORE_UINT192_H
+#define _CORE_UINT192_H
 
 #include <stdbool.h>
 
@@ -36,5 +36,4 @@ void print_hex_uint192(uint192 value);
 void bank_rounding_uint192(uint192 value, uint192 *result);
 int round_result(uint192 value, s21_decimal *result, int *scale);
 
-
-#endif  // _INT192_H
+#endif  // _CORE_UINT192_H
