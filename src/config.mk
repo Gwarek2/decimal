@@ -51,7 +51,7 @@ SRCS_DIRS     := core/ \
                  arithmetics/ \
                  comparison/ \
                  conversion/ \
-				 rounding/
+                 rounding/
 TESTS_DIR     := tests/
 COV_DIR       := coverage_info/
 OBJ_DIRS      := $(addprefix obj/,$(SRCS_DIRS))
@@ -65,6 +65,8 @@ SRCS       := $(addprefix core/,common.c \
                                 decimal_level.c) \
               $(addprefix arithmetics/,s21_negate.c \
                                        s21_mul.c \
+                                       s21_add.c \
+                                       s21_sub.c \
                                        s21_div.c) \
               $(addprefix conversion/,s21_from_int_to_decimal.c \
                                       s21_from_decimal_to_int.c) \
@@ -86,7 +88,9 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             base_bank_rounding_suite.c)
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
                                                           s21_mul_suite.c \
-                                                          s21_div_suite.c)
+                                                          s21_div_suite.c \
+                                                          s21_add_suite.c \
+                                                          s21_sub_suite.c)
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
                                                          s21_from_decimal_to_int_suite.c)
 ROUNDING_TESTS    := $(addprefix $(TESTS_DIR)rounding/,s21_floor_suite.c \

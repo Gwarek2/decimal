@@ -2,6 +2,7 @@
 #include "binary_level.h"
 #include "common.h"
 #include "decimal_level.h"
+#include "uint192.h"
 
 unsigned get_scale(s21_decimal value) {
     unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xff;

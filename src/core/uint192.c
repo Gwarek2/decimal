@@ -94,8 +94,7 @@ void sub_uint192(uint192 value1, uint192 value2, uint192 *result) {
 int add_uint192(uint192 value1, uint192 value2, uint192 *result) {
     int carrial = 0;
     for (size_t i = 0; i < 6; i++) {
-        uint64_t r = (uint64_t) value1.bits[i] +
-                     (uint64_t) value2.bits[i] + carrial;
+        uint64_t r = (uint64_t) value1.bits[i] + (uint64_t) value2.bits[i] + carrial;
         carrial = r >> 32;
         result->bits[i] = r;
     }
@@ -214,5 +213,19 @@ int round_result(uint192 value, s21_decimal *result, int *scale) {
         *scale -= 1;
     }
     int is_overflow = convert_to_decimal(value, result);
+    return is_overflow;
+}
+
+/**********************************************
+ * Removes overflow from value
+ * Returns 1 if overflow remains after rounding
+ * Returns 0 if rounded suscesfully
+**********************************************/
+int round_result_192(uint192 *value, s21_decimal *result, int *scale) {
+    while (*scale && gt_uint192(*value, UINT192_DEC_MAX)) {
+        bank_rounding_uint192(*value, value);
+        *scale -= 1;
+    }
+    int is_overflow = convert_to_decimal(*value, result);
     return is_overflow;
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "binary_level.h"
-
+#include "decimal_type.h"
 /************************************
  * Gets nth bit
  * Works correctly with 0 >= n <= 127

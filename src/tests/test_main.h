@@ -48,6 +48,9 @@ Suite *uint192_mul_suite();
 Suite *s21_mul_suite();
 Suite *s21_div_suite();
 Suite *s21_negate_suite();
+Suite *s21_add_suite();
+Suite *s21_sub_suite();
+
 
 // Conversion
 Suite *s21_from_int_to_decimal_suite();
