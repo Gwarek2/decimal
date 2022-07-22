@@ -17,18 +17,16 @@ START_TEST(test_32_bit_1) {
     ASSERT_DECIMAL_EQ
 } END_TEST
 
+// -4.5 => -5
 START_TEST(test_32_bit_2) {
     s21_decimal input = {{45, 0, 0, init_sign_and_scale(0, 1)}};
-    s21_decimal expected = {{4, 0, 0, 0}};
+    s21_decimal expected = {{5, 0, 0, 0}};
     s21_decimal result = {{0}};
     s21_round(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST
 
-/*********************
- * -438732872.43743877
- * -438732872
-*********************/
+// -438732872.43743877 =>-438732872
 START_TEST(test_64_bit_1) {
     s21_decimal input = {{0xb54ac285, 0x9bde85, 0, init_sign_and_scale(1, 8)}};
     s21_decimal expected = {{0x1a268848, 0, 0, init_sign_and_scale(1, 0)}};
@@ -38,10 +36,7 @@ START_TEST(test_64_bit_1) {
 } END_TEST
 
 
-/*********************
- * 8684958394.00000000
- * 8684958394
-*********************/
+// 8684958394.00000000 => 8684958394
 START_TEST(test_64_bit_2) {
     s21_decimal input = {{0x4C577A00, 0xC0D845D, 0, init_sign_and_scale(0, 8)}};
     s21_decimal expected = {{0x5A9F2BA, 0x2, 0, init_sign_and_scale(0, 0)}};
@@ -50,10 +45,7 @@ START_TEST(test_64_bit_2) {
     ASSERT_DECIMAL_EQ
 } END_TEST
 
-/********************************
- * -7.9228162514264337593543950335
- * -8
- *******************************/
+// -7.9228162514264337593543950335 => -8
 START_TEST(test_96_bits_1) {
     s21_decimal input = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, init_sign_and_scale(1, 28)}};
     s21_decimal expected = {{8, 0, 0, init_sign_and_scale(1, 0)}};
