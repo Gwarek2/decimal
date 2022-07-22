@@ -20,27 +20,21 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (sign_value_1 && sign_value_2) { // в случае отрицательных значений
         add_uint192(value_1_192, value_2_192, &result_192);
         set_sign(result, 1);
-    }
-    
-    if (sign_value_1 && !sign_value_2) { // первое число отрицательное
+    } else if (sign_value_1 && !sign_value_2) { // первое число отрицательное
         if (gt_uint192(value_1_192, value_2_192)) { // если value_1 > value_2
             sub_uint192(value_1_192, value_2_192, &result_192);
             set_sign(result, 1);
         } else {
            sub_uint192(value_2_192, value_1_192, &result_192);
         }
-    }
-    
-    if (!sign_value_1 && sign_value_2) { // второе число отрицательное
+    } else if (!sign_value_1 && sign_value_2) { // второе число отрицательное
         if (gt_uint192(value_2_192, value_1_192)) { // если value_2 > value_1
         sub_uint192(value_2_192, value_1_192, &result_192);
         set_sign(result, 1);
         } else {
             sub_uint192(value_1_192, value_2_192, &result_192);
         }
-    } 
-    
-    if (!sign_value_1 && !sign_value_2) { //  в случае положительных
+    } else if (!sign_value_1 && !sign_value_2) { //  в случае положительных
         add_uint192(value_1_192, value_2_192, &result_192);
     }
 
