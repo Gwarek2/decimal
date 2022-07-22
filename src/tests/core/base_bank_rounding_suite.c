@@ -5,7 +5,7 @@ START_TEST(test_gt_five) {
     s21_decimal expected = {{0x650caac2, 0x59, 0, 0}};
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 START_TEST(test_lt_five) {
@@ -13,7 +13,7 @@ START_TEST(test_lt_five) {
     s21_decimal expected = {{0x6cb2ab80, 0xfb, 0, 0}};
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 START_TEST(test_eq_five_even_end) {
@@ -21,7 +21,7 @@ START_TEST(test_eq_five_even_end) {
     s21_decimal expected = {{0xb5299380, 0x112, 0, 0}};
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 START_TEST(test_eq_five_odd_end) {
@@ -29,7 +29,7 @@ START_TEST(test_eq_five_odd_end) {
     s21_decimal expected = {{0x7882a1b8, 0x1b, 0, 0}};
     s21_decimal result = {{0}};
     base_bank_rounding(input, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 } END_TEST
 
 Suite *base_bank_rounding_suite() {

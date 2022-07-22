@@ -5,7 +5,7 @@ START_TEST(test_gt_five) {
     uint192 expected = {{0x650caac2, 0x59}};
     uint192 result = {{0}};
     bank_rounding_uint192(input, &result);
-    assert_uint192_eq(result, expected);
+    ASSERT_UINT192_EQ
 } END_TEST
 
 START_TEST(test_lt_five) {
@@ -13,7 +13,7 @@ START_TEST(test_lt_five) {
     uint192 expected = {{0x6cb2ab80, 0xfb}};
     uint192 result = {{0}};
     bank_rounding_uint192(input, &result);
-    assert_uint192_eq(result, expected);
+    ASSERT_UINT192_EQ
 } END_TEST
 
 START_TEST(test_eq_five_even_end) {
@@ -21,7 +21,7 @@ START_TEST(test_eq_five_even_end) {
     uint192 expected = {{0xb5299380, 0x112}};
     uint192 result = {{0}};
     bank_rounding_uint192(input, &result);
-    assert_uint192_eq(result, expected);
+    ASSERT_UINT192_EQ
 } END_TEST
 
 START_TEST(test_eq_five_odd_end_1) {
@@ -29,7 +29,7 @@ START_TEST(test_eq_five_odd_end_1) {
     uint192 expected = {{0x7882a1b8, 0x1b}};
     uint192 result = {{0}};
     bank_rounding_uint192(input, &result);
-    assert_uint192_eq(result, expected);
+    ASSERT_UINT192_EQ
 } END_TEST
 
 START_TEST(test_eq_five_odd_end_2) {
@@ -37,7 +37,7 @@ START_TEST(test_eq_five_odd_end_2) {
     uint192 result = {{0}};
     uint192 expected = {{0x66666666, 0x66666666, 0xE6666666}};
     bank_rounding_uint192(input, &result);
-    assert_uint192_eq(result, expected);
+    ASSERT_UINT192_EQ
 } END_TEST
 
 Suite *bank_rounding_uint192_suite() {

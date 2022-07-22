@@ -27,15 +27,6 @@ START_TEST(test_neg_max) {
     ck_assert_int_eq(status, 0);
 }
 
-START_TEST(test_null) {
-    s21_decimal input;
-    s21_decimal *result = NULL;
-    init_default(&input);
-
-    int status = s21_negate(input, result);
-    ck_assert_int_eq(status, 1);
-}
-
 START_TEST(test_pos_zero) {
     s21_decimal result, input, expected;
     init_default(&input);
@@ -67,7 +58,6 @@ Suite *s21_negate_suite() {
 
     tcase_add_test(tc, test_pos_max);
     tcase_add_test(tc, test_neg_max);
-    tcase_add_test(tc, test_null);
     tcase_add_test(tc, test_pos_zero);
     tcase_add_test(tc, test_neg_zero);
     suite_add_tcase(s, tc);

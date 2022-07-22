@@ -3,7 +3,7 @@
 START_TEST(test_zero) {
     s21_decimal input = {{0, 0, 0, init_sign_and_scale(0, 15)}};
     s21_decimal expected = {{0}};
-    s21_decimal result = {{0}};
+    s21_decimal result;
     s21_truncate(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST
@@ -12,7 +12,7 @@ START_TEST(test_zero) {
 START_TEST(test_32_bit_1) {
     s21_decimal input = {{362732873, 0, 0, init_sign_and_scale(1, 0)}};
     s21_decimal expected = {{362732873, 0, 0, init_sign_and_scale(1, 0)}};
-    s21_decimal result = {{0}};
+    s21_decimal result;
     s21_truncate(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST
@@ -21,7 +21,7 @@ START_TEST(test_32_bit_1) {
 START_TEST(test_32_bit_2) {
     s21_decimal input = {{572963473, 0, 0, init_sign_and_scale(0, 4)}};
     s21_decimal expected = {{57296, 0, 0, 0}};
-    s21_decimal result = {{0}};
+    s21_decimal result;
     s21_truncate(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST
@@ -30,7 +30,7 @@ START_TEST(test_32_bit_2) {
 START_TEST(test_64_bit_1) {
     s21_decimal input = {{0xb54ac285, 0x9bde85, 0, init_sign_and_scale(1, 8)}};
     s21_decimal expected = {{0x1a268848, 0, 0, init_sign_and_scale(1, 0)}};
-    s21_decimal result = {{0}};
+    s21_decimal result;
     s21_truncate(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST
@@ -40,7 +40,7 @@ START_TEST(test_64_bit_1) {
 START_TEST(test_64_bit_2) {
     s21_decimal input = {{0x4C577A00, 0xC0D845D, 0, init_sign_and_scale(0, 8)}};
     s21_decimal expected = {{0x5A9F2BA, 0x2, 0, init_sign_and_scale(0, 0)}};
-    s21_decimal result = {{0}};
+    s21_decimal result;
     s21_truncate(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST
@@ -49,7 +49,7 @@ START_TEST(test_64_bit_2) {
 START_TEST(test_96_bits_1) {
     s21_decimal input = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, init_sign_and_scale(1, 28)}};
     s21_decimal expected = {{7, 0, 0, init_sign_and_scale(1, 0)}};
-    s21_decimal result = {{0}};
+    s21_decimal result;
     s21_truncate(input, &result);
     ASSERT_DECIMAL_EQ
 } END_TEST

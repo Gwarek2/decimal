@@ -96,7 +96,7 @@ START_TEST(test_96_bits_3) {
     s21_decimal result = {{0}};
     s21_decimal expected = {{0xFFFFFFFF, 0xFFFFFFFF, }};
     base_subtraction(input1, input2, &result);
-    assert_decimal_eq(result, expected);
+    ASSERT_DECIMAL_EQ
 }
 
 Suite *base_subtraction_suite(void) {

@@ -20,8 +20,7 @@ int init_value(s21_decimal *value, const unsigned mantiss[3], bool negative, uns
  * Initializes decimal with zero value
 **/
 void init_default(s21_decimal *value) {
-    unsigned buff[3] = {0};
-    init_value(value, buff, 0, 0);
+    memset(value, 0, sizeof(s21_decimal));
 }
 
 /**

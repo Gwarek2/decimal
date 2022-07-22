@@ -1,5 +1,12 @@
 #include "test_main.h"
 
+void assert_uint192_eq(uint192 result, uint192 expected) {
+    for (size_t i = 0; i < 6; i++) {
+        ck_assert_msg(result.bits[i] == expected.bits[i],
+                      "[%zu] %#x != %#x", i, result.bits[i], expected.bits[i]);
+    }
+}
+
 START_TEST(test_192bit_1) {
     uint192 input1 = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF}};
     uint192 input2 = {{2}};
