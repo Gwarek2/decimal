@@ -26,8 +26,7 @@ int convert_to_decimal(uint192 value, s21_decimal *buffer) {
 }
 
 void init_default_uint192(uint192 *buffer) {
-    unsigned value[6] = {0};
-    memcpy(buffer->bits, value, sizeof(unsigned) * 6);
+    memset(buffer, 0, sizeof(uint192));
 }
 
 void copy_uint192(uint192 *buffer, const uint192 value) {
@@ -179,6 +178,28 @@ bool gt_uint192(uint192 value1, uint192 value2) {
     return greater;
 }
 
+void bank_rounding(uint192 *value, uint192 last_digit) {
+    if (gt_uint192(last_digit, UINT192_FIVE) ||
+        (eq_uint192(last_digit, UINT192_FIVE) && get_bit_uint192(*value, 0))) {
+        add_uint192(*value, UINT192_ONE, value);
+    }
+}
+
+/***************************************************************************************************
+ * Removes overflow from value and applies bank rounding considering only the first overflowed digit
+ * Returns 1 if overflow remains after rounding
+ * Returns 0 if rounded suscesfully
+***************************************************************************************************/
+int round_result(uint192 value, s21_decimal *result, int *scale) {
+    uint192 last_digit = {{0}};
+    while (*scale  && (gt_uint192(value, UINT192_DEC_MAX) || *scale > 28)) {
+        divide_uint192(value, UINT192_TEN, &value, &last_digit);
+        (*scale)--;
+    }
+    bank_rounding(&value, last_digit);
+    return convert_to_decimal(value, result);
+}
+
 /****************************************************
  * Outputs uint192 in hex format higher bits to lower
 ****************************************************/
@@ -189,43 +210,3 @@ void print_hex_uint192(uint192 value) {
     putchar('\n');
 }
 
-/************************************************
- * Removes first digit nad applies bank rounding
-************************************************/
-void bank_rounding_uint192(uint192 value, uint192 *result) {
-    init_default_uint192(result);
-    uint192 first_digit = {{0}};
-    divide_uint192(value, UINT192_TEN, result, &first_digit);
-    if (gt_uint192(first_digit, UINT192_FIVE) ||
-        (eq_uint192(first_digit, UINT192_FIVE) && get_bit_uint192(*result, 0))) {
-        add_uint192(*result, UINT192_ONE, result);
-    }
-}
-
-/**********************************************
- * Removes overflow from value
- * Returns 1 if overflow remains after rounding
- * Returns 0 if rounded suscesfully
-**********************************************/
-int round_result(uint192 value, s21_decimal *result, int *scale) {
-    while (*scale  && (gt_uint192(value, UINT192_DEC_MAX) || *scale > 28)) {
-        bank_rounding_uint192(value, &value);
-        *scale -= 1;
-    }
-    int is_overflow = convert_to_decimal(value, result);
-    return is_overflow;
-}
-
-/**********************************************
- * Removes overflow from value
- * Returns 1 if overflow remains after rounding
- * Returns 0 if rounded suscesfully
-**********************************************/
-int round_result_192(uint192 *value, s21_decimal *result, int *scale) {
-    while (*scale && gt_uint192(*value, UINT192_DEC_MAX)) {
-        bank_rounding_uint192(*value, value);
-        *scale -= 1;
-    }
-    int is_overflow = convert_to_decimal(*value, result);
-    return is_overflow;
-}

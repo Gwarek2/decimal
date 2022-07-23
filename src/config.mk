@@ -83,9 +83,7 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             alignment_scale_suite.c\
                                             uint192_division_suite.c \
                                             uint192_add_suite.c \
-                                            uint192_bank_rounding_suite.c \
-                                            uint192_mul_suite.c \
-                                            base_bank_rounding_suite.c)
+                                            uint192_mul_suite.c)
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
                                                           s21_mul_suite.c \
                                                           s21_div_suite.c \

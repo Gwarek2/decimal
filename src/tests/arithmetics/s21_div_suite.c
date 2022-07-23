@@ -54,11 +54,11 @@ START_TEST(test_32_bit_4) {
 } END_TEST
 
 // Too much precision
-// 4449249363747.434387 / 43764 = 101664595.64362111294671419432
+// 4449249363747.434387 / 43764 = 101664595.64362111294671419431
 START_TEST(test_64_bit_1) {
     s21_decimal input1 = {{0x234C6F93, 0x3DBEE8B9, 0, init_sign_and_scale(0, 6)}};
     s21_decimal input2 = {{0xAAF4, 0, 0, init_sign_and_scale(0, 0)}};
-    s21_decimal expected = {{0x373BF828, 0x4ef17458, 0x20d97f8d, init_sign_and_scale(0, 20)}};
+    s21_decimal expected = {{0x373BF827, 0x4ef17458, 0x20d97f8d, init_sign_and_scale(0, 20)}};
     s21_decimal result;
     int status = s21_div(input1, input2, &result);
     ck_assert_int_eq(status, DEC_OK);

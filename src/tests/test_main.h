@@ -38,10 +38,8 @@ Suite *base_multiply_suite();
 Suite *base_divide_suite();
 Suite *remove_trailing_zeros_suite();
 Suite *alignment_scale_suite();
-Suite *base_bank_rounding_suite();
 Suite *uint192_add_suite();
 Suite *uint192_division_suite();
-Suite *bank_rounding_uint192_suite();
 Suite *uint192_mul_suite();
 
 // Arithmetics
