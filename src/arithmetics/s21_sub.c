@@ -49,7 +49,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     // удаление переполнениия из значения
     if (round_result(result_192, &res, &scale)) {
-        status = sign ? DEC_SMALL : DEC_HUGE;
+        status = get_sign(res) ? DEC_SMALL : DEC_HUGE;
         *result = DEC_ZERO;
     } else {
         *result = res;
