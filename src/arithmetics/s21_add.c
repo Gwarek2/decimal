@@ -1,3 +1,4 @@
+#include "common.h"
 #include "decimal_level.h"
 #include "uint192.h"
 /*****************************************************************************
@@ -5,6 +6,7 @@
  * returns an error if the write is not possible to the format s21_decimal
 ******************************************************************************/
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    init_default(result);
     int other_scale = get_scale(value_1) - get_scale(value_2); // разница степеней
     s21_decimal res = {{0}};
     s21_decimal overflow = {0};

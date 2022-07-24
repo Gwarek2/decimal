@@ -24,11 +24,11 @@ void set_sign(s21_decimal *value, bool negative) {
         (negative << SIGN_SHIFT) | (get_scale(*value) << SCALE_SHIFT);
 }
 
-/**
+/******************************************
  * Addition of two decimals
  * Ignores scale and sign
  * Returns nonzero value if overflow occurs
- **/
+ *****************************************/
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t carrial = 0;
     for (size_t i = 0; i < 3; i++) {
@@ -121,26 +121,17 @@ bool is_one(s21_decimal value) {
     return bits_eq(value, DEC_ONE);
 }
 
-/**
+/********************************************
  * Divides value1 by value2
  * Ignores sign and scale
  * Writes result of division in *result
  * Writes remainder of division in *remainder
- **/
-
-int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder) {
-    // int32_t status = DEC_OC;
-
-    if (is_zero(value2)) return DEC_DIV_BY_ZERO;
+ *******************************************/
+void base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder) {
     init_default(result);
     init_default(remainder);
-    if (is_zero(value1)) return DEC_OK;
-    if (is_one(value2)) {
-        copy_full(result, &value1);
-        return DEC_OK;
-    }
     copy_mantiss(remainder, &value1);
-    for (int32_t i = last_bit(*remainder) - last_bit(value2); i >= 0; i--) {
+    for (int i = last_bit(*remainder) - last_bit(value2); i >= 0; i--) {
         s21_decimal tmp1, tmp2;
         left_shift(&value2, &tmp1, i);
         if ((bits_lt(tmp1, *remainder) || bits_eq(tmp1, *remainder)) &&
@@ -150,13 +141,11 @@ int32_t base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result,
             base_addition(*result, tmp2, result);
         }
     }
-
-    return DEC_OK;
 }
 
-/**
+/*********************************************************
  * Removes trailing zeroes from fractional part of decimal
- **/
+****************************************************** **/
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     unsigned scale = get_scale(value);
     while (true) {
@@ -170,11 +159,10 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
 }
 
 
-/**
- * the function equalizes the exponent before multiplication, addition, and division. Monitor overflow.
- * 
- **/
-
+/************************************************************************
+ * Equalizes the exponent before addition, subtraction and mod operation.
+ * Returns 1 if overflow occured, otherwise returns 0
+ ***********************************************************************/
 int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow) {
     int output = DEC_OK;
     int scale_value_1 = get_scale(*value_1);
@@ -201,22 +189,3 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *ove
 
     return output;
 }
-/*****************************************************************************
- * Removes one digit from beginning and implements bank rounding
- * Scale and sign remain unchanged
- * if removed digit < 5 - result remains unchanged
- * if removed digit > 5 - result increments by one
- * if removed digit == 5 and rightmost digit is odd
- *     result increments by one
- * if removed digit == 5 and rightmost digit is even (including zero)
- *     result remains unchanged
- * About bank rounding - https://rounding.to/understanding-the-bankers-rounding
-******************************************************************************/
-void base_bank_rounding(s21_decimal value, s21_decimal *result) {
-    s21_decimal first_digit;
-    base_divide(value, DEC_TEN, result, &first_digit);
-    if (bits_gt(first_digit, DEC_FIVE) || (bits_eq(first_digit, DEC_FIVE) && get_bit(*result, 0))) {
-        base_addition(*result, DEC_ONE, result);
-    }
-}
-

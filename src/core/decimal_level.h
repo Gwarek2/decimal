@@ -57,7 +57,7 @@ void set_sign(s21_decimal *value, bool negative);
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *overflow);
-int base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder);
+void base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder);
 bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);

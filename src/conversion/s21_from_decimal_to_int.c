@@ -2,7 +2,7 @@
 #include "decimal_level.h"
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
-    if (dst == NULL) return 1;
+    *dst = 0;
     s21_decimal rem, int_part;
     int status = 0;
     unsigned neg = get_sign(src);

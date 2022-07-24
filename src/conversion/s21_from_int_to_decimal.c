@@ -3,7 +3,7 @@
 #include "common.h"
 
 int s21_from_int_to_decimal(int src, s21_decimal *dst) {
-    if (dst == NULL) return 1;
+    init_default(dst);
     unsigned mantiss[3] = {0};
     unsigned neg = src < 0;
     if (neg && src != INT_MIN) mantiss[0] = -src;

@@ -3,7 +3,7 @@
 #include "decimal_level.h"
 
 int s21_round(s21_decimal value, s21_decimal *result) {
-    if (result == NULL) return 1;
+    init_default(result);
 
     s21_decimal res = value;
     int sign = get_sign(value);

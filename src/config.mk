@@ -27,9 +27,9 @@ ALL_C      := $(shell find . -name "*.c")
 
 # Dynamic memory check tool
 ifeq ($(KERN),Darwin)
-	MEM_TOOL := NO_FORK=1 leaks -atExit --
+	MEM_TOOL := leaks -atExit --
 else
-	MEM_TOOL := NO_FORK=1 valgrind --leak-check=full \
+	MEM_TOOL := valgrind --leak-check=full \
                          --show-leak-kinds=all \
                          -q
 endif
@@ -84,15 +84,14 @@ CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
                                             alignment_scale_suite.c\
                                             uint192_division_suite.c \
                                             uint192_add_suite.c \
-                                            uint192_bank_rounding_suite.c \
-                                            uint192_mul_suite.c \
-                                            base_bank_rounding_suite.c)
+                                            uint192_mul_suite.c)
 ARITHMETICS_TESTS := $(addprefix $(TESTS_DIR)arithmetics/,s21_negate_suite.c \
                                                           s21_mul_suite.c \
                                                           s21_div_suite.c \
                                                           s21_add_suite.c \
                                                           s21_sub_suite.c \
                                                           s21_mod_suite.c) 
+
 CONVERSION_TESTS  := $(addprefix $(TESTS_DIR)conversion/,s21_from_int_to_decimal_suite.c \
                                                          s21_from_decimal_to_int_suite.c)
 ROUNDING_TESTS    := $(addprefix $(TESTS_DIR)rounding/,s21_floor_suite.c \

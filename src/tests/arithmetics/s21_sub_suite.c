@@ -127,6 +127,18 @@ START_TEST(test_96_bits_3) {
     ck_assert_uint_eq(result.bits[3], correct_answer.bits[3]);
 } END_TEST
 
+// 79228162514264337593543950335 - 0.54 = 79228162514264337593543950334
+START_TEST(test_96_bits_4) {
+    s21_decimal value_1 = {{max32bit, max32bit, max32bit}};
+    s21_decimal value_2 = {{54, 0, 0, init_sign_and_scale(0, 2)}}; 
+    s21_decimal result = {{0}};
+    s21_decimal expected = {{0xFFFFFFFE, max32bit, max32bit}};
+    int function_returned = s21_sub(value_1, value_2, &result);
+
+    ck_assert_uint_eq(function_returned, DEC_OK);
+    ASSERT_DECIMAL_EQ
+}
+
 START_TEST(test_96_bits_overflow) {
     s21_decimal value_1 = {{max32bit, max32bit, max32bit, 2147483648}};
     s21_decimal value_2 = {{1, 0, 0, 0 }};
@@ -154,8 +166,11 @@ Suite *s21_sub_suite(void) {
     tcase_add_test(tc, test_96_bits_1);
     tcase_add_test(tc, test_96_bits_2);
     tcase_add_test(tc, test_96_bits_3);
+    tcase_add_test(tc, test_96_bits_4);
     tcase_add_test(tc, test_96_bits_overflow);
 
     suite_add_tcase(s, tc);
     return s;
+
 }
+

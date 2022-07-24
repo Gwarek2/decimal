@@ -1,4 +1,3 @@
-#include "binary_level.h"
 #include "common.h"
 #include "output.h"
 #include "decimal_level.h"
@@ -7,6 +6,7 @@
 void maximize_divd(s21_decimal value, uint192 *result, int *scale);
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    init_default(result);
     if (is_zero(value_2)) return DEC_DIV_BY_ZERO;
     if (is_zero(value_1)) {
         init_default(result);
@@ -39,6 +39,10 @@ void maximize_divd(s21_decimal value, uint192 *divd, int *scale) {
     s21_decimal lower, higher;
     base_multiply(value, ten_power[28], &lower, &higher);
     *scale += 28;
+    // if (is_zero(higher)) {
+    //     base_multiply(value, ten_power[1], &lower, &higher);
+    //     (*scale)++;
+    // }
     convert_to_uint192(higher, lower, divd);
     while (true) {
         uint192 tmp;
