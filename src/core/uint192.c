@@ -1,10 +1,19 @@
 #include <stdio.h>
 #include <string.h>
+#include "common.h"
 #include "uint192.h"
 
 int get_bit_uint192(uint192 value, int index);
 void set_bit_uint192(uint192 *value, int bit, int index);
 int last_bit_uint192(uint192 value);
+
+void init_default_uint192(uint192 *buffer) {
+    memset(buffer, 0, sizeof(uint192));
+}
+
+void copy_uint192(uint192 *buffer, const uint192 value) {
+    memcpy(buffer, &value, sizeof(uint192));
+}
 
 /**************************************************
  * Converts two s21_decimal buffers to uint192 type
@@ -23,14 +32,6 @@ int convert_to_decimal(uint192 value, s21_decimal *buffer) {
     if (gt_uint192(value, UINT192_DEC_MAX)) return 1;
     memcpy(buffer->bits, value.bits, sizeof(unsigned) * 3);
     return 0;
-}
-
-void init_default_uint192(uint192 *buffer) {
-    memset(buffer, 0, sizeof(uint192));
-}
-
-void copy_uint192(uint192 *buffer, const uint192 value) {
-    memcpy(buffer, &value, sizeof(uint192));
 }
 
 /**********************************************
@@ -198,15 +199,5 @@ int round_result(uint192 value, s21_decimal *result, int *scale) {
     }
     bank_rounding(&value, last_digit);
     return convert_to_decimal(value, result);
-}
-
-/****************************************************
- * Outputs uint192 in hex format higher bits to lower
-****************************************************/
-void print_hex_uint192(uint192 value) {
-    for (int i = 5; i >= 0; i--) {
-        printf("%#15x", value.bits[i]);
-    }
-    putchar('\n');
 }
 

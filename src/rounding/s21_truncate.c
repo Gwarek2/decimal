@@ -1,7 +1,8 @@
+#include "common.h"
 #include "decimal_level.h"
 
 int s21_truncate(s21_decimal value, s21_decimal *result) {
-    if (result == NULL) return 1;
+    init_default(result);
 
     s21_decimal fr_part;
     int scale = get_scale(value);

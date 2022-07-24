@@ -2,7 +2,7 @@
 #include "decimal_level.h"
 
 int s21_floor(s21_decimal value, s21_decimal *result) {
-    if (result == NULL) return 1;
+    init_default(result);
 
     s21_decimal int_part, f_part;
     int sign = get_sign(value);

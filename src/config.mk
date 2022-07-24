@@ -27,9 +27,9 @@ ALL_C      := $(shell find . -name "*.c")
 
 # Dynamic memory check tool
 ifeq ($(KERN),Darwin)
-	MEM_TOOL := NO_FORK=1 leaks -atExit --
+	MEM_TOOL := leaks -atExit --
 else
-	MEM_TOOL := NO_FORK=1 valgrind --leak-check=full \
+	MEM_TOOL := valgrind --leak-check=full \
                          --show-leak-kinds=all \
                          -q
 endif
