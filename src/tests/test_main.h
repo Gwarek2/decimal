@@ -50,6 +50,7 @@ Suite *s21_div_suite();
 Suite *s21_negate_suite();
 Suite *s21_add_suite();
 Suite *s21_sub_suite();
+Suite *s21_mod_suite();
 
 
 // Conversion

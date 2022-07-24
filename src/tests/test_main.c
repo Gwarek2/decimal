@@ -24,6 +24,7 @@ int main(void) {
         s21_negate_suite(),
         s21_add_suite(),
         s21_sub_suite(),
+        s21_mod_suite(),
         #endif
         #if defined(TEST_CONVERSION) || defined(TEST_ALL)
         s21_from_decimal_to_int_suite(),
