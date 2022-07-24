@@ -60,7 +60,7 @@ START_TEST(test_first_num_zero) {
     s21_decimal value_1 = {{0, 0, 0, 786432}};
     s21_decimal value_2 = {{2452, 45646, 4564, 1114112}};
     s21_decimal result = {{0}};
-    s21_decimal correct_answer = {{0, 0, 0, 0 }};
+    s21_decimal correct_answer = {{0, 0, 0, 1114112 }};
     int function_returned = s21_mod(value_1, value_2, &result);
 
     ck_assert_uint_eq(function_returned, DEC_OK);

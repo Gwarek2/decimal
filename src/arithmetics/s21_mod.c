@@ -5,10 +5,10 @@
 #include "uint192.h"
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    int value_1_zero = is_zero(value_1);
     int division_by_zero = is_zero(value_2);
 
-    if (!value_1_zero && !division_by_zero) {
+    if (!division_by_zero) {
+        if (get_sign(value_1)) set_sign(result, 1);
         int other_scale = get_scale(value_1) - get_scale(value_2); // разница степеней
         s21_decimal overflow = {0};
         uint192 value_1_192 = {0};
