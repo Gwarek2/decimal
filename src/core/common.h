@@ -18,5 +18,6 @@ void init_default(s21_decimal *value);
 void copy_full(s21_decimal *dest, const s21_decimal *src);
 void copy_mantiss(s21_decimal *dest, const s21_decimal *src);
 int float_to_str(char *str, float val, int *sign, int *exp);
+int is_mantissa_zero(const s21_decimal val);
 
 #endif

@@ -138,3 +138,8 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     copy_full(result, &value);
 }
 
+// The function returns the sign and writes the exponent
+int get_atr(s21_decimal src, int *exp) {
+    *exp = get_scale(src);
+    return get_sign(src);
+}

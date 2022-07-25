@@ -103,3 +103,15 @@ int bits_gt(s21_decimal value1, s21_decimal value2) {
             value1.bits_u32_t[0] > value2.bits_u32_t[0]);
 }
 
+// The function returns the lowest bit and shifts the values in the buffers to the right
+int shift_right(s21_decimal *src) {
+    int bit = 0;
+    for (int i = 2; i >= 0; i--) {
+        int tmp_bit = src->bits[i] & 1;
+        src->bits[i] >>= 1;
+        if ((i != 2) && (bit != 0))
+            src->bits[i] = src->bits[i] | (1u << 31);
+        bit = tmp_bit;
+    }
+    return bit;
+}

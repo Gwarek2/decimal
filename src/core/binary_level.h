@@ -13,5 +13,6 @@ unsigned last_bit(s21_decimal value);
 int bits_eq(s21_decimal value1, s21_decimal value2);
 int bits_lt(s21_decimal value1, s21_decimal value2);
 int bits_gt(s21_decimal value1, s21_decimal value2);
+int shift_right(s21_decimal *src);
 
 #endif  // _BINARY_LEVEL_H

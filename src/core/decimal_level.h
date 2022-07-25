@@ -64,5 +64,6 @@ void base_fmod(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 bool is_zero(s21_decimal value);
 bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
+int get_atr(s21_decimal src, int *exp); 
 
 #endif  // _DECIMAL_LEVEL_H

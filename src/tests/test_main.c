@@ -20,6 +20,9 @@ int main(void) {
         s21_from_int_to_decimal_suite(),
         s21_float_decimal_float_suite(),
         #endif
+        #if defined(TEST_COMPARE) || defined(TEST_ALL)
+        s21_compare_suite(),
+        #endif
     };
 
     SRunner *sr = srunner_create(test_suites[0]);

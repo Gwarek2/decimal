@@ -10,7 +10,7 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
         *dst = 0;
         long double val = 0;
         for (int i = 0; i < 96; i++) {
-            int bit = reduction(&tmp);
+            int bit = shift_right(&tmp);
             if (bit != 0)
                 val += pow(2, i);
         }
