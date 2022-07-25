@@ -35,8 +35,8 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     return (res == 0 ? 0 : 1);
 }
 
-/* The function converts a float type value to str with a float check and returns:
-0 (no error), 1 (val < 1e-28), 2 ([val] = inf), 3 (val = nan)
+/* The function converts a float type value to str with a float check and
+returns: 0 (no error), 1 (val < 1e-28), 2 ([val] = inf), 3 (val = nan)
  */
 int float_to_str(char *str, float val, int *sign, int *exp) {
     int res = 0;

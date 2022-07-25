@@ -11,7 +11,8 @@ START_TEST(test_32_bits_1) {
     alignment_scale(&expected, &scale, &owerflow);
 
     ASSERT_DECIMAL_EQ
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_2) {
     s21_decimal result = {{2345240000, 0, 0, 983040}};
@@ -24,7 +25,8 @@ START_TEST(test_32_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_1) {
     s21_decimal result = {{4294867296, 99999, 0, 327680}};
@@ -34,7 +36,8 @@ START_TEST(test_64_bits_1) {
     alignment_scale(&expected, &scale, &owerflow);
 
     ASSERT_DECIMAL_EQ
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_1) {
     s21_decimal result = {{727379968, 3567587095, 232, 983040}};
@@ -44,10 +47,12 @@ START_TEST(test_96_bits_1) {
     alignment_scale(&expected, &scale, &owerflow);
 
     ASSERT_DECIMAL_EQ
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_overflow) {
-    s21_decimal result = {{3053453312, 871104183, 369867699, init_sign_and_scale(0, 28)}};
+    s21_decimal result = {
+        {3053453312, 871104183, 369867699, init_sign_and_scale(0, 28)}};
     s21_decimal expected = {{UINT_MAX, 0, 0, 196608}};
     s21_decimal scale = {{0, 0, 0, maxScale}};
     s21_decimal overflow = {0};

@@ -1,6 +1,6 @@
+#include "binary_level.h"
 #include "common.h"
 #include "decimal_level.h"
-#include "binary_level.h"
 
 // Функция преобразует значение типа decimal в значение типа float
 int s21_from_decimal_to_float(s21_decimal src, float *dst) {

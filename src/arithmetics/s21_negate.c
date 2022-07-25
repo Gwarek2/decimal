@@ -6,4 +6,3 @@ int s21_negate(s21_decimal value, s21_decimal *result) {
     set_sign(result, is_zero(value) ? 0 : !get_sign(value));
     return DEC_OK;
 }
-

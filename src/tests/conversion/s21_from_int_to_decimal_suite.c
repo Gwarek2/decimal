@@ -8,7 +8,8 @@ START_TEST(test_int_min) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_int_max) {
     int src = INT_MAX;
@@ -18,7 +19,8 @@ START_TEST(test_int_max) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_int_zero) {
     int src = 0;
@@ -28,28 +30,31 @@ START_TEST(test_int_zero) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_int_random) {
     int src = rand() % INT_MAX;
     int sign = rand() % 2;
-    s21_decimal expected  = {{src, 0, 0, init_sign_and_scale(sign, 0)}};
+    s21_decimal expected = {{src, 0, 0, init_sign_and_scale(sign, 0)}};
     s21_decimal result;
-    if (sign) src = -src;
+    if (sign)
+        src = -src;
     int status = s21_from_int_to_decimal(src, &result);
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 Suite *s21_from_int_to_decimal_suite() {
-   Suite *s = suite_create("suite_from_int_to_decimal_suite");
-   TCase *tc = tcase_create("core");
+    Suite *s = suite_create("suite_from_int_to_decimal_suite");
+    TCase *tc = tcase_create("core");
 
-   tcase_add_test(tc, test_int_min);
-   tcase_add_test(tc, test_int_max);
-   tcase_add_test(tc, test_int_zero);
-   tcase_add_loop_test(tc, test_int_random, 0, 1000);
-   suite_add_tcase(s, tc);
-   return s;
+    tcase_add_test(tc, test_int_min);
+    tcase_add_test(tc, test_int_max);
+    tcase_add_test(tc, test_int_zero);
+    tcase_add_loop_test(tc, test_int_random, 0, 1000);
+    suite_add_tcase(s, tc);
+    return s;
 }

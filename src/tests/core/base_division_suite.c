@@ -12,7 +12,8 @@ START_TEST(test_32_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_2) {
     s21_decimal n1, n2, result, expected, remainder;
@@ -29,7 +30,8 @@ START_TEST(test_32_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_3) {
     s21_decimal n1, n2, result, expected, remainder;
@@ -46,7 +48,8 @@ START_TEST(test_32_bits_3) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_1) {
     s21_decimal n1, n2, result, expected, remainder;
@@ -63,7 +66,8 @@ START_TEST(test_64_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_2) {
     s21_decimal n1, n2, result, expected, remainder;
@@ -80,7 +84,8 @@ START_TEST(test_64_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_3) {
     s21_decimal n1, n2, result, expected, remainder;
@@ -97,7 +102,8 @@ START_TEST(test_64_bits_3) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_1) {
     s21_decimal n1, n2, result, expected, remainder;
@@ -114,7 +120,8 @@ START_TEST(test_96_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_2) {
     s21_decimal n1, result, expected_res, remainder, expected_rem;
@@ -137,8 +144,8 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected_rem.bits[1], remainder.bits[1]);
     ck_assert_uint_eq(expected_rem.bits[2], remainder.bits[2]);
     ck_assert_uint_eq(expected_rem.bits[3], remainder.bits[3]);
-
-} END_TEST
+}
+END_TEST
 
 Suite *base_divide_suite(void) {
     Suite *s = suite_create("suite_base_divide");

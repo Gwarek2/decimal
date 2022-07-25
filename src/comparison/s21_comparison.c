@@ -80,20 +80,18 @@ int compare(const s21_decimal a, const s21_decimal b) {
 // Simple buffer comparison: 1 - match; 0 - none
 int simple_comp(const s21_decimal a, const s21_decimal b) {
     int res = 0;
-    if ((a.bits[0] == b.bits[0]) &&
-        (a.bits[1] == b.bits[1]) &&
-        (a.bits[2] == b.bits[2]) &&
-        (a.bits[3] == b.bits[3]))
+    if ((a.bits[0] == b.bits[0]) && (a.bits[1] == b.bits[1]) &&
+        (a.bits[2] == b.bits[2]) && (a.bits[3] == b.bits[3]))
         res = 1;
     return res;
 }
 
-/*  The function compares the binary value in the buffers bits[0 - 2] and returns:
-    0 (a == b), 1 (a > b), -1 (b > a)
+/*  The function compares the binary value in the buffers bits[0 - 2] and
+   returns: 0 (a == b), 1 (a > b), -1 (b > a)
  */
 int bin_comp(const s21_decimal a, const s21_decimal b) {
     int res = 0;
-    for (int i = 95; i >=0; i--) {
+    for (int i = 95; i >= 0; i--) {
         int bit_1 = (a.bits[i / 32] >> (i % 32)) & 1;
         int bit_2 = (b.bits[i / 32] >> (i % 32)) & 1;
         if (bit_1 != bit_2) {

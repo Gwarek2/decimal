@@ -53,7 +53,7 @@ START_TEST(test_neg_zero) {
 }
 
 Suite *s21_negate_suite() {
-    Suite *s  = suite_create("suite_s21_negate");
+    Suite *s = suite_create("suite_s21_negate");
     TCase *tc = tcase_create("core");
 
     tcase_add_test(tc, test_pos_max);

@@ -9,18 +9,20 @@ START_TEST(compare_01) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 1);
     ck_assert_int_eq(s21_is_not_equal(a, b), 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_02) {
     s21_decimal a = {{123, 123, 123, 0}};
-    s21_decimal  b = {{123, 123, 123, 0}};
+    s21_decimal b = {{123, 123, 123, 0}};
     ck_assert_int_eq(s21_is_less(a, b), 0);
     ck_assert_int_eq(s21_is_less_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_greater(a, b), 0);
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 1);
     ck_assert_int_eq(s21_is_not_equal(a, b), 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_03) {
     s21_decimal a = {{123, 0, 0, 0}};
@@ -31,7 +33,8 @@ START_TEST(compare_03) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 0);
     ck_assert_int_eq(s21_is_not_equal(a, b), 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_04) {
     s21_decimal a = {{0xffffffff, 0xffffffff, 0, 1835008}};
@@ -42,7 +45,8 @@ START_TEST(compare_04) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 0);
     ck_assert_int_eq(s21_is_not_equal(a, b), 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_05) {
     s21_decimal a = {{0xffffffff, 0xffffffff, 0xffffffff, 65536}};
@@ -53,7 +57,8 @@ START_TEST(compare_05) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 0);
     ck_assert_int_eq(s21_is_not_equal(a, b), 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_06) {
     s21_decimal a = {{0xffffffff, 0xffffffff, 0xffffffff, 65536}};
@@ -64,7 +69,8 @@ START_TEST(compare_06) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 0);
     ck_assert_int_eq(s21_is_not_equal(a, b), 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_07) {
     s21_decimal a = {{0x99999999, 0xfefefefe, 0xffffffff, -2147483648}};
@@ -75,7 +81,8 @@ START_TEST(compare_07) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 0);
     ck_assert_int_eq(s21_is_equal(a, b), 0);
     ck_assert_int_eq(s21_is_not_equal(a, b), 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_08) {
     s21_decimal a = {{12345600, 0, 0, 196608}};
@@ -86,7 +93,8 @@ START_TEST(compare_08) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 1);
     ck_assert_int_eq(s21_is_not_equal(a, b), 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_09) {
     s21_decimal a = {{12345678, 0, 0, 0}};
@@ -97,7 +105,8 @@ START_TEST(compare_09) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 0);
     ck_assert_int_eq(s21_is_equal(a, b), 0);
     ck_assert_int_eq(s21_is_not_equal(a, b), 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(compare_10) {
     s21_decimal a = {{0, 0, 0, 0}};
@@ -108,7 +117,8 @@ START_TEST(compare_10) {
     ck_assert_int_eq(s21_is_greater_or_equal(a, b), 1);
     ck_assert_int_eq(s21_is_equal(a, b), 1);
     ck_assert_int_eq(s21_is_not_equal(a, b), 0);
-} END_TEST
+}
+END_TEST
 
 Suite *s21_compare_suite() {
     Suite *s = suite_create("suite_compare_suite");

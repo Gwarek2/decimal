@@ -16,7 +16,8 @@ START_TEST(test_32_bits) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_1) {
     s21_decimal n1, n2, result, expected;
@@ -34,7 +35,8 @@ START_TEST(test_64_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_2) {
     s21_decimal n1, n2, result, expected;
@@ -52,7 +54,8 @@ START_TEST(test_64_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_1) {
     s21_decimal n1, n2, result, expected;
@@ -70,7 +73,8 @@ START_TEST(test_96_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_2) {
     s21_decimal n1, n2, result, expected;
@@ -88,13 +92,17 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_3) {
     s21_decimal input1 = {{0, 0xC, 0x7B}};
     s21_decimal input2 = {{1, 0xC, 0x7A}};
     s21_decimal result = {{0}};
-    s21_decimal expected = {{0xFFFFFFFF, 0xFFFFFFFF, }};
+    s21_decimal expected = {{
+        0xFFFFFFFF,
+        0xFFFFFFFF,
+    }};
     base_subtraction(input1, input2, &result);
     ASSERT_DECIMAL_EQ
 }

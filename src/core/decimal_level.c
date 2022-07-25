@@ -1,8 +1,8 @@
-#include <string.h>
+#include "decimal_level.h"
 #include "binary_level.h"
 #include "common.h"
-#include "decimal_level.h"
 #include "uint192.h"
+#include <string.h>
 
 int get_atr(s21_decimal src, int *exp) {
     *exp = get_scale(src);
@@ -37,8 +37,8 @@ void set_sign(s21_decimal *value, bool negative) {
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t carrial = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t) value1.bits[i] +
-                     (uint64_t) value2.bits[i] + carrial;
+        uint64_t r =
+            (uint64_t)value1.bits[i] + (uint64_t)value2.bits[i] + carrial;
         carrial = r >> 32;
         result->bits[i] = r;
     }
@@ -55,16 +55,16 @@ void base_subtraction(s21_decimal value1, s21_decimal value2,
     uint32_t borrow = 0;
     for (size_t i = 0; i < 3; i++) {
         result->bits[i] = value1.bits[i] - value2.bits[i] - borrow;
-        borrow = (uint64_t) value1.bits[i] < (uint64_t) value2.bits[i] + borrow;
+        borrow = (uint64_t)value1.bits[i] < (uint64_t)value2.bits[i] + borrow;
     }
 }
-
 
 /*********************************
  * Helper for base_multiplication
  * Adds carrials to overflow value
-**********************************/
-void add_carrials(s21_decimal *overflow, uint32_t mul_carrial, uint32_t add_carrial, int index) {
+ **********************************/
+void add_carrials(s21_decimal *overflow, uint32_t mul_carrial,
+                  uint32_t add_carrial, int index) {
     s21_decimal dec_mul_carrial = {{0}};
     s21_decimal dec_add_carrial = {{0}};
     dec_mul_carrial.bits[index] = mul_carrial;
@@ -83,11 +83,12 @@ void add_carrials(s21_decimal *overflow, uint32_t mul_carrial, uint32_t add_carr
  *     result of multiplication
  * s21_decimal *overflow:
  *     overflow of *result;
- *     *result and *overflow mantisses could be imagined as a single 192-bit integer,
- *     where *overflow contains higher bit fields and *result - lower bit fields
-**********************************************************************************/
-int base_multiply(s21_decimal value1, s21_decimal value2,
-                  s21_decimal *result, s21_decimal *overflow) {
+ *     *result and *overflow mantisses could be imagined as a single 192-bit
+ *integer, where *overflow contains higher bit fields and *result - lower bit
+ *fields
+ **********************************************************************************/
+int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result,
+                  s21_decimal *overflow) {
     int is_overflow = 0;
     init_default(overflow);
     init_default(result);
@@ -96,10 +97,8 @@ int base_multiply(s21_decimal value1, s21_decimal value2,
         uint32_t add_carrial = 0;
         size_t overflow_index = 0;
         for (size_t j = 0; j < 3; j++) {
-            uint64_t r = (uint64_t) value1.bits[i] *
-                         (uint64_t) value2.bits[j] +
-                                         mul_carrial +
-                                         add_carrial;
+            uint64_t r = (uint64_t)value1.bits[i] * (uint64_t)value2.bits[j] +
+                         mul_carrial + add_carrial;
             mul_carrial = r >> 32;
             if (j + i < 3) {
                 r = (r & MASK_32) + result->bits[j + i];
@@ -118,9 +117,7 @@ int base_multiply(s21_decimal value1, s21_decimal value2,
     return is_overflow;
 }
 
-bool is_zero(s21_decimal value) {
-    return bits_eq(value, DEC_ZERO);
-}
+bool is_zero(s21_decimal value) { return bits_eq(value, DEC_ZERO); }
 
 /********************************************
  * Divides value1 by value2
@@ -128,7 +125,8 @@ bool is_zero(s21_decimal value) {
  * Writes result of division in *result
  * Writes remainder of division in *remainder
  *******************************************/
-void base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder) {
+void base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result,
+                 s21_decimal *remainder) {
     init_default(result);
     init_default(remainder);
     copy_mantiss(remainder, &value1);
@@ -146,13 +144,14 @@ void base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s2
 
 /*********************************************************
  * Removes trailing zeroes from fractional part of decimal
-****************************************************** **/
+ ****************************************************** **/
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     unsigned scale = get_scale(value);
     while (true) {
         s21_decimal res_tmp, rem_tmp;
         base_divide(value, DEC_TEN, &res_tmp, &rem_tmp);
-        if (!is_zero(rem_tmp) || !scale) break;
+        if (!is_zero(rem_tmp) || !scale)
+            break;
         copy_mantiss(&value, &res_tmp);
         set_scale(&value, --scale);
     }
@@ -163,7 +162,8 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
  * Equalizes the exponent before addition, subtraction and mod operation.
  * Returns 1 if overflow occured, otherwise returns 0
  ***********************************************************************/
-int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow) {
+int alignment_scale(s21_decimal *value_1, s21_decimal *value_2,
+                    s21_decimal *overflow) {
     int output = DEC_OK;
     int scale_value_1 = get_scale(*value_1);
     int scale_value_2 = get_scale(*value_2);
@@ -171,12 +171,14 @@ int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *ove
     s21_decimal overflow_in_function = {0};
     s21_decimal result = {0};
     if (difference > 0) {
-        base_multiply(*value_2, ten_power[difference], &result, &overflow_in_function);
+        base_multiply(*value_2, ten_power[difference], &result,
+                      &overflow_in_function);
         *value_2 = result;
         value_2->bits[3] = value_1->bits[3];
     } else if (difference < 0) {
         difference = -difference;
-        base_multiply(*value_1, ten_power[difference], &result, &overflow_in_function);
+        base_multiply(*value_1, ten_power[difference], &result,
+                      &overflow_in_function);
         *value_1 = result;
         value_1->bits[3] = value_2->bits[3];
     }

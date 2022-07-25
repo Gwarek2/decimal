@@ -10,7 +10,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     s21_decimal res, overflow;
     uint192 tmp;
     base_multiply(value_1, value_2, &res, &overflow);
-    convert_to_uint192(overflow, res, &tmp); 
+    convert_to_uint192(overflow, res, &tmp);
     if (round_result(tmp, &res, &res_scale))
         return res_sign ? DEC_SMALL : DEC_HUGE;
 

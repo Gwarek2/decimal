@@ -14,7 +14,8 @@ START_TEST(test_32_bits_1) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_2) {
     s21_decimal n1, n2, result, expected, overflow;
@@ -32,7 +33,8 @@ START_TEST(test_32_bits_2) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_3) {
     s21_decimal n1, n2, result, expected, overflow;
@@ -50,7 +52,8 @@ START_TEST(test_32_bits_3) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_1) {
     s21_decimal n1, n2, result, expected, overflow;
@@ -68,7 +71,8 @@ START_TEST(test_64_bits_1) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_2) {
     s21_decimal n1, n2, result, expected, overflow;
@@ -86,7 +90,8 @@ START_TEST(test_64_bits_2) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_3) {
     s21_decimal n1, n2, result, overflow, expected, expected_overflow;
@@ -114,13 +119,15 @@ START_TEST(test_64_bits_3) {
     ck_assert_uint_eq(expected_overflow.bits[2], overflow.bits[2]);
     ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
     ck_assert_uint_eq(status, 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_4) {
     s21_decimal n1, n2, result, overflow, expected, expected_overflow;
     unsigned v1[3] = {0x53b69e1b, 0x56c18738, 0};  // 6251426433759354395
-    unsigned v2[3] = {0x8e1a56c8, 0xf, 0};  // 66808600264
-    unsigned v3[3] = {0xc8869718, 0xac799ff4, 0x457f325e};  // 417649049692831782546266560280
+    unsigned v2[3] = {0x8e1a56c8, 0xf, 0};         // 66808600264
+    unsigned v3[3] = {0xc8869718, 0xac799ff4,
+                      0x457f325e};  // 417649049692831782546266560280
     unsigned v4[3] = {0x5, 0, 0};
     init_value(&n1, v1, 1, 23);
     init_value(&n2, v2, 1, 23);
@@ -142,7 +149,8 @@ START_TEST(test_64_bits_4) {
     ck_assert_uint_eq(expected_overflow.bits[2], overflow.bits[2]);
     ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
     ck_assert_uint_eq(status, 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_1) {
     s21_decimal n1, n2, result, expected, overflow;
@@ -160,13 +168,18 @@ START_TEST(test_96_bits_1) {
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
     ck_assert_uint_eq(status, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_2) {
     s21_decimal n1, n2, result, expected, overflow, expected_overflow;
-    unsigned v1[3] = {0xffffffff, 0xffffffff, 0xffffffff};  // 79228162514264337593543950335
-    unsigned v2[3] = {0xffffffff, 0xffffffff, 0xffffffff};  // 79228162514264337593543950335
-    unsigned v3[3] = {0x1, 0, 0};  // 6277101735386680763835789423049210091073826769276946612225
+    unsigned v1[3] = {0xffffffff, 0xffffffff,
+                      0xffffffff};  // 79228162514264337593543950335
+    unsigned v2[3] = {0xffffffff, 0xffffffff,
+                      0xffffffff};  // 79228162514264337593543950335
+    unsigned v3[3] = {
+        0x1, 0,
+        0};  // 6277101735386680763835789423049210091073826769276946612225
     unsigned v4[3] = {0xfffffffe, 0xffffffff, 0xffffffff};
     init_value(&n1, v1, 1, 23);
     init_value(&n2, v2, 1, 23);
@@ -189,12 +202,14 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
 
     ck_assert_uint_eq(status, 1);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_3) {
     s21_decimal n1, n2, result, expected, overflow, expected_overflow;
-    unsigned v1[3] = {0xffffffff, 0xffffffff, 0xffffffff};  // 79228162514264337593543950335
-    unsigned v2[3] = {0xf, 0, 0};  // 79228162514264337593543950335
+    unsigned v1[3] = {0xffffffff, 0xffffffff,
+                      0xffffffff};  // 79228162514264337593543950335
+    unsigned v2[3] = {0xf, 0, 0};   // 79228162514264337593543950335
     unsigned v3[3] = {0xfffffff1, 0xffffffff, 0xffffffff};
     unsigned v4[3] = {0xe, 0, 0};
     init_value(&n1, v1, 1, 23);
@@ -218,7 +233,8 @@ START_TEST(test_96_bits_3) {
     ck_assert_uint_eq(expected_overflow.bits[3], overflow.bits[3]);
 
     ck_assert_uint_eq(status, 1);
-} END_TEST
+}
+END_TEST
 
 Suite *base_multiply_suite(void) {
     Suite *s = suite_create("suite_base_multiply");

@@ -12,7 +12,8 @@ START_TEST(test_32_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_2) {
     s21_decimal n, result, expected;
@@ -26,7 +27,8 @@ START_TEST(test_32_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_3) {
     s21_decimal n, result, expected;
@@ -40,7 +42,8 @@ START_TEST(test_32_bits_3) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_1) {
     s21_decimal n, result, expected;
@@ -54,7 +57,8 @@ START_TEST(test_64_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_2) {
     s21_decimal n, result, expected;
@@ -68,7 +72,8 @@ START_TEST(test_64_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_3) {
     s21_decimal n, result, expected;
@@ -82,7 +87,8 @@ START_TEST(test_64_bits_3) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_1) {
     s21_decimal n, result, expected;
@@ -96,7 +102,8 @@ START_TEST(test_96_bits_1) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_2) {
     s21_decimal n, result, expected;
@@ -110,7 +117,8 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_3) {
     s21_decimal n, result, expected;
@@ -124,7 +132,8 @@ START_TEST(test_96_bits_3) {
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-} END_TEST
+}
+END_TEST
 
 Suite *remove_trailing_zeros_suite() {
     Suite *s = suite_create("suite_remove_trailing_zeros");

@@ -6,13 +6,14 @@ void maximize_divd(s21_decimal value, uint192 *result, int *scale);
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     init_default(result);
-    if (is_zero(value_2)) return DEC_DIV_BY_ZERO;
+    if (is_zero(value_2))
+        return DEC_DIV_BY_ZERO;
     if (is_zero(value_1)) {
         init_default(result);
         return DEC_OK;
     }
 
-    s21_decimal res; 
+    s21_decimal res;
     uint192 divr, divd, rem;
     int sign = get_sign(value_1) ^ get_sign(value_2);
     int scale = get_scale(value_1) - get_scale(value_2);
@@ -33,7 +34,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
 /***************************************************************
  * Adds zeros to divident until it reaches uint192 maximum value
-***************************************************************/
+ ***************************************************************/
 void maximize_divd(s21_decimal value, uint192 *divd, int *scale) {
     s21_decimal lower, higher;
     base_multiply(value, ten_power[28], &lower, &higher);
@@ -45,7 +46,8 @@ void maximize_divd(s21_decimal value, uint192 *divd, int *scale) {
     convert_to_uint192(higher, lower, divd);
     while (true) {
         uint192 tmp;
-        if (mul_uint192(*divd, UINT192_TEN, &tmp)) break;
+        if (mul_uint192(*divd, UINT192_TEN, &tmp))
+            break;
         copy_uint192(divd, tmp);
         (*scale)++;
     }

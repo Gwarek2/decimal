@@ -30,9 +30,8 @@ START_TEST(test_int_min) {
 }
 
 START_TEST(test_int_min_pos) {
-    s21_decimal src = {{INT_MIN, 0, 0}};;
+    s21_decimal src = {{INT_MIN, 0, 0}};
     int result;
-
     add_trailing_numbers(&src, _i, 0);
     int status = s21_from_decimal_to_int(src, &result);
 
@@ -42,8 +41,10 @@ START_TEST(test_int_min_pos) {
 START_TEST(test_int_pos_random) {
     int sign = rand() % 2;
     int expected = rand() % (sign ? INT_MIN : INT_MAX), result;
-    if (sign) expected = -expected;
-    s21_decimal src = {{sign ? -expected : expected, 0, 0, init_sign_and_scale(sign, 0)}};
+    if (sign)
+        expected = -expected;
+    s21_decimal src = {
+        {sign ? -expected : expected, 0, 0, init_sign_and_scale(sign, 0)}};
 
     add_trailing_numbers(&src, rand() % 19, sign);
     int status = s21_from_decimal_to_int(src, &result);

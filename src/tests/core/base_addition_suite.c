@@ -9,7 +9,8 @@ START_TEST(test_32_bits_1) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_32_bits_2) {
     s21_decimal n1, n2, result, expected;
@@ -25,7 +26,8 @@ START_TEST(test_32_bits_2) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_1) {
     s21_decimal n1, n2, result, expected;
@@ -41,7 +43,8 @@ START_TEST(test_64_bits_1) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_2) {
     s21_decimal n1, n2, result, expected;
@@ -57,7 +60,8 @@ START_TEST(test_64_bits_2) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_64_bits_3) {
     s21_decimal n1, n2, result, expected;
@@ -73,7 +77,8 @@ START_TEST(test_64_bits_3) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_1) {
     s21_decimal n1, n2, result, expected;
@@ -89,7 +94,8 @@ START_TEST(test_96_bits_1) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
-} END_TEST
+}
+END_TEST
 
 START_TEST(test_96_bits_overflow) {
     s21_decimal n1, n2, result, expected;
@@ -105,7 +111,8 @@ START_TEST(test_96_bits_overflow) {
 
     ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 1);
-} END_TEST
+}
+END_TEST
 
 Suite *base_addition_suite(void) {
     Suite *s = suite_create("suite_base_addition");

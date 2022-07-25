@@ -5,9 +5,10 @@ START_TEST(test_192bit_1) {
     uint192 input2 = {{0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF}};
     uint192 result = {{0}};
     uint192 expected = {{0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x1}};
-    add_uint192(input1, input2, &result); 
+    add_uint192(input1, input2, &result);
     ASSERT_UINT192_EQ
-} END_TEST
+}
+END_TEST
 
 Suite *uint192_add_suite() {
     Suite *s = suite_create("suite_uint192_add");
