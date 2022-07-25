@@ -50,6 +50,7 @@ static const s21_decimal ten_power[29] = {
     {{ 0x10000000, 0x3E250261, 0x204FCE5E}},
 };
 
+int get_atr(s21_decimal src, int *exp);
 unsigned get_scale(s21_decimal value);
 int set_scale(s21_decimal *value, int scale);
 bool get_sign(s21_decimal value);
@@ -63,8 +64,5 @@ bool is_one(s21_decimal value);
 void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
 int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow);
 void base_bank_rounding(s21_decimal value, s21_decimal *result);
-void round_overflowed_decimal(s21_decimal value, s21_decimal overflow, s21_decimal *result, int scale);
-int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 #endif  // _CORE_DECIMAL_LEVEL_H

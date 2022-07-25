@@ -43,4 +43,3 @@ void copy_full(s21_decimal *dest, const s21_decimal *src) {
 void copy_mantiss(s21_decimal *dest, const s21_decimal *src) {
     memcpy(dest->bits, src->bits, sizeof(unsigned) * 3);
 }
-

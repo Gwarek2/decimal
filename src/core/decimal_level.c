@@ -4,6 +4,11 @@
 #include "decimal_level.h"
 #include "uint192.h"
 
+int get_atr(s21_decimal src, int *exp) {
+    *exp = get_scale(src);
+    return get_sign(src);
+}
+
 unsigned get_scale(s21_decimal value) {
     unsigned scale = (value.bits[3] >> SCALE_SHIFT) & 0xff;
     return scale;
@@ -153,7 +158,6 @@ void remove_trailing_zeros(s21_decimal value, s21_decimal *result) {
     }
     copy_full(result, &value);
 }
-
 
 /************************************************************************
  * Equalizes the exponent before addition, subtraction and mod operation.

@@ -22,6 +22,8 @@ int main(void) {
         s21_mod_suite(),
         s21_from_decimal_to_int_suite(),
         s21_from_int_to_decimal_suite(),
+        s21_float_decimal_float_suite(),
+        s21_compare_suite(),
         s21_floor_suite(),
         s21_round_suite(),
         s21_truncate_suite(),

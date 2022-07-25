@@ -13,6 +13,8 @@
 #include "decimal_level.h"
 #include "output.h"
 #include "s21_decimal.h"
+#include "time.h"
+#include "compare.h"
 #include "uint192.h"
 
 #define ARRAY_SIZE(arr) sizeof(arr) / sizeof(arr[0])
@@ -56,6 +58,10 @@ Suite *s21_mod_suite();
 // Conversion
 Suite *s21_from_int_to_decimal_suite();
 Suite *s21_from_decimal_to_int_suite();
+Suite *s21_float_decimal_float_suite();
+
+// Compare
+Suite *s21_compare_suite();
 
 // Rounding
 Suite *s21_floor_suite();
