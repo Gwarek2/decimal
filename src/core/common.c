@@ -37,11 +37,3 @@ void copy_full(s21_decimal *dest, const s21_decimal *src) {
 void copy_mantiss(s21_decimal *dest, const s21_decimal *src) {
     memcpy(dest->bits, src->bits, sizeof(unsigned) * 3);
 }
-
-// The function returns 1 if the decimal mantissa is 0
-int is_mantissa_zero(const s21_decimal val) {
-    int res = 0;
-    if ((val.bits[0] == 0) && (val.bits[1] == val.bits[0]) && (val.bits[2] == val.bits[0]))
-        res = 1;
-    return res;
-}

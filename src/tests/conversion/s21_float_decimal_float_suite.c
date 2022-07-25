@@ -2,10 +2,13 @@
 
 START_TEST(float_01) {
     float zero = 0.0, val = zero;
-    s21_decimal dec_1;
+    s21_decimal dec_1, dec_2;
     s21_from_float_to_decimal(val, &dec_1);
     ck_assert_float_eq(val, 0.0);
-
+    copy_full(&dec_2, &dec_1);
+    float res;
+    s21_from_decimal_to_float(dec_2, &res);
+    ck_assert_float_eq(val, res);
 } END_TEST
 
 START_TEST(float_02) {
@@ -13,7 +16,6 @@ START_TEST(float_02) {
     s21_decimal dec_1;
     int res = s21_from_float_to_decimal(val, &dec_1);
     ck_assert_int_eq(res, 1);
-
 } END_TEST
 
 START_TEST(float_03) {
@@ -21,7 +23,6 @@ START_TEST(float_03) {
     s21_decimal dec_1;
     int res = s21_from_float_to_decimal(val, &dec_1);
     ck_assert_int_eq(res, 1);
-
 } END_TEST
 
 START_TEST(float_04) {
@@ -30,7 +31,6 @@ START_TEST(float_04) {
     int res = s21_from_float_to_decimal(val, &dec_1);
     ck_assert_int_eq(res, 1);
     ck_assert_int_eq(dec_1.bits[0], 0);
-
 } END_TEST
 
 START_TEST(float_05) {
@@ -38,7 +38,6 @@ START_TEST(float_05) {
     s21_decimal dec_1;
     int res = s21_from_float_to_decimal(val, &dec_1);
     ck_assert_int_eq(res, 1);
-
 } END_TEST
 
 START_TEST(float_06) {
@@ -46,7 +45,6 @@ START_TEST(float_06) {
     s21_decimal dec_1;
     int res = s21_from_float_to_decimal(val, &dec_1);
     ck_assert_int_eq(res, 1);
-
 } END_TEST
 
 START_TEST(float_07) {
@@ -57,7 +55,6 @@ START_TEST(float_07) {
     float res;
     s21_from_decimal_to_float(dec_2, &res);
     ck_assert_float_eq(val, res);
-
 } END_TEST
 
 START_TEST(float_08) {
@@ -68,7 +65,6 @@ START_TEST(float_08) {
     float res;
     s21_from_decimal_to_float(dec_2, &res);
     ck_assert_float_eq(val, res);
-
 } END_TEST
 
 START_TEST(float_09) {
@@ -78,7 +74,6 @@ START_TEST(float_09) {
     copy_full(&dec_2, &dec_1);
     s21_from_decimal_to_float(dec_2, &res);
     ck_assert_float_eq(val, res);
-
 } END_TEST
 
 START_TEST(float_10) {
@@ -88,7 +83,6 @@ START_TEST(float_10) {
     copy_full(&dec_2, &dec_1);
     s21_from_decimal_to_float(dec_2, &res);
     ck_assert_float_eq(val, res);
-
 } END_TEST
 
 START_TEST(float_11) {
@@ -98,7 +92,6 @@ START_TEST(float_11) {
     copy_full(&dec_2, &dec_1);
     s21_from_decimal_to_float(dec_2, &res);
     ck_assert_float_eq(val, res);
-
 } END_TEST
 
 START_TEST(float_12) {
@@ -108,6 +101,27 @@ START_TEST(float_12) {
     copy_full(&dec_2, &dec_1);
     s21_from_decimal_to_float(dec_2, &res);
     ck_assert_float_eq(val, res);
+} END_TEST
+
+START_TEST(float_13) {
+    s21_decimal dec_1 = {{123456, 0, 0, 196608}};
+    float res;
+    s21_from_decimal_to_float(dec_1, &res);
+    ck_assert_float_eq(res, 123.456);
+} END_TEST
+
+START_TEST(float_14) {
+    s21_decimal dec_1 = {{12345678, 0, 0, -2147155968}};
+    float res;
+    s21_from_decimal_to_float(dec_1, &res);
+    ck_assert_float_eq(res, -123.45678);
+} END_TEST
+
+START_TEST(float_15) {
+    s21_decimal dec_1 = {{1, 0, 0, -2147418112}};
+    float res;
+    s21_from_decimal_to_float(dec_1, &res);
+    ck_assert_float_eq(res, -0.1);
 } END_TEST
 
 Suite *s21_float_decimal_float_suite() {
@@ -126,6 +140,9 @@ Suite *s21_float_decimal_float_suite() {
     tcase_add_test(tc, float_10);
     tcase_add_test(tc, float_11);
     tcase_add_test(tc, float_12);
+    tcase_add_test(tc, float_13);
+    tcase_add_test(tc, float_14);
+    tcase_add_test(tc, float_15);
 
     suite_add_tcase(s, tc);
     return s;

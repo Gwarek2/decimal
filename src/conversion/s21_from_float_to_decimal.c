@@ -1,7 +1,7 @@
 #include "common.h"
 #include "decimal_level.h"
 
-// Функция преобразует значение типа float в значение типа decimal
+// The function converts a float type value to a decimal type value
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     init_default(dst);
     char str[33] = {0};
@@ -35,8 +35,8 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     return (res == 0 ? 0 : 1);
 }
 
-/* Функция преобразует значение типа float в str с проверкой float и возвращает:
-0 - ошибок нет, 1 - значение меньше 1e-28, 2 - значение типа +/-inf, 3 - не число
+/* The function converts a float type value to str with a float check and returns:
+0 (no error), 1 (val < 1e-28), 2 ([val] = inf), 3 (val = nan)
  */
 int float_to_str(char *str, float val, int *sign, int *exp) {
     int res = 0;
@@ -59,7 +59,7 @@ int float_to_str(char *str, float val, int *sign, int *exp) {
             tmp /= 10;
             *exp += 1;
         }
-        sprintf(str, "%30.*f", (29 - *exp), fabs(val));
+        snprintf(str, sizeof(char) * 32, "%30.*f", (29 - *exp), fabs(val));
     }
     return res;
 }

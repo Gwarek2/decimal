@@ -32,7 +32,7 @@ int compare(const s21_decimal a, const s21_decimal b) {
     int res = (simple_comp(a, b) == 1 ? 0 : 2), inverse = 0;
 
     while (res == 2) {
-        if ((is_mantissa_zero(a) == 1) && (is_mantissa_zero(b) == 1)) {
+        if ((is_zero(a) == 1) && (is_zero(b) == 1)) {
             res = 0;
             break;
         }
