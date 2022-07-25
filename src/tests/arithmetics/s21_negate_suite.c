@@ -8,11 +8,8 @@ START_TEST(test_pos_max) {
     set_sign(&expected, 1);
 
     int status = s21_negate(input, &result);
-    ck_assert_uint_eq(result.bits[0], expected.bits[0]);
-    ck_assert_uint_eq(result.bits[1], expected.bits[1]);
-    ck_assert_uint_eq(result.bits[2], expected.bits[2]);
-    ck_assert_uint_eq(result.bits[3], expected.bits[3]);
 
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
 }
 
@@ -25,21 +22,9 @@ START_TEST(test_neg_max) {
     set_sign(&expected, 0);
 
     int status = s21_negate(input, &result);
-    ck_assert_uint_eq(result.bits[0], expected.bits[0]);
-    ck_assert_uint_eq(result.bits[1], expected.bits[1]);
-    ck_assert_uint_eq(result.bits[2], expected.bits[2]);
-    ck_assert_uint_eq(result.bits[3], expected.bits[3]);
 
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
-}
-
-START_TEST(test_null) {
-    s21_decimal input;
-    s21_decimal *result = NULL;
-    init_default(&input);
-
-    int status = s21_negate(input, result);
-    ck_assert_int_eq(status, 1);
 }
 
 START_TEST(test_pos_zero) {
@@ -49,11 +34,8 @@ START_TEST(test_pos_zero) {
     set_sign(&expected, 0);
 
     int status = s21_negate(input, &result);
-    ck_assert_uint_eq(result.bits[0], expected.bits[0]);
-    ck_assert_uint_eq(result.bits[1], expected.bits[1]);
-    ck_assert_uint_eq(result.bits[2], expected.bits[2]);
-    ck_assert_uint_eq(result.bits[3], expected.bits[3]);
 
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
 }
 
@@ -65,11 +47,8 @@ START_TEST(test_neg_zero) {
     set_sign(&expected, 0);
 
     int status = s21_negate(input, &result);
-    ck_assert_uint_eq(result.bits[0], expected.bits[0]);
-    ck_assert_uint_eq(result.bits[1], expected.bits[1]);
-    ck_assert_uint_eq(result.bits[2], expected.bits[2]);
-    ck_assert_uint_eq(result.bits[3], expected.bits[3]);
 
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(status, 0);
 }
 
@@ -79,7 +58,6 @@ Suite *s21_negate_suite() {
 
     tcase_add_test(tc, test_pos_max);
     tcase_add_test(tc, test_neg_max);
-    tcase_add_test(tc, test_null);
     tcase_add_test(tc, test_pos_zero);
     tcase_add_test(tc, test_neg_zero);
     suite_add_tcase(s, tc);

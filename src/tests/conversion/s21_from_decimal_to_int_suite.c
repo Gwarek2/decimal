@@ -8,11 +8,9 @@ void add_trailing_numbers(s21_decimal *value, int scale, int sign) {
 }
 
 START_TEST(test_int_max) {
-    s21_decimal src;
-    int expected = INT_MAX, result = 0;
-    unsigned mantiss[3] = {INT_MAX, 0, 0};
+    int expected = INT_MAX, result;
+    s21_decimal src = {{INT_MAX, 0, 0}};
 
-    init_value(&src, mantiss, 0, 0);
     add_trailing_numbers(&src, _i, 0);
     int status = s21_from_decimal_to_int(src, &result);
 
@@ -21,11 +19,9 @@ START_TEST(test_int_max) {
 }
 
 START_TEST(test_int_min) {
-    s21_decimal src;
     int expected = INT_MIN, result = 0;
-    unsigned mantiss[3] = {INT_MIN, 0, 0};
+    s21_decimal src = {{INT_MIN, 0, 0, init_sign_and_scale(1, 0)}};
 
-    init_value(&src, mantiss, 1, 0);
     add_trailing_numbers(&src, _i, 1);
     int status = s21_from_decimal_to_int(src, &result);
 
@@ -34,27 +30,21 @@ START_TEST(test_int_min) {
 }
 
 START_TEST(test_int_min_pos) {
-    s21_decimal src;
-    int expected = -1, result = -1;
-    unsigned mantiss[3] = {INT_MIN, 0, 0};
+    s21_decimal src = {{INT_MIN, 0, 0}};;
+    int result;
 
-    init_value(&src, mantiss, 0, 0);
     add_trailing_numbers(&src, _i, 0);
     int status = s21_from_decimal_to_int(src, &result);
 
-    ck_assert_int_eq(result, expected);
     ck_assert_int_eq(status, 1);
 }
 
 START_TEST(test_int_pos_random) {
-    s21_decimal src;
     int sign = rand() % 2;
-    int expected = rand() % (sign ? INT_MIN : INT_MAX), result = 0;
+    int expected = rand() % (sign ? INT_MIN : INT_MAX), result;
     if (sign) expected = -expected;
+    s21_decimal src = {{sign ? -expected : expected, 0, 0, init_sign_and_scale(sign, 0)}};
 
-    unsigned mantiss[3] = {sign ? -expected : expected, 0, 0};
-
-    init_value(&src, mantiss, sign, 0);
     add_trailing_numbers(&src, rand() % 19, sign);
     int status = s21_from_decimal_to_int(src, &result);
 

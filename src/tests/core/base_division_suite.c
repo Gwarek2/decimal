@@ -1,33 +1,17 @@
 #include "test_main.h"
 
-START_TEST(test_32_bits_div_by_0) {
-    s21_decimal n1, result, remainder, expected;
-    unsigned v1[3] = {12, 0, 0};
-    init_value(&n1, v1, 1, 23);
-    init_value(&expected, b_zero, 0, 0);
-    init_value(&result, b_zero, 0, 0);
-    uint32_t status = base_divide(n1, DEC_ZERO, &result, &remainder);
-
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_DIV_BY_ZERO);
-} END_TEST
-
 START_TEST(test_32_bits_1) {
     s21_decimal n1, result, expected, remainder;
     unsigned v1[3] = {0, 0, 0};
     init_value(&n1, v1, 1, 23);
     init_value(&expected, b_zero, 0, 0);
     init_value(&result, b_zero, 0, 0);
-    uint32_t status = base_divide(n1, DEC_TEN, &result, &remainder);
+    base_divide(n1, DEC_TEN, &result, &remainder);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 START_TEST(test_32_bits_2) {
@@ -39,13 +23,12 @@ START_TEST(test_32_bits_2) {
     init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
     init_value(&expected, v3, 0, 0);
-    int status = base_divide(n1, n2, &result, &remainder);
+    base_divide(n1, n2, &result, &remainder);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 START_TEST(test_32_bits_3) {
@@ -57,13 +40,12 @@ START_TEST(test_32_bits_3) {
     init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
     init_value(&expected, v3, 0, 0);
-    int status = base_divide(n1, n2, &result, &remainder);
+    base_divide(n1, n2, &result, &remainder);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 START_TEST(test_64_bits_1) {
@@ -75,13 +57,12 @@ START_TEST(test_64_bits_1) {
     init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
     init_value(&expected, v3, 0, 0);
-    int status = base_divide(n1, n2, &result, &remainder);
+    base_divide(n1, n2, &result, &remainder);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 START_TEST(test_64_bits_2) {
@@ -93,13 +74,12 @@ START_TEST(test_64_bits_2) {
     init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
     init_value(&expected, v3, 0, 0);
-    int status = base_divide(n1, n2, &result, &remainder);
+    base_divide(n1, n2, &result, &remainder);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 START_TEST(test_64_bits_3) {
@@ -111,13 +91,12 @@ START_TEST(test_64_bits_3) {
     init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
     init_value(&expected, v3, 0, 0);
-    int status = base_divide(n1, n2, &result, &remainder);
+    base_divide(n1, n2, &result, &remainder);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits_u32_t[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits_u32_t[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits_u32_t[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits_u32_t[3]);
-    ck_assert_uint_eq(status, DEC_OK);
+    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
+    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
+    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
+    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
 } END_TEST
 
 START_TEST(test_96_bits_1) {
@@ -129,13 +108,12 @@ START_TEST(test_96_bits_1) {
     init_value(&n2, v2, 1, 23);
     init_value(&result, b_zero, 0, 0);
     init_value(&expected, v3, 0, 0);
-    int status = base_divide(n1, n2, &result, &remainder);
+    base_divide(n1, n2, &result, &remainder);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
     ck_assert_uint_eq(expected.bits[2], result.bits[2]);
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 START_TEST(test_96_bits_2) {
@@ -148,7 +126,7 @@ START_TEST(test_96_bits_2) {
     init_value(&remainder, b_zero, 0, 0);
     init_value(&expected_res, v2, 0, 0);
     init_value(&expected_rem, v3, 0, 0);
-    int status = base_divide(n1, DEC_TEN, &result, &remainder);
+    base_divide(n1, DEC_TEN, &result, &remainder);
 
     ck_assert_uint_eq(expected_res.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected_res.bits[1], result.bits[1]);
@@ -160,18 +138,15 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected_rem.bits[2], remainder.bits[2]);
     ck_assert_uint_eq(expected_rem.bits[3], remainder.bits[3]);
 
-    ck_assert_uint_eq(status, DEC_OK);
 } END_TEST
 
 Suite *base_divide_suite(void) {
     Suite *s = suite_create("suite_base_divide");
     TCase *tc = tcase_create("core");
 
-    tcase_add_test(tc, test_32_bits_div_by_0);
     tcase_add_test(tc, test_32_bits_1);
     tcase_add_test(tc, test_32_bits_2);
     tcase_add_test(tc, test_32_bits_3);
-    // tcase_add_test(tc, test_32_bits_4);
     tcase_add_test(tc, test_64_bits_1);
     tcase_add_test(tc, test_64_bits_2);
     tcase_add_test(tc, test_64_bits_3);

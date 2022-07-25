@@ -17,5 +17,6 @@ void init_default(s21_decimal *value);
 void copy_full(s21_decimal *dest, const s21_decimal *src);
 void copy_mantiss(s21_decimal *dest, const s21_decimal *src);
 int float_to_str(char *str, float val, int *sign, int *exp);
+unsigned init_sign_and_scale(int sign, int scale);
 
-#endif
+#endif // _CORE_COMMON_H

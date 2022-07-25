@@ -90,6 +90,15 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(expected.bits[3], result.bits[3]);
 } END_TEST
 
+START_TEST(test_96_bits_3) {
+    s21_decimal input1 = {{0, 0xC, 0x7B}};
+    s21_decimal input2 = {{1, 0xC, 0x7A}};
+    s21_decimal result = {{0}};
+    s21_decimal expected = {{0xFFFFFFFF, 0xFFFFFFFF, }};
+    base_subtraction(input1, input2, &result);
+    ASSERT_DECIMAL_EQ
+}
+
 Suite *base_subtraction_suite(void) {
     Suite *s = suite_create("suite_base_subtraction");
     TCase *tc = tcase_create("core");
@@ -99,6 +108,7 @@ Suite *base_subtraction_suite(void) {
     tcase_add_test(tc, test_64_bits_2);
     tcase_add_test(tc, test_96_bits_1);
     tcase_add_test(tc, test_96_bits_2);
+    tcase_add_test(tc, test_96_bits_3);
 
     suite_add_tcase(s, tc);
     return s;

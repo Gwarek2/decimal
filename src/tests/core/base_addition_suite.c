@@ -1,21 +1,13 @@
 #include "test_main.h"
 
 START_TEST(test_32_bits_1) {
-    s21_decimal n1, n2, result, expected;
-    unsigned v1[3] = {3, 0, 0};
-    unsigned v2[3] = {1, 0, 0};
-    unsigned v3[3] = {0, 0, 0};
-    unsigned v4[3] = {4, 0, 0};
-    init_value(&n1, v1, 0, 0);
-    init_value(&n2, v2, 0, 0);
-    init_value(&result, v3, 0, 0);
-    init_value(&expected, v4, 0, 0);
+    s21_decimal n1 = {{3}};
+    s21_decimal n2 = {{1}};
+    s21_decimal result = {{0}};
+    s21_decimal expected = {{4}};
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
 } END_TEST
 
@@ -31,10 +23,7 @@ START_TEST(test_32_bits_2) {
     init_value(&expected, v4, 0, 0);
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
 } END_TEST
 
@@ -50,10 +39,7 @@ START_TEST(test_64_bits_1) {
     init_value(&expected, v4, 0, 0);
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
 } END_TEST
 
@@ -69,10 +55,7 @@ START_TEST(test_64_bits_2) {
     init_value(&expected, v4, 0, 0);
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
 } END_TEST
 
@@ -88,10 +71,7 @@ START_TEST(test_64_bits_3) {
     init_value(&expected, v4, 0, 0);
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
 } END_TEST
 
@@ -107,10 +87,7 @@ START_TEST(test_96_bits_1) {
     init_value(&expected, v4, 0, 0);
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 0);
 } END_TEST
 
@@ -126,10 +103,7 @@ START_TEST(test_96_bits_overflow) {
     init_value(&expected, v4, 0, 0);
     int32_t overflow = base_addition(n1, n2, &result);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
+    ASSERT_DECIMAL_EQ
     ck_assert_int_eq(overflow, 1);
 } END_TEST
 
