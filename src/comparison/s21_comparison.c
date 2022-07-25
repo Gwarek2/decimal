@@ -25,9 +25,10 @@ int s21_is_not_equal(s21_decimal a, s21_decimal b) {
     return (compare(a, b) != 0 ? 1 : 0);
 }
 
-/* The function compares two decimal values and returns:
-    0 (a == b), 1 (a > b), -1 (b > a)
- */
+/*******************************************************
+ * The function compares two decimal values and returns:
+ *   0 (a == b), 1 (a > b), -1 (b > a)
+ ******************************************************/
 int compare(const s21_decimal a, const s21_decimal b) {
     int res = (simple_comp(a, b) == 1 ? 0 : 2), inverse = 0;
 

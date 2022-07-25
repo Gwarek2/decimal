@@ -51,7 +51,7 @@ SRCS_DIRS     := core/ \
                  arithmetics/ \
                  comparison/ \
                  conversion/ \
-                 comparison/
+                 comparison/ \
                  rounding/
 TESTS_DIR     := tests/
 COV_DIR       := coverage_info/
@@ -73,8 +73,7 @@ SRCS       := $(addprefix core/,common.c \
                                       s21_from_decimal_to_int.c \
                                       s21_from_decimal_to_float.c \
                                       s21_from_float_to_decimal.c) \
-              $(addprefix comparison/,s21_comparison.c)
-                                      s21_from_decimal_to_int.c) \
+              $(addprefix comparison/,s21_comparison.c) \
               $(addprefix rounding/,s21_floor.c \
                                     s21_round.c \
                                     s21_truncate.c)
@@ -107,7 +106,7 @@ TESTS      := $(TESTS_DIR)test_main.c \
               $(CORE_TESTS) \
               $(ARITHMETICS_TESTS) \
               $(CONVERSION_TESTS) \
-              $(COMPARISON_TESTS)
+              $(COMPARISON_TESTS) \
               $(ROUNDING_TESTS)
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))

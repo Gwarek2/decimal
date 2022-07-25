@@ -42,20 +42,19 @@ int left_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
     return overflow ? DEC_HUGE : DEC_OK;
 }
 
-/*****************************************
- * Shifts all bits to right by given value
-*****************************************/
-void right_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
-    copy_full(result, value);
-    for (size_t i = 0; i < shift; i++) {
-        int bit1 = get_bit(*result, 64);
-        int bit2 = get_bit(*result, 32);
-        result->bits[0] >>= 1;
-        result->bits[1] >>= 1;
-        result->bits[2] >>= 1;
-        set_bit(result, 63, bit1);
-        set_bit(result, 31, bit2);
+/**************************************************************************************
+* The function returns the lowest bit and shifts the values in the buffers to the right
+**************************************************************************************/
+int right_shift(s21_decimal *src) {
+    int bit = 0;
+    for (int i = 2; i >= 0; i--) {
+        int tmp_bit = src->bits[i] & 1;
+        src->bits[i] >>= 1;
+        if ((i != 2) && (bit != 0))
+            src->bits[i] = src->bits[i] | (1u << 31);
+        bit = tmp_bit;
     }
+    return bit;
 }
 
 /****************************************************
@@ -108,15 +107,3 @@ int bits_gt(s21_decimal value1, s21_decimal value2) {
     return more;
 }
 
-// The function returns the lowest bit and shifts the values in the buffers to the right
-int shift_right(s21_decimal *src) {
-    int bit = 0;
-    for (int i = 2; i >= 0; i--) {
-        int tmp_bit = src->bits[i] & 1;
-        src->bits[i] >>= 1;
-        if ((i != 2) && (bit != 0))
-            src->bits[i] = src->bits[i] | (1u << 31);
-        bit = tmp_bit;
-    }
-    return bit;
-}

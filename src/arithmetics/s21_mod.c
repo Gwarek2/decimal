@@ -4,6 +4,7 @@
 #include "uint192.h"
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    init_default(result);
     int division_by_zero = is_zero(value_2);
 
     if (!division_by_zero) {
