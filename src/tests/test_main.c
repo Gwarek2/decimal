@@ -3,7 +3,6 @@
 int main(void) {
     srand(time(NULL));
     Suite *test_suites[] = {
-        #if defined(TEST_CORE) || defined(TEST_ALL)
         bits_eq_suite(),
         bits_lt_suite(),
         base_addition_suite(),
@@ -15,24 +14,17 @@ int main(void) {
         uint192_add_suite(),
         uint192_division_suite(),
         uint192_mul_suite(),
-        #endif
-        #if defined(TEST_ARITHMETICS) || defined(TEST_ALL)
         s21_mul_suite(),
         s21_div_suite(),
         s21_negate_suite(),
         s21_add_suite(),
         s21_sub_suite(),
         s21_mod_suite(),
-        #endif
-        #if defined(TEST_CONVERSION) || defined(TEST_ALL)
         s21_from_decimal_to_int_suite(),
         s21_from_int_to_decimal_suite(),
-        #endif
-        #if defined(TEST_ROUNDING) || defined(TEST_ALL)
         s21_floor_suite(),
         s21_round_suite(),
         s21_truncate_suite(),
-        #endif
     };
 
     SRunner *sr = srunner_create(test_suites[0]);

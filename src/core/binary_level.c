@@ -50,9 +50,9 @@ void right_shift(const s21_decimal *value, s21_decimal *result, size_t shift) {
     for (size_t i = 0; i < shift; i++) {
         int bit1 = get_bit(*result, 64);
         int bit2 = get_bit(*result, 32);
-        result->bits_u32_t[0] >>= 1;
-        result->bits_u32_t[1] >>= 1;
-        result->bits_u32_t[2] >>= 1;
+        result->bits[0] >>= 1;
+        result->bits[1] >>= 1;
+        result->bits[2] >>= 1;
         set_bit(result, 63, bit1);
         set_bit(result, 31, bit2);
     }
