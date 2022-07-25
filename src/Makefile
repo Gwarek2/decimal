@@ -5,11 +5,11 @@ include config.mk
 all: test gcov_report
 
 test: $(LIB_STATIC) $(TESTS_H)
-	$(CC) $(FLAGS) $(INC_FLAGS) $(TEST_INC_FLAGS) $(TESTS) $< $(TEST_FLAGS) -o $(TEST_EXEC) -D$(TEST_MODULE)
+	$(CC) $(FLAGS) $(INC_FLAGS) $(TEST_INC_FLAGS) $(TESTS) $< $(TEST_FLAGS) -o $(TEST_EXEC)
 	-$(MEM_CHECK) ./$(TEST_EXEC)
 
 gcov_report: $(COV_OBJS)
-	@$(CC) $(FLAGS) $(INC_FLAGS) $(TEST_INC_FLAGS) $(COV_FLAGS) $(TESTS) $^ $(TEST_FLAGS) -o $(COV_EXEC) -D$(TEST_MODULE)
+	@$(CC) $(FLAGS) $(INC_FLAGS) $(TEST_INC_FLAGS) $(COV_FLAGS) $(TESTS) $^ $(TEST_FLAGS) -o $(COV_EXEC)
 	-@./$(COV_EXEC)
 	@gcov -f $(COV_EXEC) -o $(COV_DIR)
 	@lcov -q -c -d $(COV_DIR) -o $(COV_INFO) --exclude "$(TESTS_DIR)*"

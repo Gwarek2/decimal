@@ -117,10 +117,6 @@ bool is_zero(s21_decimal value) {
     return bits_eq(value, DEC_ZERO);
 }
 
-bool is_one(s21_decimal value) {
-    return bits_eq(value, DEC_ONE);
-}
-
 /********************************************
  * Divides value1 by value2
  * Ignores sign and scale

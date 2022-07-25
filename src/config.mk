@@ -41,7 +41,6 @@ endif
 SRCS_H     := decimal_type.h \
               s21_decimal.h \
               core/common.h \
-              core/output.h \
               core/binary_level.h \
               core/decimal_level.h
 TESTS_H    := tests/test_main.h
@@ -59,7 +58,6 @@ COV_OBJ_DIRS  := $(addprefix $(COV_DIR),$(OBJ_DIRS))
 
 
 SRCS       := $(addprefix core/,common.c \
-                                output.c \
                                 binary_level.c \
                                 uint192.c \
                                 decimal_level.c) \
@@ -101,23 +99,6 @@ TESTS      := $(TESTS_DIR)test_main.c \
               $(ROUNDING_TESTS)
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
-
-# Directives define which module or modules to test
-ifdef TEST_CORE
-	TEST_MODULE += TEST_CORE
-endif
-ifdef TEST_CONVERSION
-	TEST_MODULE += TEST_CONVERSION
-endif
-ifdef TEST_ARITHMETICS
-	TEST_MODULE += TEST_ARITHMETICS
-endif
-ifdef TEST_ROUNDING
-	TEST_MODULE += TEST_ROUNDING
-endif
-ifndef $(TEST_MODULE)
-	TEST_MODULE := TEST_ALL
-endif
 
 LIB_STATIC := s21_decimal.a
 TEST_EXEC  := test_main

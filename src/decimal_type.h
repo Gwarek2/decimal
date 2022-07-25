@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum op_status {
+enum arithmetics_status {
     DEC_OK,
     DEC_HUGE,
     DEC_SMALL,
