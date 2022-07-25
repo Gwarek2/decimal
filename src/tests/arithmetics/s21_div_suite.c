@@ -9,6 +9,15 @@ START_TEST(test_zero_divisor) {
     ck_assert_int_eq(status, DEC_DIV_BY_ZERO);
 } END_TEST
 
+// 0.0000 / 7.5 = 0
+START_TEST(test_zero_dividend) {
+    s21_decimal input1 = {{0, 0, 0, init_sign_and_scale(0, 4)}};
+    s21_decimal input2 = {{75, 0, 0, init_sign_and_scale(0, 1)}};
+    s21_decimal result;
+    int status = s21_div(input1, input2, &result);
+    ck_assert_int_eq(status, DEC_OK);
+} END_TEST
+
 // 2.25 / -1.5 = -1.5
 START_TEST(test_32_bit_1) {
     s21_decimal input1 = {{225, 0, 0, init_sign_and_scale(0, 2)}};
@@ -152,6 +161,7 @@ Suite *s21_div_suite() {
     TCase *tc = tcase_create("core");
 
     tcase_add_test(tc, test_zero_divisor);
+    tcase_add_test(tc, test_zero_dividend);
     tcase_add_test(tc, test_32_bit_1);
     tcase_add_test(tc, test_32_bit_2);
     tcase_add_test(tc, test_32_bit_3);
