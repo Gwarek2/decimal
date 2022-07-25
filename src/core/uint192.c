@@ -200,4 +200,3 @@ int round_result(uint192 value, s21_decimal *result, int *scale) {
     bank_rounding(&value, last_digit);
     return convert_to_decimal(value, result);
 }
-

@@ -19,6 +19,7 @@ int main(void) {
         s21_negate_suite(),
         s21_add_suite(),
         s21_sub_suite(),
+        s21_mod_suite(),
         s21_from_decimal_to_int_suite(),
         s21_from_int_to_decimal_suite(),
         s21_floor_suite(),

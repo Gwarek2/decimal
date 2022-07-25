@@ -99,6 +99,7 @@ START_TEST(test_96_bits_2) {
     ck_assert_uint_eq(result.bits[3], correct_answer.bits[3]);
 }
 
+
 // 79228162514264337593543950335 + (-0.54) = 79228162514264337593543950334
 START_TEST(test_96_bits_3) {
     s21_decimal value_1 = {{max32bit, max32bit, max32bit}};
