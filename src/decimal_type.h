@@ -11,10 +11,8 @@ enum op_status {
     DEC_DIV_BY_ZERO
 };
 
-typedef union {
+typedef struct {
     unsigned bits[4];
-    uint32_t bits_u32_t[4];
-    uint64_t bits_u64_t[2];
 } s21_decimal;
 
 

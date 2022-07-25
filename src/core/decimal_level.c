@@ -5,22 +5,22 @@
 #include "uint192.h"
 
 unsigned get_scale(s21_decimal value) {
-    unsigned scale = (value.bits_u32_t[3] >> SCALE_SHIFT) & 0xff;
+    unsigned scale = (value.bits[3] >> SCALE_SHIFT) & 0xff;
     return scale;
 }
 
 int set_scale(s21_decimal *value, int scale) {
     unsigned error = scale < 0 || scale > 28;
     if (!error)
-        value->bits_u32_t[3] =
+        value->bits[3] =
             (get_sign(*value) << SIGN_SHIFT) | (scale << SCALE_SHIFT);
     return error;
 }
 
-bool get_sign(s21_decimal value) { return value.bits_u32_t[3] >> SIGN_SHIFT; }
+bool get_sign(s21_decimal value) { return value.bits[3] >> SIGN_SHIFT; }
 
 void set_sign(s21_decimal *value, bool negative) {
-    value->bits_u32_t[3] =
+    value->bits[3] =
         (negative << SIGN_SHIFT) | (get_scale(*value) << SCALE_SHIFT);
 }
 
@@ -32,8 +32,8 @@ void set_sign(s21_decimal *value, bool negative) {
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result) {
     uint32_t carrial = 0;
     for (size_t i = 0; i < 3; i++) {
-        uint64_t r = (uint64_t)value1.bits_u32_t[i] +
-                     (uint64_t)value2.bits_u32_t[i] + carrial;
+        uint64_t r = (uint64_t) value1.bits[i] +
+                     (uint64_t) value2.bits[i] + carrial;
         carrial = r >> 32;
         result->bits[i] = r;
     }
@@ -99,7 +99,7 @@ int base_multiply(s21_decimal value1, s21_decimal value2,
             if (j + i < 3) {
                 r = (r & MASK_32) + result->bits[j + i];
                 add_carrial = r >> 32;
-                result->bits_u32_t[i + j] = r & MASK_32;
+                result->bits[i + j] = r & MASK_32;
             } else {
                 r = (r & MASK_32) + overflow->bits[overflow_index];
                 is_overflow |= r != 0;

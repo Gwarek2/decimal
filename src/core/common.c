@@ -11,7 +11,7 @@ int init_value(s21_decimal *value, const unsigned mantiss[3], bool negative, uns
     if (!error) {
         memcpy(value->bits, mantiss, 3 * sizeof(unsigned));
         unsigned last_chunk = (negative << SIGN_SHIFT) | (scale << SCALE_SHIFT);
-        value->bits_u32_t[3] = last_chunk;
+        value->bits[3] = last_chunk;
     }
     return error;
 }

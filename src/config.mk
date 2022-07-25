@@ -1,7 +1,7 @@
 KERN := $(shell uname -s)
 
 CC     := gcc
-FLAGS  := -Wall -Werror -Wextra -g3
+FLAGS  := -Wall -Werror -Wextra -std=c11 -g3
 ifdef ASAN
 	FLAGS += -fsanitize=address
 endif
