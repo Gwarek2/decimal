@@ -1,5 +1,4 @@
 #include "common.h"
-#include "output.h"
 #include "decimal_level.h"
 #include "uint192.h"
 

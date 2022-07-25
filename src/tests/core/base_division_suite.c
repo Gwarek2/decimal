@@ -93,10 +93,10 @@ START_TEST(test_64_bits_3) {
     init_value(&expected, v3, 0, 0);
     base_divide(n1, n2, &result, &remainder);
 
-    ck_assert_uint_eq(expected.bits[0], result.bits_u32_t[0]);
-    ck_assert_uint_eq(expected.bits[1], result.bits_u32_t[1]);
-    ck_assert_uint_eq(expected.bits[2], result.bits_u32_t[2]);
-    ck_assert_uint_eq(expected.bits[3], result.bits_u32_t[3]);
+    ck_assert_uint_eq(expected.bits[0], result.bits[0]);
+    ck_assert_uint_eq(expected.bits[1], result.bits[1]);
+    ck_assert_uint_eq(expected.bits[2], result.bits[2]);
+    ck_assert_uint_eq(expected.bits[3], result.bits[3]);
 } END_TEST
 
 START_TEST(test_96_bits_1) {
