@@ -11,6 +11,7 @@
 #include "binary_level.h"
 #include "common.h"
 #include "decimal_level.h"
+#include "output.h"
 #include "s21_decimal.h"
 #include "uint192.h"
 

@@ -96,6 +96,7 @@ ROUNDING_TESTS    := $(addprefix $(TESTS_DIR)rounding/,s21_floor_suite.c \
                                                        s21_round_suite.c \
                                                        s21_truncate_suite.c)
 TESTS      := $(TESTS_DIR)test_main.c \
+              $(TESTS_DIR)output.c \
               $(CORE_TESTS) \
               $(ARITHMETICS_TESTS) \
               $(CONVERSION_TESTS) \
