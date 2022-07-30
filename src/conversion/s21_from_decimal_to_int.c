@@ -1,5 +1,4 @@
-#include "binary_level.h"
-#include "decimal_level.h"
+#include "uint96.h"
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
     *dst = 0;
@@ -8,8 +7,8 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
     unsigned neg = get_sign(src);
     base_divide(src, ten_power[get_scale(src)], &int_part, &rem);
     if ((neg &&
-         (bits_lt(int_part, DEC_INT_MIN) || bits_eq(int_part, DEC_INT_MIN))) ||
-        (bits_lt(int_part, DEC_INT_MAX) || bits_eq(int_part, DEC_INT_MAX))) {
+         (lt(int_part, DEC_INT_MIN) || eq(int_part, DEC_INT_MIN))) ||
+        (lt(int_part, DEC_INT_MAX) || eq(int_part, DEC_INT_MAX))) {
         if (neg && int_part.bits[0] != (unsigned)INT_MIN)
             *dst = -int_part.bits[0];
         else

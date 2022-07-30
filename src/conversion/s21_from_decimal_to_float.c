@@ -1,8 +1,6 @@
-#include "binary_level.h"
-#include "common.h"
-#include "decimal_level.h"
+#include "uint96.h"
+#include <math.h>
 
-// Функция преобразует значение типа decimal в значение типа float
 int s21_from_decimal_to_float(s21_decimal src, float *dst) {
     int res = 0;
     if (is_zero(src) == 0) {
@@ -14,8 +12,9 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
             if (bit != 0)
                 val += pow(2, i);
         }
-        int exp, sign = get_atr(src, &exp);
-        for (int i = 0; i < exp; i++)
+        int scale = get_scale(src);
+        int sign = get_sign(src);
+        for (int i = 0; i < scale; i++)
             val /= 10;
         *dst = (float)(sign == 0 ? val : -val);
     } else {

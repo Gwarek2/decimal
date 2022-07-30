@@ -3,14 +3,14 @@
 int main(void) {
     srand(time(NULL));
     Suite *test_suites[] = {
-        bits_eq_suite(),
-        bits_lt_suite(),
+        eq_suite(),
+        lt_suite(),
         base_addition_suite(),
         base_subtraction_suite(),
         base_multiply_suite(),
         base_divide_suite(),
         remove_trailing_zeros_suite(),
-        alignment_scale_suite(),
+        equalize_scales_suite(),
         uint192_add_suite(),
         uint192_division_suite(),
         uint192_mul_suite(),

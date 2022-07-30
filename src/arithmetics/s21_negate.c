@@ -1,5 +1,4 @@
-#include "decimal_level.h"
-#include "decimal_type.h"
+#include "uint96.h"
 
 int s21_negate(s21_decimal value, s21_decimal *result) {
     *result = value;

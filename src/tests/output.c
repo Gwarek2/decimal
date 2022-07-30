@@ -1,8 +1,7 @@
 #include <stdio.h>
 
-#include "binary_level.h"
-#include "decimal_type.h"
 #include "output.h"
+#include "uint96.h"
 #include "uint192.h"
 
 /**********************************

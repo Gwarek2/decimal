@@ -1,7 +1,7 @@
 #ifndef _S21_DECIMAL_H
 #define _S21_DECIMAL_H
 
-#include "decimal_type.h"
+#include "structs.h"
 
 // Arithmetics
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);

@@ -1,5 +1,4 @@
-#include "common.h"
-#include "decimal_level.h"
+#include "uint96.h"
 
 int s21_floor(s21_decimal value, s21_decimal *result) {
     init_default(result);

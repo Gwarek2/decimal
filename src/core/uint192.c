@@ -1,5 +1,4 @@
 #include "uint192.h"
-#include "common.h"
 #include <stdio.h>
 #include <string.h>
 

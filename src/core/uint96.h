@@ -1,12 +1,18 @@
-#ifndef _CORE_DECIMAL_LEVEL_H
-#define _CORE_DECIMAL_LEVEL_H
+#ifndef _CORE_UINT_96_H
+#define _CORE_UINT_96_H
 
 #include <limits.h>
-#include <stdbool.h>
-
-#include "decimal_type.h"
+#include "structs.h"
 
 #define MASK_32 0xFFFFFFFFl
+#define SCALE_SHIFT 16
+#define SIGN_SHIFT 31
+
+enum comparison_result {
+    LT = -1,
+    EQ = 0,
+    GT = 1,
+};
 
 static const s21_decimal DEC_ZERO = {{0, 0, 0, 0}};
 static const s21_decimal DEC_ONE = {{1, 0, 0, 0}};
@@ -50,19 +56,35 @@ static const s21_decimal ten_power[29] = {
     {{ 0x10000000, 0x3E250261, 0x204FCE5E}},
 };
 
+int init_value(s21_decimal *value, const unsigned mantiss[3], bool negative, unsigned scale);
+void init_default(s21_decimal *value);
+void copy_full(s21_decimal *dest, const s21_decimal *src);
+void copy_mantiss(s21_decimal *dest, const s21_decimal *src);
+unsigned init_sign_and_scale(int sign, int scale);
 int get_atr(s21_decimal src, int *exp);
 unsigned get_scale(s21_decimal value);
 int set_scale(s21_decimal *value, int scale);
 bool get_sign(s21_decimal value);
 void set_sign(s21_decimal *value, bool negative);
+
+int get_bit(s21_decimal value, int n);
+void set_bit(s21_decimal *value, int n, int bit);
+int left_shift(const s21_decimal *value, s21_decimal *result, size_t shift);
+int right_shift(s21_decimal *src);
+uint32_t last_bit(s21_decimal value);
+
+int cmp(const s21_decimal value1, const s21_decimal value2);
+int eq(const s21_decimal value1, const s21_decimal value2);
+int lt(const s21_decimal value1, const s21_decimal value2);
+int gt(const s21_decimal value1, const s21_decimal value2);
+bool is_zero(const s21_decimal value);
+
 int base_addition(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 void base_subtraction(s21_decimal value1, s21_decimal value2, s21_decimal *result);
 int base_multiply(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *overflow);
 void base_divide(s21_decimal value1, s21_decimal value2, s21_decimal *result, s21_decimal *remainder);
-bool is_zero(s21_decimal value);
-bool is_one(s21_decimal value);
-void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
-int alignment_scale(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow);
-void base_bank_rounding(s21_decimal value, s21_decimal *result);
 
-#endif  // _CORE_DECIMAL_LEVEL_H
+void remove_trailing_zeros(s21_decimal value, s21_decimal *result);
+int equalize_scales(s21_decimal *value_1, s21_decimal *value_2, s21_decimal *overflow);
+
+#endif  // _CORE_UINT_96_H

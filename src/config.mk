@@ -38,12 +38,10 @@ ifdef LEAKS
 	MEM_CHECK := $(MEM_TOOL)
 endif
 
-SRCS_H     := decimal_type.h \
+SRCS_H     := structs.h \
               s21_decimal.h \
-              core/common.h \
-              core/binary_level.h \
-              core/decimal_level.h \
-              comparison/compare.h
+              core/uint96.h \
+              core/uint192.h
 TESTS_H    := tests/test_main.h
 
 
@@ -59,10 +57,8 @@ OBJ_DIRS      := $(addprefix obj/,$(SRCS_DIRS))
 COV_OBJ_DIRS  := $(addprefix $(COV_DIR),$(OBJ_DIRS))
 
 
-SRCS       := $(addprefix core/,common.c \
-                                binary_level.c \
-                                uint192.c \
-                                decimal_level.c) \
+SRCS       := $(addprefix core/,uint96.c \
+                                uint192.c) \
               $(addprefix arithmetics/,s21_negate.c \
                                        s21_mul.c \
                                        s21_add.c \
@@ -77,14 +73,14 @@ SRCS       := $(addprefix core/,common.c \
               $(addprefix rounding/,s21_floor.c \
                                     s21_round.c \
                                     s21_truncate.c)
-CORE_TESTS := $(addprefix $(TESTS_DIR)core/,bits_eq_suite.c \
-                                            bits_lt_suite.c \
+CORE_TESTS := $(addprefix $(TESTS_DIR)core/,eq_suite.c \
+                                            lt_suite.c \
                                             base_addition_suite.c \
                                             base_subtraction_suite.c \
                                             base_multiply_suite.c \
                                             base_division_suite.c \
                                             remove_trailing_zeros_suite.c \
-                                            alignment_scale_suite.c\
+                                            equalize_scales_suite.c\
                                             uint192_division_suite.c \
                                             uint192_add_suite.c \
                                             uint192_mul_suite.c)

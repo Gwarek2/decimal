@@ -8,7 +8,7 @@ START_TEST(test_32_bits_1) {
     s21_decimal expected = {{555, 0, 0, 1638400}};
     s21_decimal scale = {{0, 0, 0, maxScale}};
     s21_decimal owerflow = {0};
-    alignment_scale(&expected, &scale, &owerflow);
+    equalize_scales(&expected, &scale, &owerflow);
 
     ASSERT_DECIMAL_EQ
 }
@@ -19,7 +19,7 @@ START_TEST(test_32_bits_2) {
     s21_decimal expected = {{234524, 0, 0, 720896}};
     s21_decimal scale = {{0, 0, 0, 983040}};
     s21_decimal owerflow = {0};
-    alignment_scale(&scale, &expected, &owerflow);
+    equalize_scales(&scale, &expected, &owerflow);
 
     ck_assert_uint_eq(expected.bits[0], result.bits[0]);
     ck_assert_uint_eq(expected.bits[1], result.bits[1]);
@@ -33,7 +33,7 @@ START_TEST(test_64_bits_1) {
     s21_decimal expected = {{UINT_MAX, 0, 0, 0}};
     s21_decimal scale = {{0, 0, 0, 327680}};
     s21_decimal owerflow = {0};
-    alignment_scale(&expected, &scale, &owerflow);
+    equalize_scales(&expected, &scale, &owerflow);
 
     ASSERT_DECIMAL_EQ
 }
@@ -44,7 +44,7 @@ START_TEST(test_96_bits_1) {
     s21_decimal expected = {{UINT_MAX, 0, 0, 196608}};
     s21_decimal scale = {{0, 0, 0, 983040}};
     s21_decimal owerflow = {0};
-    alignment_scale(&expected, &scale, &owerflow);
+    equalize_scales(&expected, &scale, &owerflow);
 
     ASSERT_DECIMAL_EQ
 }
@@ -57,15 +57,15 @@ START_TEST(test_96_bits_overflow) {
     s21_decimal scale = {{0, 0, 0, maxScale}};
     s21_decimal overflow = {0};
     s21_decimal result_overflow = {{542101, 0, 0, 0}};
-    alignment_scale(&expected, &scale, &overflow);
+    equalize_scales(&expected, &scale, &overflow);
 
     ASSERT_DECIMAL_EQ
 
     ck_assert_uint_eq(overflow.bits[0], result_overflow.bits[0]);
 }
 
-Suite *alignment_scale_suite(void) {
-    Suite *s = suite_create("alignment_scale_suite");
+Suite *equalize_scales_suite(void) {
+    Suite *s = suite_create("equalize_scales_suite");
     TCase *tc = tcase_create("core");
 
     tcase_add_test(tc, test_32_bits_1);

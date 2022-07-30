@@ -1,6 +1,6 @@
 #include <limits.h>
 
-#include "common.h"
+#include "uint96.h"
 
 int s21_from_int_to_decimal(int src, s21_decimal *dst) {
     init_default(dst);

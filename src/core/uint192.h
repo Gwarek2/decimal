@@ -6,14 +6,7 @@
 #ifndef _CORE_UINT192_H
 #define _CORE_UINT192_H
 
-#include <stdbool.h>
-
-#include "decimal_type.h"
-
-
-typedef struct {
-    unsigned bits[6];
-} uint192;
+#include "structs.h"
 
 static const uint192 UINT192_ZERO = {{0}};
 static const uint192 UINT192_ONE = {{1}};

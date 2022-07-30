@@ -1,65 +1,53 @@
-#include "common.h"
-#include "decimal_level.h"
+#include "uint96.h"
+#include <math.h>
+#include <stdio.h>
 
-// The function converts a float type value to a decimal type value
+#define DEC_EPS 1e-28
+
+int float_to_str(char *str, float val, int *sign, int *scale);
+
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     init_default(dst);
     char str[33] = {0};
-    int exp = 0, sign = 0;
-    int res = float_to_str(str, src, &sign, &exp);
+    int scale = 0, sign = 0;
+    int status = float_to_str(str, src, &sign, &scale);
 
-    if ((res == 0) && (src != 0)) {
+    if (status == 0) {
         int i = 0;
         dst->bits[0] = str[i++] - 48;
-        for (; i < 30; i++) {
+        int overflow = 0;
+        for (; i < 30 && !overflow; i++) {
             if (str[i] == '.')
                 continue;
-            uint64_t b0 = dst->bits[0];
-            b0 = (b0 << 1) + (b0 << 3) + (str[i] - 48);
-            uint64_t b1 = dst->bits[1];
-            b1 = (b1 << 1) + (b1 << 3) + (b0 >> 32);
-            uint64_t b2 = dst->bits[2];
-            b2 = (b2 << 1) + (b2 << 3) + (b1 >> 32);
-            if ((b2 >> 32) > 0) {
-                res = 1;
-                init_default(dst);
-                break;
-            }
-            dst->bits[0] = (unsigned int)b0;
-            dst->bits[1] = (unsigned int)b1;
-            dst->bits[2] = (unsigned int)b2;
+            s21_decimal ov, digit = {{str[i] - 48}};
+            overflow = base_multiply(*dst, DEC_TEN, dst, &ov) ||
+                           base_addition(*dst, digit, dst);
         }
-        set_scale(dst, 28 - exp);
-        set_sign(dst, sign);
+        if (!overflow) {
+            set_scale(dst, 28 - scale);
+            set_sign(dst, sign);
+        } else {
+            init_default(dst);
+            status = 1;
+        }
     }
-    return (res == 0 ? 0 : 1);
+    return status;
 }
 
-/* The function converts a float type value to str with a float check and
-returns: 0 (no error), 1 (val < 1e-28), 2 ([val] = inf), 3 (val = nan)
- */
-int float_to_str(char *str, float val, int *sign, int *exp) {
-    int res = 0;
-    float zero = 0.0;
-    if (val != val) {
-        res = 3;
-    } else if ((val >= 1.0 / zero) || (val <= -1.0 / zero)) {
-        res = 2;
-    } else if (fabs(val) < 1e-28) {
-        res = 1;
+int float_to_str(char *str, float val, int *sign, int *scale) {
+    if (isnan(val) || isinf(val) || fabs(val) < DEC_EPS) {
+        return 1;
     }
 
-    if (res == 0) {
-        float tmp = val;
-        if (val < 0) {
-            *sign = 1;
-            tmp = -tmp;
-        }
-        while (tmp > 10) {
-            tmp /= 10;
-            *exp += 1;
-        }
-        snprintf(str, sizeof(char) * 32, "%30.*f", (29 - *exp), fabs(val));
+    float tmp = val;
+    if (val < 0) {
+        *sign = 1;
+        tmp = -tmp;
     }
-    return res;
+    while (tmp > 10) {
+        tmp /= 10;
+        (*scale)++;
+    }
+    snprintf(str, sizeof(char) * 32, "%30.*f", (29 - *scale), fabs(val));
+    return 0;
 }

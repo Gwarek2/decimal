@@ -7,7 +7,7 @@ START_TEST(test_less_1) {
     init_value(&n1, v1, 6, 0);
     init_value(&n2, v2, 2, 1);
 
-    ck_assert_int_eq(bits_lt(n1, n2), 1);
+    ck_assert_int_eq(lt(n1, n2), 1);
 }
 END_TEST
 
@@ -18,7 +18,7 @@ START_TEST(test_less_2) {
     init_value(&n1, v1, 6, 0);
     init_value(&n2, v2, 2, 1);
 
-    ck_assert_int_eq(bits_lt(n1, n2), 1);
+    ck_assert_int_eq(lt(n1, n2), 1);
 }
 END_TEST
 
@@ -29,7 +29,7 @@ START_TEST(test_less_3) {
     init_value(&n1, v1, 6, 0);
     init_value(&n2, v2, 2, 1);
 
-    ck_assert_int_eq(bits_lt(n1, n2), 1);
+    ck_assert_int_eq(lt(n1, n2), 1);
 }
 END_TEST
 
@@ -40,7 +40,7 @@ START_TEST(test_less_4) {
     init_value(&n1, v1, 6, 0);
     init_value(&n2, v2, 2, 1);
 
-    ck_assert_int_eq(bits_lt(n1, n2), 1);
+    ck_assert_int_eq(lt(n1, n2), 1);
 }
 END_TEST
 
@@ -51,7 +51,7 @@ START_TEST(test_nless_1) {
     init_value(&n1, v1, 6, 0);
     init_value(&n2, v2, 3, 1);
 
-    ck_assert_int_eq(bits_lt(n1, n2), 0);
+    ck_assert_int_eq(lt(n1, n2), 0);
 }
 END_TEST
 
@@ -62,12 +62,12 @@ START_TEST(test_nless_2) {
     init_value(&n1, v1, 6, 0);
     init_value(&n2, v2, 3, 1);
 
-    ck_assert_int_eq(bits_lt(n1, n2), 0);
+    ck_assert_int_eq(lt(n1, n2), 0);
 }
 END_TEST
 
-Suite *bits_lt_suite(void) {
-    Suite *s = suite_create("suite_bits_lt");
+Suite *lt_suite(void) {
+    Suite *s = suite_create("suite_lt");
     TCase *tc = tcase_create("core");
 
     tcase_add_test(tc, test_less_1);

@@ -1,6 +1,7 @@
-#ifndef _DECIMAL_TYPE_H
-#define _DECIMAL_TYPE_H
+#ifndef _STRUCTS_H
+#define _STRUCTS_H
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -12,8 +13,12 @@ enum arithmetics_status {
 };
 
 typedef struct {
-    unsigned bits[4];
+    uint32_t bits[4];
 } s21_decimal;
 
+typedef struct {
+    uint32_t bits[6];
+} uint192;
 
-#endif  // _DECIMAL_TYPE_H
+
+#endif  // _STRUCTS_H
