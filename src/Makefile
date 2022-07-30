@@ -4,8 +4,8 @@ include config.mk
 
 all: test gcov_report
 
-test: $(LIB_STATIC) $(TESTS_H)
-	$(CC) $(FLAGS) $(INC_FLAGS) $(TEST_INC_FLAGS) $(TESTS) $< $(TEST_FLAGS) -o $(TEST_EXEC)
+test: build $(TESTS_H)
+	$(CC) $(FLAGS) $(INC_FLAGS) $(TEST_INC_FLAGS) $(TESTS) -L. -l$(BUILD_NAME) $(TEST_FLAGS) -o $(TEST_EXEC)
 	-$(MEM_CHECK) ./$(TEST_EXEC)
 
 gcov_report: $(COV_OBJS)
@@ -16,7 +16,9 @@ gcov_report: $(COV_OBJS)
 	@genhtml -q $(COV_INFO) -o $(COV_DIR)
 	@open $(COV_REPORT)
 
-$(LIB_STATIC): $(OBJS)
+build: $(BUILD_FILE) 
+
+$(BUILD_FILE): $(OBJS)
 	@ar -rc $@ $^
 	@ranlib $@
 
@@ -31,15 +33,12 @@ $(COV_DIR)obj/%.o: %.c $(SRCS_H)
 	@$(CC) $(FLAGS) $(INC_FLAGS) $(COV_FLAGS) -c $< -o $@
 
 static_check:
-	@cp ../materials/linters/* .
-	-$(LINT) $(ALL_C)
-	@-rm $(LINT_FILES)
 	-$(CPPC) $(ALL_C)
 
 clean:
 	-@rm -rf $(TEST_EXEC) \
              obj \
-             $(LIB_STATIC) \
+             $(BUILD_FILE) \
              $(COV_DIR) \
              *.dSYM \
              *.gcda *.gcno

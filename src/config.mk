@@ -19,9 +19,6 @@ INC_FLAGS      := $(addprefix -I,$(INC_DIRS))
 TEST_INC_FLAGS := $(addprefix -I,$(TESTS_INC_DIRS))
 
 # Static check flags
-LINT_DIR   := ../materials/linters/*
-LINT       := python3 cpplint.py --extensions=c
-LINT_FILES := cpplint.py CPPLINT.cfg
 CPPC       := cppcheck --enable=all --suppress=missingIncludeSystem
 ALL_C      := $(shell find . -name "*.c")
 
@@ -107,10 +104,11 @@ TESTS      := $(TESTS_DIR)test_main.c \
 OBJS       := $(patsubst %.c,obj/%.o,$(SRCS))
 COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
-LIB_STATIC := s21_decimal.a
-TEST_EXEC  := test_main
+BUILD_NAME := s21_decimal
+BUILD_FILE := lib$(BUILD_NAME).a
+TEST_EXEC  := test_s21_decimal
 TEST_EXEC  := $(TEST_EXEC)
-COV_EXEC   := $(COV_DIR)gcov_exec
+COV_EXEC   := $(COV_DIR)testcov_s21_decimal
 
 COV_INFO   := $(COV_DIR)s21_decimal.info
 COV_REPORT := $(COV_DIR)index.html
