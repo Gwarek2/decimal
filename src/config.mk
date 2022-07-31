@@ -1,7 +1,7 @@
 KERN := $(shell uname -s)
 
 CC     := gcc
-FLAGS  := -Wall -Werror -Wextra -std=c11 -g3
+FLAGS  := -Wall -Werror -Wextra -std=c11 -g3 --coverage
 ifdef ASAN
 	FLAGS += -fsanitize=address
 endif
@@ -49,7 +49,7 @@ SRCS_DIRS     := core/ \
                  comparison/ \
                  rounding/
 TESTS_DIR     := tests/
-COV_DIR       := coverage_info/
+COV_DIR       := tests/coverage/
 OBJ_DIRS      := $(addprefix obj/,$(SRCS_DIRS))
 COV_OBJ_DIRS  := $(addprefix $(COV_DIR),$(OBJ_DIRS))
 
@@ -106,9 +106,8 @@ COV_OBJS   := $(patsubst %.c,$(COV_DIR)obj/%.o,$(SRCS))
 
 BUILD_NAME := s21_decimal
 BUILD_FILE := lib$(BUILD_NAME).a
-TEST_EXEC  := test_s21_decimal
+TEST_EXEC  := test_main
 TEST_EXEC  := $(TEST_EXEC)
-COV_EXEC   := $(COV_DIR)testcov_s21_decimal
 
 COV_INFO   := $(COV_DIR)s21_decimal.info
 COV_REPORT := $(COV_DIR)index.html
